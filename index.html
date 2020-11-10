@@ -35,6 +35,8 @@
 </head>
 
 <body>
+
+    <!-- hero-image link in css stylesheet -->
     <div class="hero-image">
         <div class="hero-text">
             <h1>Welcome to Cook & Fun!</h1>
@@ -42,6 +44,8 @@
         </div>
     </div>
 
+    <!-- I puted the navbar just in case you prefer to use it to make navigation easyer -->
+    <!-- you can eliminate it if you want -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">Cook&Fun</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -69,21 +73,105 @@
         </div>
     </nav>
 
-    <section class=" container offset-2 border rounded mt-3 row bg-light" id="categorySelection">
-        <div class="offset-1 col">
+    <!-- home section -->
+    <!-- 
+        Every section has a hide class atribute so you can go from one section to the other by clicking the buttons. 
+
+        There is an example of how to use the hide attribute on the JS file. You need to take the hide attribute
+        off the categorySelection section and press any button, doing that it will take you to the "Selected category" section.
+    -->
+    <section class="hide container border rounded mt-3 row bg-light mx-auto" id="home">
+        <div class="col mx-auto">
+
+            <!-- It is not suposed to have a title here, it is just there so you can id what are you looking at -->
+            <h1>Home</h1>
+
+            <!-- In this section we may or maynot have an image, this image is just for example, please change it if you want -->
+            <img src="./Assets/Images/hero_bg.jpg" class="card-img-top" alt="...">
+
+            <div class="card-body">
+
+                <!-- This is the Card Title, you can put the name of the section, use it as you wish or dont use it -->
+                <h5 class="card-title">Card title</h5>
+
+                <!-- This is a paragraph that can be use to give an introduction  -->
+                <p class="card-text">You can put an intoduction text hear if you want</p>
+
+                <!-- This paragraph is just in case you want to put a small note or something -->
+                <p class="card-text"><small class="text-muted">Click on the button!</small></p>
+
+            </div>
+
+            <!-- Buttons in the secction, ¡they dont work jet! -->
+            <button class="btn btn-info mb-2 letsGetCookingBtn">Lets get cooking</button><br>
+            <button class="btn btn-info mb-2 ">Saved for Later</button><br>
+            <button class="btn btn-info mb-2 ">Cooking history</button><br>
+
+        </div>
+
+    </section>
+    <!-- home section ends -->
+
+    <!-- Category Selection section -->
+    <!-- 
+        Every section has a hide class atribute so you can go from one section to the other by clicking the buttons. 
+
+        There is an example of how to use the hide attribute on the JS file. You need to take the hide attribute
+        off THIS section and press any button, doing that it will take you to the "Selected category" section.
+    -->
+    <section class=" container border rounded mt-3 row bg-light mx-auto" id="categorySelection">
+        <div class="col mx-auto">
+
+            <!-- Card Title -->
             <h1>What's on the menu today?</h1>
+
+            <!-- Buttons in the secction, they work but they all do the same thing, we will need to give each one of them its own class attribute -->
             <button class="btn btn-info mb-2 chosenCategoryBtn">Italian</button><br>
             <button class="btn btn-info mb-2 chosenCategoryBtn">Chinese</button><br>
             <button class="btn btn-info mb-2 chosenCategoryBtn">Greek</button><br>
             <button class="btn btn-info mb-2 chosenCategoryBtn">Mexican</button><br>
             <button class="btn btn-info mb-5 chosenCategoryBtn">Surprise Me!</button><br>
             <button class="btn btn-danger mb-2">Go back!</button><br>
-        </div>
-    </section>
 
-    <section class="hide container offset-2 border rounded mt-3 row bg-light" id="category">
-        <div class="col offset-1">
+        </div>
+
+    </section>
+    <!-- Category Selection section ends-->
+
+    <!-- Category section -->
+    <!-- 
+        Every section has a hide class atribute so you can go from one section to the other by clicking the buttons. 
+
+        There is an example of how to use the hide attribute on the JS file. You need to take the hide attribute
+        off the categorySelection section and press any button, doing that it will take you to THIS section.
+    -->
+    <section class="hide container border rounded mt-3 row bg-light mx-auto" id="category">
+
+        <div class="col mx-auto">
+
+            <!-- It is not suposed to have a title here, it is just there so you can id what are you looking at -->
             <h1>Selected Category</h1>
+
+            <!-- These are the cards where information of each recipe go -->
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <!-- Image of the finished recipie -->
+                        <img src="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/portion_sizes_slideshow/getty_rm_photo_of_fish_meal_on_small_plate.jpg"
+                            class="card-img"
+                            alt="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/portion_sizes_slideshow/getty_rm_photo_of_fish_meal_on_small_plate.jpg">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <!-- Recipie name -->
+                            <h5 class="card-title">Mexican Tacos</h5>
+                            <!-- Important information of the recipie -->
+                            <p class="card-text">Important information of the Mexican tacos Recipie</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Same as the first one -->
             <div class="card mb-3" style="max-width: 540px;">
                 <div class="row no-gutters">
                     <div class="col-md-4">
@@ -100,6 +188,7 @@
                     </div>
                 </div>
             </div>
+            <!-- Same as the first one -->
             <div class="card mb-3" style="max-width: 540px;">
                 <div class="row no-gutters">
                     <div class="col-md-4">
@@ -116,6 +205,7 @@
                     </div>
                 </div>
             </div>
+            <!-- Same as the first one -->
             <div class="card mb-3" style="max-width: 540px;">
                 <div class="row no-gutters">
                     <div class="col-md-4">
@@ -132,22 +222,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card mb-3" style="max-width: 540px;">
-                <div class="row no-gutters">
-                    <div class="col-md-4">
-                        <img src="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/portion_sizes_slideshow/getty_rm_photo_of_fish_meal_on_small_plate.jpg"
-                            class="card-img"
-                            alt="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/portion_sizes_slideshow/getty_rm_photo_of_fish_meal_on_small_plate.jpg">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                                additional content. This content is a little bit longer.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!-- Same as the first one -->
             <div class="card mb-3" style="max-width: 540px;">
                 <div class="row no-gutters">
                     <div class="col-md-4">
@@ -165,67 +240,469 @@
                 </div>
             </div>
         </div>
-    </section>
 
-    <section class="hide container offset-2 border rounded mt-3 row bg-light" id="recipe">
-        <div class="col offset-1">
+    </section>
+    <!-- Category section ends -->
+
+
+    <!-- Selected Recipie section -->
+    <!-- 
+        Every section has a hide class atribute so you can go from one section to the other by clicking the buttons. 
+
+        There is an example of how to use the hide attribute on the JS file. You need to take the hide attribute
+        off the categorySelection section and press any button, doing that it will take you to the "Selected category" section.
+    -->
+    <section class="hide container border rounded mt-3 row bg-light mx-auto" id="recipe">
+
+        <div class="col mx-auto">
+
+            <!-- It is not suposed to have a title here, it is just there so you can id what are you looking at -->
             <h1>Selected Recipie</h1>
+
             <div class="card mb-3">
+
+                <!-- Image of the finished recipie -->
                 <img src="./Assets/Images/hero_bg.jpg" class="card-img-top" alt="...">
+
+                <!-- Information of recipie -->
                 <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
+
+                    <!-- recipie name -->
+                    <h5 class="card-title">Mexican Tacos</h5>
+
+                    <!-- Information of the recipie: Nutritional information, Ingredients, What do they need to 
+                        use to cook it (blender, cooking gloves, oven, etc.), some important stuf the user needs to know. -->
+                    <h3>Important information</h3>
+                    <ul>
+                        <li>Time to cook: 30 minuts</li>
+                    </ul>
+                    <h3>Nutritional Information</h3>
                     <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
                         additional content. This content is a little bit longer.</p>
+                    <h3>Ingredients</h3>
+                    <ul>
+                        <li>Ingredient 1</li>
+                        <li>Ingredient 2</li>
+                        <li>Ingredient 3</li>
+                        <li>Ingredient 4</li>
+                        <li>Ingredient 5</li>
+                    </ul>
+                    <h3>Stuf you need to cook it</h3>
+                    <ul>
+                        <li>Blender</li>
+                        <li>Oven</li>
+                        <li>Cooking gloves</li>
+                        <li>Spatula</li>
+                        <li>Microwave</li>
+                    </ul>
+
+                    <!-- If we need we can put extra info in here -->
                     <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
                 </div>
+
+                <!-- This is because I thought the user could make some notes, trash it is you want -->
                 <form>
                     <div class="form-group">
-                        <label for="exampleFormControlTextarea1">Example textarea</label>
+                        <label for="exampleFormControlTextarea1">User Notes</label>
                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                     </div>
                 </form>
+
+                <!-- Buttons in the secction, ¡they dont work jet! -->
                 <button class="btn btn-info mb-2">Cook it!</button>
                 <button class="btn btn-info mb-2">Nope</button>
-                <button class="btn btn-info mb-5">Saved for later</button>
+                <button class="btn btn-info mb-5">Save for later</button>
 
             </div>
         </div>
-    </section>
 
-    <section class="hide container offset-2 border rounded mt-3 row bg-light" id="getCooking">
-        <div class="col offset-1">
+    </section>
+    <!-- Selected Recipie section end -->
+
+
+    <!-- Lets get cooking section -->
+    <section class="hide container border rounded mt-3 row bg-light mx-auto" id="getCooking">
+        <div class="col mx-auto">
+
+            <!-- It is not suposed to have a title here, it is just there so you can id what are you looking at -->
             <h1>Lets Get Cooking</h1>
-            <img src="./Assets/Images/hero_bg.jpg" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                    additional content. This content is a little bit longer.</p>
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-            </div>
-            <button class="btn btn-info mb-5 chosenCategoryBtn">Nevermind</button><br>
-        </div>
-    </section>
 
-    <section class="hide container offset-2 border rounded mt-3 row bg-light" id="howWasIt">
-        <div class="col offset-1">
-            <h1>How Was it?</h1>
+            <!-- Image of the finished recipie -->
             <img src="./Assets/Images/hero_bg.jpg" class="card-img-top" alt="...">
+
+            <!-- Recipie content -->
             <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                    additional content. This content is a little bit longer.</p>
+                <h5 class="card-title">Mexican Tacos</h5>
+                <h6>Important Information</h6>
+                <p class="card-text">This recipie is for 4 people.</p>
+                <h6>Pull out the ingredients</h6>
+                <ul>
+                    <li>Sugar</li>
+                    <li>Whater</li>
+                    <li>Milk</li>
+                    <li>Eggs</li>
+                    <li>Chiken</li>
+                </ul>
+
+                <!-- Some extra text -->
                 <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
             </div>
+
+            <!-- Buttons in the secction, ¡they dont work jet! -->
+            <button class="btn btn-info mb-5 ">Nevermind</button><br>
+
+        </div>
+
+    </section>
+    <!-- Lets get cooking section end -->
+
+    <!-- How Was it? section -->
+    <section class="hide container border rounded mt-3 row bg-light mx-auto" id="howWasIt">
+
+        <div class="col mx-auto">
+
+            <!-- It is not suposed to have a title here, it is just there so you can id what are you looking at -->
+            <h1>How Was it?</h1>
+
+            <!-- Image of the finished recipie -->
+            <img src="./Assets/Images/hero_bg.jpg" class="card-img-top" alt="...">
+
+            <!-- Recipie Feed Back -->
+            <div class="card-body">
+                <h5 class="card-title">Recipie Feed Back</h5>
+                <p class="card-text">Please tell us how was your recipie.</p>
+                <h6>How good was your recepie?</h6>
+                <ul>
+                    <li>Great</li>
+                    <li>good</li>
+                    <li>So so</li>
+                    <li>Bad</li>
+
+                </ul>
+
+                <!-- Some more text -->
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+
+            </div>
+
+            <!-- In hear the user can tell us about their expirience -->
             <form>
                 <div class="form-group">
-                    <label for="exampleFormControlTextarea1">Example textarea</label>
+                    <label for="exampleFormControlTextarea1">Tell us about your experience</label>
                     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                 </div>
             </form>
-        </div>
-    </section>
 
-    <!-- "script zone start" -->
+        </div>
+
+    </section>
+    <!-- How Was it? section -->
+
+
+    <!-- Saved For later section -->
+    <section class="hide container border rounded mt-3 row bg-light mx-auto" id="category">
+
+        <div class="col mx-auto">
+
+            <!-- It is not suposed to have a title here, it is just there so you can id what are you looking at -->
+            <h1>Saved for later</h1>
+
+            <!-- These are the cards where information of each recipe go -->
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <!-- Image of the finished recipie -->
+                        <img src="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/portion_sizes_slideshow/getty_rm_photo_of_fish_meal_on_small_plate.jpg"
+                            class="card-img"
+                            alt="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/portion_sizes_slideshow/getty_rm_photo_of_fish_meal_on_small_plate.jpg">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <!-- Recipie name -->
+                            <h5 class="card-title">Mexican Tacos</h5>
+                            <!-- Important information of the recipie -->
+                            <p class="card-text">Important information of the Mexican tacos Recipie</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Same as the first one -->
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/portion_sizes_slideshow/getty_rm_photo_of_fish_meal_on_small_plate.jpg"
+                            class="card-img"
+                            alt="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/portion_sizes_slideshow/getty_rm_photo_of_fish_meal_on_small_plate.jpg">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
+                                additional content. This content is a little bit longer.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Same as the first one -->
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/portion_sizes_slideshow/getty_rm_photo_of_fish_meal_on_small_plate.jpg"
+                            class="card-img"
+                            alt="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/portion_sizes_slideshow/getty_rm_photo_of_fish_meal_on_small_plate.jpg">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
+                                additional content. This content is a little bit longer.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Same as the first one -->
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/portion_sizes_slideshow/getty_rm_photo_of_fish_meal_on_small_plate.jpg"
+                            class="card-img"
+                            alt="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/portion_sizes_slideshow/getty_rm_photo_of_fish_meal_on_small_plate.jpg">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
+                                additional content. This content is a little bit longer.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Same as the first one -->
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/portion_sizes_slideshow/getty_rm_photo_of_fish_meal_on_small_plate.jpg"
+                            class="card-img"
+                            alt="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/portion_sizes_slideshow/getty_rm_photo_of_fish_meal_on_small_plate.jpg">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
+                                additional content. This content is a little bit longer.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <!-- Saved for later section ends -->
+
+    <!-- My Favorites section -->
+    <section class="hide container border rounded mt-3 row bg-light mx-auto" id="category">
+
+        <div class="col mx-auto">
+
+            <!-- It is not suposed to have a title here, it is just there so you can id what are you looking at -->
+            <h1>My Favorites</h1>
+
+            <!-- These are the cards where information of each recipe go -->
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <!-- Image of the finished recipie -->
+                        <img src="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/portion_sizes_slideshow/getty_rm_photo_of_fish_meal_on_small_plate.jpg"
+                            class="card-img"
+                            alt="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/portion_sizes_slideshow/getty_rm_photo_of_fish_meal_on_small_plate.jpg">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <!-- Recipie name -->
+                            <h5 class="card-title">Mexican Tacos</h5>
+                            <!-- Important information of the recipie -->
+                            <p class="card-text">Important information of the Mexican tacos Recipie</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Same as the first one -->
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/portion_sizes_slideshow/getty_rm_photo_of_fish_meal_on_small_plate.jpg"
+                            class="card-img"
+                            alt="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/portion_sizes_slideshow/getty_rm_photo_of_fish_meal_on_small_plate.jpg">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
+                                additional content. This content is a little bit longer.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Same as the first one -->
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/portion_sizes_slideshow/getty_rm_photo_of_fish_meal_on_small_plate.jpg"
+                            class="card-img"
+                            alt="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/portion_sizes_slideshow/getty_rm_photo_of_fish_meal_on_small_plate.jpg">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
+                                additional content. This content is a little bit longer.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Same as the first one -->
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/portion_sizes_slideshow/getty_rm_photo_of_fish_meal_on_small_plate.jpg"
+                            class="card-img"
+                            alt="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/portion_sizes_slideshow/getty_rm_photo_of_fish_meal_on_small_plate.jpg">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
+                                additional content. This content is a little bit longer.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Same as the first one -->
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/portion_sizes_slideshow/getty_rm_photo_of_fish_meal_on_small_plate.jpg"
+                            class="card-img"
+                            alt="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/portion_sizes_slideshow/getty_rm_photo_of_fish_meal_on_small_plate.jpg">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
+                                additional content. This content is a little bit longer.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <!-- My Favorites section ends -->
+
+    <!-- Cooking History section -->
+    <section class="hide container border rounded mt-3 row bg-light mx-auto" id="category">
+
+        <div class="col mx-auto">
+
+            <!-- It is not suposed to have a title here, it is just there so you can id what are you looking at -->
+            <h1>Cooking History</h1>
+
+            <!-- These are the cards where information of each recipe go -->
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <!-- Image of the finished recipie -->
+                        <img src="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/portion_sizes_slideshow/getty_rm_photo_of_fish_meal_on_small_plate.jpg"
+                            class="card-img"
+                            alt="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/portion_sizes_slideshow/getty_rm_photo_of_fish_meal_on_small_plate.jpg">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <!-- Recipie name -->
+                            <h5 class="card-title">Mexican Tacos</h5>
+                            <!-- Important information of the recipie -->
+                            <p class="card-text">Important information of the Mexican tacos Recipie</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Same as the first one -->
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/portion_sizes_slideshow/getty_rm_photo_of_fish_meal_on_small_plate.jpg"
+                            class="card-img"
+                            alt="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/portion_sizes_slideshow/getty_rm_photo_of_fish_meal_on_small_plate.jpg">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
+                                additional content. This content is a little bit longer.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Same as the first one -->
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/portion_sizes_slideshow/getty_rm_photo_of_fish_meal_on_small_plate.jpg"
+                            class="card-img"
+                            alt="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/portion_sizes_slideshow/getty_rm_photo_of_fish_meal_on_small_plate.jpg">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
+                                additional content. This content is a little bit longer.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Same as the first one -->
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/portion_sizes_slideshow/getty_rm_photo_of_fish_meal_on_small_plate.jpg"
+                            class="card-img"
+                            alt="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/portion_sizes_slideshow/getty_rm_photo_of_fish_meal_on_small_plate.jpg">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
+                                additional content. This content is a little bit longer.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Same as the first one -->
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/portion_sizes_slideshow/getty_rm_photo_of_fish_meal_on_small_plate.jpg"
+                            class="card-img"
+                            alt="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/articles/health_tools/portion_sizes_slideshow/getty_rm_photo_of_fish_meal_on_small_plate.jpg">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
+                                additional content. This content is a little bit longer.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <!-- Cooking history section ends -->
+
+
+
+
+    <!-- "script zone" -->
 
     <!-- "jquery" library Link -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
