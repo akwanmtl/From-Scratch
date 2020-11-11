@@ -125,12 +125,13 @@
             <!-- Card Title -->
             <h1>What's on the menu today?</h1>
 
+            <div id="countries-box"></div>
             <!-- Buttons in the secction, they work but they all do the same thing, we will need to give each one of them its own class attribute -->
-            <button class="btn btn-info mb-2 chosenCategoryBtn">Italian</button><br>
+            <!-- <button class="btn btn-info mb-2 chosenCategoryBtn">Italian</button><br>
             <button class="btn btn-info mb-2 chosenCategoryBtn">Chinese</button><br>
             <button class="btn btn-info mb-2 chosenCategoryBtn">Greek</button><br>
             <button class="btn btn-info mb-2 chosenCategoryBtn">Mexican</button><br>
-            <button class="btn btn-info mb-5 chosenCategoryBtn">Surprise Me!</button><br>
+            <button class="btn btn-info mb-5 chosenCategoryBtn">Surprise Me!</button><br> -->
             <button class="btn btn-danger mb-2">Go back!</button><br>
 
         </div>
@@ -147,7 +148,7 @@
     -->
     <section class="hide container border rounded mt-3 row bg-light mx-auto" id="category">
 
-        <div class="col mx-auto">
+        <div class="col mx-auto" id="recipe-list">
 
             <!-- It is not suposed to have a title here, it is just there so you can id what are you looking at -->
             <h1>Selected Category</h1>
@@ -712,6 +713,7 @@
 
     <!-- local "JS" file link -->
     <script src="./Assets/JS/script.js"></script>
+    <script src="./Assets/JS/script-countries.js"></script>
 
     <!-- "script zone end" -->
 
