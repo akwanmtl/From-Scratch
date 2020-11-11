@@ -42,6 +42,7 @@ function getRecipes(country){
                 console.log(data)
                 recipeList.innerHTML = "";
                 var list = shuffle(data.meals);
+                // var list = data.meals;
 
                 console.log(list);
 
@@ -55,7 +56,7 @@ function getRecipes(country){
                     var thumbnail = document.createElement("img");
                     thumbnail.classList.add("card-img");
                     thumbnail.setAttribute("alt",list[i].strMeal);
-                    thumbnail.setAttribute("src",list[i].strMealThumb);
+                    thumbnail.setAttribute("src",list[i].strMealThumb+"/preview");
                     colImg.appendChild(thumbnail);
 
                     var colTxt = document.createElement("div");
@@ -69,7 +70,7 @@ function getRecipes(country){
                     var cardText = document.createElement("p");
                     cardText.classList.add("card-text");
                     cardText.textContent = "Nutrition Preview"
-                    // getNutritionPreview(list[i].strMeal);
+                    getNutritionPreview(list[i].strMeal,cardText);
                     cardBody.appendChild(cardTitle);
                     cardBody.appendChild(cardText);
 
@@ -108,22 +109,90 @@ function shuffle(arr){
     return arr;
 }
 
+function getNutritionPreview(meal,el){
+    getRecipe(meal).then(function(ingredients){
+        // el.textContent = ingredients;
+        getNutrition(ingredients).then(function(nutrients){
+
+            console.log(nutrients);
+            nutrientsObj = convertNutrition(nutrients);
+            console.log(nutrientsObj);
+            var row = document.createElement("div");
+            row.classList.add("row");
+            //calories, sat fat, sodium, sugar, protein
+            var previewNutrients = [
+                {
+                    name:"calories",
+                    unit:"",
+                    dv: false
+                },
+                {
+                    name:"satFat",
+                    unit:"g",
+                    dv:20
+                },
+                {
+                    name:"sodium",
+                    unit:"mg",
+                    dv:2300
+                },
+                {
+                    name:"sugar",
+                    unit:"g",
+                    dv: false
+                },
+                {
+                    name:"protein",
+                    unit:"g",
+                    dv: false
+                }
+            ];
+            for (var i = 0; i < previewNutrients.length; i++){
+                var newDiv = document.createElement("div");
+                newDiv.classList.add("col-2");
+                var pName = document.createElement("p");
+                pName.textContent = previewNutrients[i].name;
+                newDiv.appendChild(pName);
+                
+                var pAmount = document.createElement("p");
+                var amount = nutrientsObj[previewNutrients[i].name];                
+                pAmount.textContent = Math.round(amount/4) + " " + previewNutrients[i].unit;
+                newDiv.appendChild(pAmount);
+
+                if(previewNutrients[i].dv){
+                    var percent = (amount/(previewNutrients[i].dv*4)).toFixed(1);
+                    var pPercent = document.createElement("p");
+                    pPercent.textContent = percent + "%DV";
+                    newDiv.appendChild(pPercent);
+                }
+                
+                row.appendChild(newDiv);
+            }
+            el.appendChild(row);
+
+        });
+    });
+    
+}
+
 function getRecipe(meal){
     var requestUrl = "https://www.themealdb.com/api/json/v1/1/search.php?s="+meal;
-    fetch(requestUrl)
+    return fetch(requestUrl)
         .then(function(response){
-            console.log(response)
+            if(!response.ok){
+                throw new Error("Network error");
+            }
             return response.json()
         })
         .then(function(data){
-            console.log(data)
+            console.log(data);
 
             var recipe = data.meals[0];
             
             food = "";
             
             var i = 1;
-            while(recipe["strIngredient"+i]!==""){
+            while(recipe["strMeasure"+i].trim()!==""){
                 var ingredientItem = document.createElement("li"); 
                 var ingredient = recipe["strIngredient"+i];
                 var amount = recipe["strMeasure"+i];
@@ -132,10 +201,13 @@ function getRecipe(meal){
                 
                 i++;
             }
-            console.log(recipe.strMeal);
-            getNutrition(food);
-            
+            // console.log(food);
+            // getNutrition(food);
+            return food; 
         })
+        .catch(function(err){
+            console.log(err);
+        });
 }
 
 function getNutrition (){
@@ -143,7 +215,7 @@ function getNutrition (){
     var nutritionixUrl = "https://trackapi.nutritionix.com/v2/natural/nutrients"
 
     console.log(food)
-    fetch(nutritionixUrl,{
+    return fetch(nutritionixUrl,{
         method:"POST",
         mode:'cors',
         headers:{
@@ -163,35 +235,52 @@ function getNutrition (){
         return response.json();
     })
     .then(function(data){
-        console.log('data',food);   
-        convertNutrition(data.foods)
+        console.log('data',data);   
+        return data.foods;
+        // convertNutrition(data.foods)
+    })
+    .catch(function(err){
+        console.log(err);
     });
 }
 
 function convertNutrition(foods){
-    var calories = 0; //208
-    var totalFat = 0; //204
-    var satFat = 0; //606
-    var transFat = 0; //605
-    var cholesterol = 0; //601
-    var sodium = 0; //307 
-    var carbs = 0; //205
-    var fiber = 0; //291
-    var sugar = 0; //269
-    var protein = 0; //203
+    var nutrientsObj = {
+        calories: 0,
+        totalFat: 0,
+        satFat: 0,
+        transFat: 0,
+        cholesterol: 0,
+        sodium: 0,
+        carbs: 0,
+        fiber: 0,
+        sugar: 0,
+        protein: 0
+    };
+
+    // var calories = 0; //208
+    // var totalFat = 0; //204
+    // var satFat = 0; //606
+    // var transFat = 0; //605
+    // var cholesterol = 0; //601
+    // var sodium = 0; //307 
+    // var carbs = 0; //205
+    // var fiber = 0; //291
+    // var sugar = 0; //269
+    // var protein = 0; //203
 
     for (var i = 0; i < foods.length; i++){
-        console.log("ingredient#: ",i)
-        calories += (foods[i].nf_calories) ? foods[i].nf_calories : 0;
-        totalFat += (foods[i].nf_total_fat) ? foods[i].nf_total_fat : 0;
-        satFat += (foods[i].nf_saturated_fat) ? foods[i].nf_saturated_fat : 0;
+        // console.log("ingredient#: ",i)
+        nutrientsObj.calories += (foods[i].nf_calories) ? foods[i].nf_calories : 0;
+        nutrientsObj.totalFat += (foods[i].nf_total_fat) ? foods[i].nf_total_fat : 0;
+        nutrientsObj.satFat += (foods[i].nf_saturated_fat) ? foods[i].nf_saturated_fat : 0;
         
-        cholesterol += (foods[i].nf_cholesterol) ? foods[i].nf_cholesterol : 0;
-        sodium += (foods[i].nf_sodium) ? foods[i].nf_sodium : 0;
-        carbs += (foods[i].nf_total_carbohydrate) ? foods[i].nf_total_carbohydrate : 0;
-        fiber += (foods[i].nf_dietary_fiber) ? foods[i].nf_dietary_fiber : 0;
-        sugar += (foods[i].nf_sugars) ? foods[i].nf_sugars : 0;
-        protein += (foods[i].nf_protein) ? foods[i].nf_protein : 0;
+        nutrientsObj.cholesterol += (foods[i].nf_cholesterol) ? foods[i].nf_cholesterol : 0;
+        nutrientsObj.sodium += (foods[i].nf_sodium) ? foods[i].nf_sodium : 0;
+        nutrientsObj.carbs += (foods[i].nf_total_carbohydrate) ? foods[i].nf_total_carbohydrate : 0;
+        nutrientsObj.fiber += (foods[i].nf_dietary_fiber) ? foods[i].nf_dietary_fiber : 0;
+        nutrientsObj.sugar += (foods[i].nf_sugars) ? foods[i].nf_sugars : 0;
+        nutrientsObj.protein += (foods[i].nf_protein) ? foods[i].nf_protein : 0;
 
         // transFat += foods[i].full_nutrients.findIndex(function(element){
         //     return element.attr_id === 605;
@@ -199,14 +288,16 @@ function convertNutrition(foods){
 
     }
 
-    console.log("calories", calories);
-    console.log("totalFat", totalFat);
-    console.log("satFat", satFat);
-    console.log("sodium", sodium);
-    console.log("cholesterol", cholesterol);
-    console.log("carbs", carbs);
-    console.log("fiber", fiber);
-    console.log("sugar", sugar);
-    console.log("protein", protein)
+    // console.log("calories", nutrientsObj.calories);
+    // console.log("totalFat", nutrientsObj.totalFat);
+    // console.log("satFat", nutrientsObj.satFat);
+    // console.log("sodium", nutrientsObj.sodium);
+    // console.log("cholesterol", nutrientsObj.cholesterol);
+    // console.log("carbs", nutrientsObj.carbs);
+    // console.log("fiber", nutrientsObj.fiber);
+    // console.log("sugar", nutrientsObj.sugar);
+    // console.log("protein", nutrientsObj.protein)
+
+    return nutrientsObj;
 
 }
