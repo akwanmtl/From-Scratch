@@ -1,14 +1,24 @@
+// Declare variables
 
-var categorySelectionEl = document.querySelector("#categorySelection");
-var categoryEl = document.querySelector("#category");
 
-var countriesBox = document.getElementById("countries-box");
-var recipeList = document.getElementById("recipe-list");
+var categorySelectionEl = document.querySelector("#categorySelection"); //Sections that contains the countries buttons
+var categoryEl = document.querySelector("#category"); //Sections that shows up to 5 recipes for that countries
+var recipeEl = document.querySelector("#recipe"); //Sections that shows up to 5 recipes for that countries
+
+var countriesBox = document.getElementById("countries-box"); //Div that contains the buttons
+var recipeList = document.getElementById("recipe-list"); //div that contains up to 5 recipes
+
+var moreBtn = document.getElementById("moreRecipes"); // button to show next 5 recipes
+var backBtn = document.getElementById("backToCountries");
 
 var countriesList = ["American","British","Canadian","Chinese","Dutch","Egyptian","French","Indian","Irish","Italian","Jamaican","Japanese","Kenyan","Malaysian","Mexican","Moroccan","Polish","Russian","Spanish","Thai","Tunisian","Turkish","Vietnamese"];
 
+var list;
+var counterRecipe = 0;
+
 initializeCountries();
 
+console.log(nutritionSample);
 function initializeCountries(){
    
     for(var i = 0; i < countriesList.length; i++){
@@ -21,9 +31,7 @@ function initializeCountries(){
             getRecipes(this.getAttribute("data-country"));
         });
         countriesBox.appendChild(countryBtn);
-        
     }
-
 }
 
 function getRecipes(country){
@@ -40,58 +48,13 @@ function getRecipes(country){
             })
             .then(function(data){
                 console.log(data)
-                recipeList.innerHTML = "";
-                var list = shuffle(data.meals);
+                list = shuffle(data.meals);
                 // var list = data.meals;
 
                 console.log(list);
+                counterRecipe = 0;
+                createRecipeCard();
 
-                for (var i = 0; i < Math.min(list.length,5); i++){
-                    var card = document.createElement("div");
-                    card.classList.add("card","m-3");
-                    var row = document.createElement("div");
-                    row.classList.add("row","no-gutters");
-                    var colImg = document.createElement("div");
-                    colImg.classList.add("col-md-4");
-                    var thumbnail = document.createElement("img");
-                    thumbnail.classList.add("card-img");
-                    thumbnail.setAttribute("alt",list[i].strMeal);
-                    thumbnail.setAttribute("src",list[i].strMealThumb+"/preview");
-                    colImg.appendChild(thumbnail);
-
-                    var colTxt = document.createElement("div");
-                    colTxt.classList.add("col-md-8");
-                    var cardBody = document.createElement("div");
-                    cardBody.classList.add("card-body");
-                    var cardTitle = document.createElement("h5");
-                    cardTitle.classList.add("card-title");
-                    cardTitle.textContent = list[i].strMeal;
-
-                    var cardText = document.createElement("p");
-                    cardText.classList.add("card-text");
-                    cardText.textContent = "Nutrition Preview"
-                    getNutritionPreview(list[i].strMeal,cardText);
-                    cardBody.appendChild(cardTitle);
-                    cardBody.appendChild(cardText);
-
-                    colTxt.appendChild(cardBody);
-
-                    row.appendChild(colImg);
-                    row.appendChild(colTxt);
-
-                    card.appendChild(row);
-
-                    // listItem.setAttribute("data-meal",list[i].strMeal);
-                    // listItem.textContent = list[i].strMeal;
-                    // getRecipe(list[i].strMeal);
-                    
-                    // listItem.addEventListener("click",function(event){
-                    //     console.log(event.target.getAttribute("data-meal"));
-                    //     showRecipe(event.target.getAttribute("data-meal"));
-                    // });
-
-                    recipeList.appendChild(card);
-                }
             })
             .catch(function(err){
                 console.log(err)
@@ -107,6 +70,66 @@ function shuffle(arr){
         arr[j] = temp;
     }
     return arr;
+}
+
+function createRecipeCard(){
+    
+    recipeList.innerHTML = "";
+    console.log(counterRecipe);
+    var start = counterRecipe;
+    while(counterRecipe < Math.min(list.length,5+start)){
+        var card = document.createElement("div");
+        card.classList.add("card","m-3");
+        var row = document.createElement("div");
+        row.classList.add("row","no-gutters");
+        var colImg = document.createElement("div");
+        colImg.classList.add("col-md-4");
+        var thumbnail = document.createElement("img");
+        thumbnail.classList.add("card-img");
+        thumbnail.setAttribute("alt",list[counterRecipe].strMeal);
+        thumbnail.setAttribute("src",list[counterRecipe].strMealThumb);
+        colImg.appendChild(thumbnail);
+
+        var colTxt = document.createElement("div");
+        colTxt.classList.add("col-md-8");
+        var cardBody = document.createElement("div");
+        cardBody.classList.add("card-body");
+        var cardTitle = document.createElement("h5");
+        cardTitle.classList.add("card-title");
+        cardTitle.textContent = list[counterRecipe].strMeal;
+
+        var cardText = document.createElement("p");
+        cardText.classList.add("card-text");
+        cardText.textContent = "Nutrition Preview"
+        // This is needed - just comment out to not use up the API
+        // getNutritionPreview(list[i].strMeal,cardText);
+        cardBody.appendChild(cardTitle);
+        cardBody.appendChild(cardText);
+
+        colTxt.appendChild(cardBody);
+
+        row.appendChild(colImg);
+        row.appendChild(colTxt);
+
+        card.appendChild(row);
+
+        card.setAttribute("data-meal",list[counterRecipe].strMeal);
+        // getRecipe(list[i].strMeal);
+        
+        card.addEventListener("click",function(event){
+            // console.log(this.getAttribute("data-meal"));
+            showRecipe(this.getAttribute("data-meal"));
+        });
+
+        recipeList.appendChild(card);
+        counterRecipe++;
+    }
+    if (counterRecipe < list.length - 1){
+        moreBtn.classList.remove("hide");
+    }
+    else{
+        moreBtn.classList.add("hide");
+    }
 }
 
 function getNutritionPreview(meal,el){
@@ -210,6 +233,14 @@ function getRecipe(meal){
         });
 }
 
+
+
+function showRecipe(meal){
+    recipeEl.classList.remove("hide");
+    categoryEl.classList.add("hide");
+    console.log(meal)
+};
+
 function getNutrition (){
         
     var nutritionixUrl = "https://trackapi.nutritionix.com/v2/natural/nutrients"
@@ -301,3 +332,9 @@ function convertNutrition(foods){
     return nutrientsObj;
 
 }
+
+moreBtn.addEventListener("click",createRecipeCard);
+backBtn.addEventListener("click",function(){
+    categorySelectionEl.classList.remove("hide");
+    categoryEl.classList.add("hide");
+})
