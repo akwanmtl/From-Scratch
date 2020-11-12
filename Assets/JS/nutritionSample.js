@@ -5,3 +5,15 @@ var nutritionSample = {
     ]
     
 };
+
+
+var full_nutrients = nutritionSample.foods[0].full_nutrients;
+// console.log(nutritionSample.foods[0].full_nutrients)
+for (var i = 0; i < full_nutrients.length; i++){
+    if(full_nutrients[i].attr_id == 605){
+        console.log("transfat",full_nutrients[i].attr_id)
+        console.log("transfat",full_nutrients[i].value)
+        break;
+    }
+
+}

@@ -19,6 +19,9 @@ var counterRecipe = 0;
 initializeCountries();
 
 console.log(nutritionSample);
+convertNutrition(nutritionSample.foods);
+
+
 function initializeCountries(){
    
     for(var i = 0; i < countriesList.length; i++){
@@ -312,6 +315,16 @@ function convertNutrition(foods){
         nutrientsObj.fiber += (foods[i].nf_dietary_fiber) ? foods[i].nf_dietary_fiber : 0;
         nutrientsObj.sugar += (foods[i].nf_sugars) ? foods[i].nf_sugars : 0;
         nutrientsObj.protein += (foods[i].nf_protein) ? foods[i].nf_protein : 0;
+
+        var full_nutrients = foods[i].full_nutrients;
+        for (var j = 0; j < full_nutrients.length; j++){
+            if(full_nutrients[j].attr_id == 605){
+                console.log("transfat",full_nutrients[j].attr_id);
+                console.log("transfat",full_nutrients[j].value);
+                nutrientsObj.transFat += full_nutrients[j].value;
+                break;
+            }
+        }
 
         // transFat += foods[i].full_nutrients.findIndex(function(element){
         //     return element.attr_id === 605;
