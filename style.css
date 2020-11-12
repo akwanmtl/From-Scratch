@@ -1,0 +1,13 @@
+#menuLogo {
+    margin: 1rem;
+    width: 30px;
+    height: 30px;
+}
+
+img {
+    max-width: 100%;
+}
+
+body {
+    background-color: antiquewhite;
+}
