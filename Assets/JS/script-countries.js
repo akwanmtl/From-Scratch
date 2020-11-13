@@ -215,7 +215,7 @@ function getRecipe(meal){
 
             var recipe = data.meals[0];
             
-            food = "";
+            var food = "";
             
             var i = 1;
             while(recipe["strMeasure"+i].trim()!==""){
@@ -244,11 +244,11 @@ function showRecipe(meal){
     console.log(meal)
 };
 
-function getNutrition (){
+function getNutrition (ingredients){
         
     var nutritionixUrl = "https://trackapi.nutritionix.com/v2/natural/nutrients"
 
-    console.log(food)
+    console.log(ingredients)
     return fetch(nutritionixUrl,{
         method:"POST",
         mode:'cors',
@@ -259,7 +259,7 @@ function getNutrition (){
             "Content-Type":"application/json"
         },
         body:JSON.stringify({
-            "query": food,
+            "query": ingredients,
             "line_delimited": true
             })
         
@@ -319,8 +319,8 @@ function convertNutrition(foods){
         var full_nutrients = foods[i].full_nutrients;
         for (var j = 0; j < full_nutrients.length; j++){
             if(full_nutrients[j].attr_id == 605){
-                console.log("transfat",full_nutrients[j].attr_id);
-                console.log("transfat",full_nutrients[j].value);
+                // console.log("transfat",full_nutrients[j].attr_id);
+                // console.log("transfat",full_nutrients[j].value);
                 nutrientsObj.transFat += full_nutrients[j].value;
                 break;
             }
@@ -332,15 +332,15 @@ function convertNutrition(foods){
 
     }
 
-    // console.log("calories", nutrientsObj.calories);
-    // console.log("totalFat", nutrientsObj.totalFat);
-    // console.log("satFat", nutrientsObj.satFat);
-    // console.log("sodium", nutrientsObj.sodium);
-    // console.log("cholesterol", nutrientsObj.cholesterol);
-    // console.log("carbs", nutrientsObj.carbs);
-    // console.log("fiber", nutrientsObj.fiber);
-    // console.log("sugar", nutrientsObj.sugar);
-    // console.log("protein", nutrientsObj.protein)
+    console.log("calories", nutrientsObj.calories);
+    console.log("totalFat", nutrientsObj.totalFat);
+    console.log("satFat", nutrientsObj.satFat);
+    console.log("sodium", nutrientsObj.sodium);
+    console.log("cholesterol", nutrientsObj.cholesterol);
+    console.log("carbs", nutrientsObj.carbs);
+    console.log("fiber", nutrientsObj.fiber);
+    console.log("sugar", nutrientsObj.sugar);
+    console.log("protein", nutrientsObj.protein)
 
     return nutrientsObj;
 
@@ -351,3 +351,153 @@ backBtn.addEventListener("click",function(){
     categorySelectionEl.classList.remove("hide");
     categoryEl.classList.add("hide");
 })
+
+
+// convertNutrition(nutritionSample);
+//********This part is new ***************/
+
+var recipeTitle = document.getElementById("recipe-name");
+var recipeImage = document.getElementById("recipe-image");
+var nutritionDetails = document.getElementById("nutrition-details");
+var ingredientList = document.getElementById("ingredients-list");
+var instructionList = document.getElementById("instructions-list");
+
+function showRecipe(mealName){
+    recipeEl.classList.remove("hide");
+    categoryEl.classList.add("hide");
+
+    console.log(mealName);
+
+    var requestUrl = "https://www.themealdb.com/api/json/v1/1/search.php?s="+mealName;
+    fetch(requestUrl)
+        .then(function(response){
+            if(!response.ok){
+                throw new Error("Network error");
+            }
+            return response.json()
+        })
+        .then(function(data){
+            console.log(data);
+
+            var recipe = data.meals[0];
+            console.log(recipe);
+
+            //set the recipe name 
+            recipeTitle.textContent = recipe.strMeal;
+
+            console.log(recipe.strMealThumb);
+            //set the images
+            var imageThumbnail = document.createElement("img");
+            imageThumbnail.setAttribute("src",recipe.strMealThumb);
+            imageThumbnail.setAttribute("alt",recipe.strMeal);
+            // image classes
+            imageThumbnail.classList.add("col");
+
+            recipeImage.appendChild(imageThumbnail);
+
+            //get the recipes instructions and nutrients
+            var food = "";
+            
+            var i = 1;
+            console.log("strMeasure"+i)
+            while(recipe["strMeasure"+i].trim()!==""){
+                var ingredientItem = document.createElement("li"); 
+                var ingredient = recipe["strIngredient"+i];
+                var amount = recipe["strMeasure"+i];
+                ingredientItem.textContent = amount + " " + ingredient;
+                food = food.concat(amount + " " + ingredient + "\n");
+                ingredientList.appendChild(ingredientItem);
+                i++;
+            }
+
+            // getNutrition(food).then(function(nutrients){ // for the api
+                var nutrients = nutritionSample.foods; //when not using api
+                //nutritional facts section
+                var previewNutrients = [
+                    {
+                        name:"calories",
+                        unit:"",
+                        dv: false
+                    },
+                    {
+                        name:"totalFat",
+                        unit:"g",
+                        dv:65
+                    },
+                    {
+                        name:"satFat",
+                        unit:"g",
+                        dv:20
+                    },
+                    {
+                        name:"transFat",
+                        unit:"g",
+                        dv:false
+                    },
+                    {
+                        name:"cholesterol",
+                        unit:"mg",
+                        dv:300
+                    },
+                    {
+                        name:"sodium",
+                        unit:"mg",
+                        dv:2300
+                    },
+                    {
+                        name:"carbs",
+                        unit:"g",
+                        dv:300
+                    },
+                    {
+                        name:"fiber",
+                        unit:"g",
+                        dv:25
+                    },
+                    {
+                        name:"sugar",
+                        unit:"g",
+                        dv: false
+                    },
+                    {
+                        name:"protein",
+                        unit:"g",
+                        dv: false
+                    }
+                ];
+
+                console.log(nutrients);
+                nutrientsObj = convertNutrition(nutrients);
+                console.log(nutrientsObj);
+
+                for (var i = 0; i < previewNutrients.length; i++){
+                     
+                    var amount = nutrientsObj[previewNutrients[i].name];                
+                    
+                    var nutrientItem = document.createElement("li");
+                
+                    nutrientItem.textContent = previewNutrients[i].name + ": " + Math.round(amount/4) + " " + previewNutrients[i].unit;     
+                               
+                    nutritionDetails.appendChild(nutrientItem);
+                }
+              
+                
+            // }); // for the api
+
+            // showing instructions
+            var instructions = recipe["strInstructions"].split(".");
+            console.log(instructions);
+            for(var i = 0; i < instructions.length; i++){
+                var instructionItem = document.createElement("li");
+                if(instructions[i].trim() !== ""){
+                    instructionItem.textContent = instructions[i].trim()+".";
+                    instructionList.appendChild(instructionItem);
+                }
+                
+            }
+        
+
+        })
+
+
+};

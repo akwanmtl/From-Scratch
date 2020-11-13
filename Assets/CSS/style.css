@@ -24,3 +24,8 @@ body, html {
 .hide {
     display: none;
 }
+
+li{
+    display: list-item;
+    list-style-position: inside;
+}
