@@ -38,8 +38,6 @@ function initializeCountries(){
 }
 
 function getRecipes(country){
-    categorySelectionEl.classList.add("hide");
-    categoryEl.classList.remove("hide");
 
     var requestUrl = "https://www.themealdb.com/api/json/v1/1/filter.php?a="+country;
         fetch(requestUrl)
@@ -58,10 +56,16 @@ function getRecipes(country){
                 counterRecipe = 0;
                 createRecipeCard();
 
+                //Changed the order *****
+                categorySelectionEl.classList.add("hide");
+                categoryEl.classList.remove("hide");
             })
             .catch(function(err){
                 console.log(err)
             });
+
+            
+    
 
 }
 
@@ -238,11 +242,11 @@ function getRecipe(meal){
 
 
 
-function showRecipe(meal){
-    recipeEl.classList.remove("hide");
-    categoryEl.classList.add("hide");
-    console.log(meal)
-};
+// function showRecipe(meal){
+//     recipeEl.classList.remove("hide");
+//     categoryEl.classList.add("hide");
+//     console.log(meal)
+// };
 
 function getNutrition (ingredients){
         
@@ -356,6 +360,8 @@ backBtn.addEventListener("click",function(){
 // convertNutrition(nutritionSample);
 //********This part is new ***************/
 
+var getCookingEl = document.getElementById("getCooking");
+
 var recipeTitle = document.getElementById("recipe-name");
 var recipeImage = document.getElementById("recipe-image");
 var nutritionDetails = document.getElementById("nutrition-details");
@@ -363,6 +369,11 @@ var ingredientList = document.getElementById("ingredients-list");
 var instructionList = document.getElementById("instructions-list");
 var numberPeople = document.getElementById("number-serving");
 
+var differentRecipeBtn = document.getElementById("differentRecipe");
+var saveBtn = document.getElementById("save");
+var cookBtn = document.getElementById("cook-it");
+
+var recipeMeal = "";
 var serving = 4;
 var previewNutrients = [
     {
@@ -419,11 +430,9 @@ var previewNutrients = [
 var nutrientsObj;
 
 function showRecipe(mealName){
-    recipeEl.classList.remove("hide");
-    categoryEl.classList.add("hide");
 
     console.log(mealName);
-
+    recipeMeal = mealName;
     var requestUrl = "https://www.themealdb.com/api/json/v1/1/search.php?s="+mealName;
     fetch(requestUrl)
         .then(function(response){
@@ -448,15 +457,16 @@ function showRecipe(mealName){
             imageThumbnail.setAttribute("alt",recipe.strMeal);
             // image classes
             imageThumbnail.classList.add("col");
-
+            recipeImage.innerHTML="";
             recipeImage.appendChild(imageThumbnail);
 
             //get the recipes instructions and nutrients
             var food = "";
-            
+            ingredientList.innerHTML = "";
             var i = 1;
             console.log("strMeasure"+i)
             while(recipe["strMeasure"+i].trim()!==""){
+                
                 var ingredientItem = document.createElement("li"); 
                 var ingredient = recipe["strIngredient"+i];
                 var amount = recipe["strMeasure"+i];
@@ -464,6 +474,7 @@ function showRecipe(mealName){
                 food = food.concat(amount + " " + ingredient + "\n");
                 ingredientList.appendChild(ingredientItem);
                 i++;
+                if(i > 20) break;
             }
 
             // getNutrition(food).then(function(nutrients){ // for the api
@@ -476,36 +487,30 @@ function showRecipe(mealName){
                 console.log(nutrientsObj);
 
                 updateNutrition();
-                // for (var i = 0; i < previewNutrients.length; i++){
-                     
-                //     var amount = nutrientsObj[previewNutrients[i].name];                
-                    
-                //     var nutrientItem = document.createElement("li");
-                
-                //     nutrientItem.textContent = previewNutrients[i].name + ": " + Math.round(amount/4) + " " + previewNutrients[i].unit;     
-                               
-                //     nutritionDetails.appendChild(nutrientItem);
-                // }
-              
                 
             // }); // for the api
 
             // showing instructions
+            instructionList.innerHTML = "";
             var instructions = recipe["strInstructions"].split(".");
             for(var i = 0; i < instructions.length; i++){
                 var instructionItem = document.createElement("li");
-                if(instructions[i].trim() !== ""){
+                if(instructions[i].trim().length > 7){
                     instructionItem.textContent = instructions[i].trim()+".";
                     instructionList.appendChild(instructionItem);
                 }
-                
             }
-        
 
+            //ADDED PARTS
+            recipeEl.classList.remove("hide");
+            categoryEl.classList.add("hide");
         })
-
+        .catch(function(err){
+            console.log(err);
+        })
 };
-
+ 
+// function to update the nutritional sections
 function updateNutrition(){
     nutritionDetails.innerHTML = "";
     for (var i = 0; i < previewNutrients.length; i++){
@@ -520,7 +525,8 @@ function updateNutrition(){
     }
 }
 
-numberPeople.addEventListener("change",function(e){
+// function for when the input field is changed
+numberPeople.addEventListener("change",function(){
     if(this.value%1!=0){
         
         this.value = (Math.ceil(this.value) > 20)? 20: Math.ceil(this.value);
@@ -541,4 +547,21 @@ numberPeople.addEventListener("change",function(e){
         serving = this.value;
         updateNutrition();
     }
+});
+
+differentRecipeBtn.addEventListener("click",function(){
+    recipeEl.classList.add("hide");
+    categoryEl.classList.remove("hide");
+});
+
+saveBtn.addEventListener("click",function(){
+    console.log("saving...");
+    console.log(recipeMeal);
+    console.log(nutrientsObj);
+});
+
+
+cookBtn.addEventListener("click",function(){
+    recipeEl.classList.add("hide");
+    getCookingEl.classList.remove("hide");
 });
