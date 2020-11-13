@@ -29,3 +29,7 @@ li{
     display: list-item;
     list-style-position: inside;
 }
+
+.strike{
+    text-decoration: line-through;
+}

@@ -178,7 +178,7 @@
         <div class="col mx-auto">
 
             <!-- It is not suposed to have a title here, it is just there so you can id what are you looking at -->
-            <h1  id="recipe-name">Selected Recipe</h1>
+            <h1 id="recipe-name">Selected Recipe</h1>
 
             <div class="card mb-3">
 
@@ -259,21 +259,20 @@
             <h1>Lets Get Cooking</h1>
 
             <!-- Image of the finished recipie -->
-            <img src="./Assets/Images/hero_bg.jpg" class="card-img-top" alt="...">
-
+            <!-- <img src="./Assets/Images/hero_bg.jpg" class="card-img-top" alt="..."> -->
+            <div id=recipe-image-cooking></div>
             <!-- Recipie content -->
             <div class="card-body">
-                <h5 class="card-title">Mexican Tacos</h5>
-                <h6>Important Information</h6>
-                <p class="card-text">This recipie is for 4 people.</p>
-                <h6>Pull out the ingredients</h6>
-                <ul>
-                    <li>Sugar</li>
+                <h2 class="card-title" id="recipe-name-cooking"></h2>
+               <!-- <p class="card-text">This recipie is for 4 people.</p> -->
+                <h6 id="procedure">Pull out the ingredients</h6>
+                <div id="steps">
+                    <!-- <li>Sugar</li>
                     <li>Whater</li>
                     <li>Milk</li>
                     <li>Eggs</li>
-                    <li>Chiken</li>
-                </ul>
+                    <li>Chiken</li> -->
+                </div>
 
                 <!-- Some extra text -->
                 <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
@@ -645,6 +644,7 @@
     <script src="./Assets/JS/script.js"></script>
     <script src="./Assets/JS/nutritionSample.js"></script>
     <script src="./Assets/JS/script-countries.js"></script>
+    <script src="./Assets/JS/cooking.js"></script>
 
     <!-- "script zone end" -->
 
