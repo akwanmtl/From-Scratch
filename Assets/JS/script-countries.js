@@ -361,6 +361,62 @@ var recipeImage = document.getElementById("recipe-image");
 var nutritionDetails = document.getElementById("nutrition-details");
 var ingredientList = document.getElementById("ingredients-list");
 var instructionList = document.getElementById("instructions-list");
+var numberPeople = document.getElementById("number-serving");
+
+var serving = 4;
+var previewNutrients = [
+    {
+        name:"calories",
+        unit:"",
+        dv: false
+    },
+    {
+        name:"totalFat",
+        unit:"g",
+        dv:65
+    },
+    {
+        name:"satFat",
+        unit:"g",
+        dv:20
+    },
+    {
+        name:"transFat",
+        unit:"g",
+        dv:false
+    },
+    {
+        name:"cholesterol",
+        unit:"mg",
+        dv:300
+    },
+    {
+        name:"sodium",
+        unit:"mg",
+        dv:2300
+    },
+    {
+        name:"carbs",
+        unit:"g",
+        dv:300
+    },
+    {
+        name:"fiber",
+        unit:"g",
+        dv:25
+    },
+    {
+        name:"sugar",
+        unit:"g",
+        dv: false
+    },
+    {
+        name:"protein",
+        unit:"g",
+        dv: false
+    }
+];
+var nutrientsObj;
 
 function showRecipe(mealName){
     recipeEl.classList.remove("hide");
@@ -413,80 +469,29 @@ function showRecipe(mealName){
             // getNutrition(food).then(function(nutrients){ // for the api
                 var nutrients = nutritionSample.foods; //when not using api
                 //nutritional facts section
-                var previewNutrients = [
-                    {
-                        name:"calories",
-                        unit:"",
-                        dv: false
-                    },
-                    {
-                        name:"totalFat",
-                        unit:"g",
-                        dv:65
-                    },
-                    {
-                        name:"satFat",
-                        unit:"g",
-                        dv:20
-                    },
-                    {
-                        name:"transFat",
-                        unit:"g",
-                        dv:false
-                    },
-                    {
-                        name:"cholesterol",
-                        unit:"mg",
-                        dv:300
-                    },
-                    {
-                        name:"sodium",
-                        unit:"mg",
-                        dv:2300
-                    },
-                    {
-                        name:"carbs",
-                        unit:"g",
-                        dv:300
-                    },
-                    {
-                        name:"fiber",
-                        unit:"g",
-                        dv:25
-                    },
-                    {
-                        name:"sugar",
-                        unit:"g",
-                        dv: false
-                    },
-                    {
-                        name:"protein",
-                        unit:"g",
-                        dv: false
-                    }
-                ];
-
+                
+                nutritionDetails.innerHTML = "";
                 console.log(nutrients);
                 nutrientsObj = convertNutrition(nutrients);
                 console.log(nutrientsObj);
 
-                for (var i = 0; i < previewNutrients.length; i++){
+                updateNutrition();
+                // for (var i = 0; i < previewNutrients.length; i++){
                      
-                    var amount = nutrientsObj[previewNutrients[i].name];                
+                //     var amount = nutrientsObj[previewNutrients[i].name];                
                     
-                    var nutrientItem = document.createElement("li");
+                //     var nutrientItem = document.createElement("li");
                 
-                    nutrientItem.textContent = previewNutrients[i].name + ": " + Math.round(amount/4) + " " + previewNutrients[i].unit;     
+                //     nutrientItem.textContent = previewNutrients[i].name + ": " + Math.round(amount/4) + " " + previewNutrients[i].unit;     
                                
-                    nutritionDetails.appendChild(nutrientItem);
-                }
+                //     nutritionDetails.appendChild(nutrientItem);
+                // }
               
                 
             // }); // for the api
 
             // showing instructions
             var instructions = recipe["strInstructions"].split(".");
-            console.log(instructions);
             for(var i = 0; i < instructions.length; i++){
                 var instructionItem = document.createElement("li");
                 if(instructions[i].trim() !== ""){
@@ -499,5 +504,41 @@ function showRecipe(mealName){
 
         })
 
-
 };
+
+function updateNutrition(){
+    nutritionDetails.innerHTML = "";
+    for (var i = 0; i < previewNutrients.length; i++){
+                     
+        var amount = nutrientsObj[previewNutrients[i].name];                
+        
+        var nutrientItem = document.createElement("li");
+    
+        nutrientItem.textContent = previewNutrients[i].name + ": " + Math.round(amount/serving) + " " + previewNutrients[i].unit;     
+                   
+        nutritionDetails.appendChild(nutrientItem);
+    }
+}
+
+numberPeople.addEventListener("change",function(e){
+    if(this.value%1!=0){
+        
+        this.value = (Math.ceil(this.value) > 20)? 20: Math.ceil(this.value);
+        serving = this.value;
+        updateNutrition();
+    }
+    else if(this.value < 1){
+        this.value = 1;
+        serving = 1;
+        updateNutrition();
+    }
+    else if(this.value > 20){
+        this.value = 20;
+        serving = 20;
+        updateNutrition();
+    }
+    else{
+        serving = this.value;
+        updateNutrition();
+    }
+});
