@@ -146,7 +146,7 @@ $("#save-review").click(function(event){
     console.log("saving");
 
     if (userStorage.cookingHistory.length == 0){
-        userStorage.cookingHistory.unshift(history);
+        userStorage.cookingHistory[0] = history;
     }
     else {
         var index = -1;
@@ -158,9 +158,13 @@ $("#save-review").click(function(event){
         }
         if(index != -1){
             var commentNew =  history.comment[0];
+            console.log(userStorage.cookingHistory[index].comment);
             userStorage.cookingHistory[index].comment.unshift(commentNew);
             userStorage.serving = history.serving;
-            var temp = userStorage.cookingHistory.splice(index,1);
+            var temp = userStorage.cookingHistory.splice(index,1)[0];
+            console.log("removed", temp);
+            console.log("removed", userStorage.cookingHistory);
+
             userStorage.cookingHistory.unshift(temp);
             console.log(userStorage);
         }
@@ -207,3 +211,147 @@ function reset(){
 
 // Viewing saved history
 
+function showSavedForLater(){
+    counterRecipe = 0;
+    recipeList.innerHTML = "";
+    list = userStorage.savedHistory;
+    while(counterRecipe < list.length){
+        
+        var row = document.createElement("div");
+        row.classList.add("row");
+        var colImg = document.createElement("div");
+        colImg.classList.add("six", "wide", "column");
+        var thumbnail = document.createElement("img");
+        
+        thumbnail.setAttribute("alt",list[counterRecipe].name);
+        thumbnail.setAttribute("src",list[counterRecipe].url);
+        colImg.appendChild(thumbnail);
+
+        var colTxt = document.createElement("div");
+        colTxt.classList.add("ten", "wide", "column");
+        var cardBody = document.createElement("h4");
+
+        var cardTitle = document.createElement("h2");
+        cardTitle.classList.add("card-title");
+        cardTitle.textContent = list[counterRecipe].name;
+
+        var cardText = document.createElement("p");
+        cardText.classList.add("card-text");
+        cardText.textContent = "Nutrition Preview";
+
+        // This is needed - just comment out to not use up the API
+        // getNutritionPreview(list[i].strMeal,cardText);
+        cardBody.appendChild(cardTitle);
+        cardBody.appendChild(cardText);
+
+        colTxt.appendChild(cardBody);
+
+        row.appendChild(colImg);
+        row.appendChild(colTxt);
+
+        // card.appendChild(row);
+
+        row.setAttribute("data-meal",list[counterRecipe].name);
+        // getRecipe(list[i].strMeal);
+        
+        row.addEventListener("click",function(event){
+            // console.log(this.getAttribute("data-meal"));
+            showRecipe(this.getAttribute("data-meal"));
+        });
+
+        recipeList.appendChild(row);
+        counterRecipe++;
+    }
+
+    moreBtn.classList.add("hide");
+    //Changed the order *****
+    categorySelectionEl.classList.add("hide");
+    categoryEl.classList.remove("hide");
+    
+}
+// view cooking history
+
+function loadCookHistory(){
+    counterRecipe = 0;
+    recipeList.innerHTML = "";
+    list = userStorage.cookingHistory;
+    console.log(userStorage.cookingHistory)
+
+    while(counterRecipe < list.length){
+        
+        console.log(list[counterRecipe].url)
+
+        var row = document.createElement("div");
+        row.classList.add("row");
+        var colImg = document.createElement("div");
+        colImg.classList.add("six", "wide", "column");
+        var thumbnail = document.createElement("img");
+        thumbnail.setAttribute("alt",list[counterRecipe].name);
+        thumbnail.setAttribute("src",list[counterRecipe].url);
+        colImg.appendChild(thumbnail);
+
+        var colTxt = document.createElement("div");
+        colTxt.classList.add("ten", "wide", "column");
+        var cardBody = document.createElement("h4");
+
+        var cardTitle = document.createElement("h2");
+        cardTitle.classList.add("card-title");
+        cardTitle.textContent = list[counterRecipe].name;
+
+        var cardText = document.createElement("p");
+        cardText.classList.add("card-text");
+        cardText.textContent = "Notes";
+        var comments = list[counterRecipe].comment;
+        console.log(comments.length)
+        for(var i = 0; i < comments.length; i++){
+            var dateText = document.createElement("h5");
+            var ratingText = document.createElement("p");
+            var notesText = document.createElement("p");
+
+            dateText.textContent = comments[i].date;
+            ratingText.textContent = "You gave it "+ comments[i].rating + " stars!";
+            notesText.textContent = "Notes:\n" + comments[i].notes;
+            cardText.appendChild(dateText);
+            cardText.appendChild(ratingText);
+            cardText.appendChild(notesText);
+        } 
+
+        // This is needed - just comment out to not use up the API
+        // getNutritionPreview(list[i].strMeal,cardText);
+        cardBody.appendChild(cardTitle);
+        cardBody.appendChild(cardText);
+
+        colTxt.appendChild(cardBody);
+
+        row.appendChild(colImg);
+        row.appendChild(colTxt);
+
+        // card.appendChild(row);
+
+        row.setAttribute("data-meal",list[counterRecipe].name);
+        // getRecipe(list[i].strMeal);
+        
+        row.addEventListener("click",function(event){
+            showRecipe(this.getAttribute("data-meal"));
+        });
+
+        recipeList.appendChild(row);
+        counterRecipe++;
+    }
+    
+    moreBtn.classList.add("hide");
+    //Changed the order ****
+    categorySelectionEl.classList.add("hide");
+    categoryEl.classList.remove("hide");
+    
+}
+
+var savedHistoryEl = document.getElementById("saved-history");
+
+savedHistoryEl.addEventListener("click",showSavedForLater);
+
+// Viewing cooking history
+
+var cookingHistoryEl = document.getElementById("cooking-history");
+
+cookingHistoryEl.addEventListener("click",loadCookHistory);

@@ -513,8 +513,11 @@ function showRecipe(mealName){
                 }
             }
 
-            //ADDED PARTS
+            //ADDED PARTS ******************** 20201114
+                
             recipeEl.classList.remove("hide");
+            location.href = "#";
+            location.href = "#recipe";
             categoryEl.classList.add("hide");
         })
         .catch(function(err){
@@ -599,6 +602,8 @@ saveBtn.addEventListener("click",function(){
     
 
     recipeEl.classList.add("hide");
+    location.href = "#";
+    location.href = "#category";
     categoryEl.classList.remove("hide");
 
 });
