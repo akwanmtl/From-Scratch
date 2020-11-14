@@ -597,10 +597,10 @@ saveBtn.addEventListener("click",function(){
 
     localStorage.setItem(user,JSON.stringify(userStorage));
     
-    console.log("saving");
-    console.log(interested);
-    // console.log(recipeMeal);
-    // console.log(nutrientsObj);
+
+    recipeEl.classList.add("hide");
+    categoryEl.classList.remove("hide");
+
 });
 
 

@@ -203,3 +203,7 @@ function reset(){
     $(".rating-star").removeClass("checked");
 
 }
+
+
+// Viewing saved history
+
