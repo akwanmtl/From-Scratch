@@ -65,3 +65,9 @@ input[type="checkbox"]{
     display: inline;
 
 }
+
+/*****/
+.ui.tiny.modal {
+    /* margin-left: 300px; */
+    left:2.5% !important;
+}
