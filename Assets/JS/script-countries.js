@@ -568,8 +568,39 @@ differentRecipeBtn.addEventListener("click",function(){
 
 saveBtn.addEventListener("click",function(){
     console.log("saving...");
-    console.log(recipeMeal);
-    console.log(nutrientsObj);
+
+    var interested = {
+        name: recipeMeal,
+        url: recipeUrl,
+        ingredients: recipeIngredients,
+        instructions: recipeInstructions,
+        nutrition: nutrientsObj,
+        date: moment().format("YYYY-MM-DD"),
+        serving: serving
+    }
+    if (userStorage.savedHistory.length == 0){
+        userStorage.savedHistory.unshift(interested);
+    }
+    else {
+        var index = -1;
+        for(var i = 0; i < userStorage.savedHistory.length; i++){
+            if(userStorage.savedHistory[i].name == recipeMeal){
+                index = i;
+                break;
+            }
+        }
+        if(index != -1){
+            userStorage.savedHistory.splice(index,1);
+        }
+        userStorage.savedHistory.unshift(interested);
+    }
+
+    localStorage.setItem(user,JSON.stringify(userStorage));
+    
+    console.log("saving");
+    console.log(interested);
+    // console.log(recipeMeal);
+    // console.log(nutrientsObj);
 });
 
 

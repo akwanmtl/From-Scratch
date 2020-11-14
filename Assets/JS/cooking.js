@@ -136,17 +136,70 @@ $("#save-review").click(function(event){
         ingredients: recipeIngredients,
         instructions: recipeInstructions,
         nutrition: nutrientsObj,
-        rating: ratingValue,
-        notes: $("#notes").val(),
-        date: moment().format("YYYY-MM-DD"),
+        comment: [{
+            rating: ratingValue,
+            notes: $("#notes").val(),
+            date: moment().format("YYYY-MM-DD")
+        }],
         serving: serving
     }
     console.log("saving");
-    console.log(history);
+
+    if (userStorage.cookingHistory.length == 0){
+        userStorage.cookingHistory.unshift(history);
+    }
+    else {
+        var index = -1;
+        for(var i = 0; i < userStorage.cookingHistory.length; i++){
+            if(userStorage.cookingHistory[i].name == recipeMeal){
+                index = i;
+                break;
+            }
+        }
+        if(index != -1){
+            var commentNew =  history.comment[0];
+            userStorage.cookingHistory[index].comment.unshift(commentNew);
+            userStorage.serving = history.serving;
+            var temp = userStorage.cookingHistory.splice(index,1);
+            userStorage.cookingHistory.unshift(temp);
+            console.log(userStorage);
+        }
+        else{
+            userStorage.cookingHistory.unshift(history);
+        }
+    }
+    // check if it is in the saved history
+    if (userStorage.savedHistory.length != 0){
+        for(var i = 0; i < userStorage.savedHistory.length; i++){
+            if(userStorage.savedHistory[i].name == recipeMeal){
+                userStorage.savedHistory.splice(i,1);
+                break;
+            }
+        }
+    }
+    
+    localStorage.setItem(user,JSON.stringify(userStorage));
     $("#review-modal").modal("hide");
 
-    
+    reset();
+
     getCookingEl.classList.add("hide");
     categorySelectionEl.classList.remove("hide");
 
 });
+
+// resets global variables
+function reset(){
+    recipeMeal = "";
+    recipeIngredients = "";
+    recipeInstructions = ""; 
+    serving = 4;
+    recipeUrl = "";
+    recipeIngredients = [];
+    recipeInstructions = [];
+    nutrientsObj = {};
+    ratingValue = 0;
+    $("#notes").val("");
+    $(".rating-star").removeClass("checked");
+
+}
