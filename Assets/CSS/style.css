@@ -30,6 +30,24 @@ li{
     list-style-position: inside;
 }
 
+/*NEEDED*/
 .strike{
     text-decoration: line-through;
+}
+
+.ui.fullscreen.modal {
+    /* margin-left: 300px; */
+    left:2.5% !important;
+}
+
+.fa-star {
+    font-size: 24px;
+}
+
+.fa-star:hover{
+    cursor: pointer;
+}
+
+.checked {
+    color: orange;
 }

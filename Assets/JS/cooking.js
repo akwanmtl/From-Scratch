@@ -6,6 +6,7 @@ var steps = document.getElementById("steps");
 
 var checkboxIngredients = document.getElementsByClassName("ingredients-box");
 
+
 // var recipeMeal;
 // var recipeIngredients;
 // var recipeInstructions; 
@@ -77,6 +78,7 @@ function loadInstructions(){
             }
             else{
                 console.log("done");//modal?
+                $("#review-modal").modal("show");
             }
         });
     }
@@ -96,3 +98,45 @@ cookBtn.addEventListener("click",function(){
 //         }
 //     });
 // });
+
+
+var ratingValue = 0;
+$(".rating-star").click(function(){
+    console.log($(this).attr("data-star"))
+    if(ratingValue == $(this).attr("data-star")){
+        $(".rating-star").removeClass("checked");
+        ratingValue = 0;
+    }
+    else{
+        ratingValue = $(this).attr("data-star");
+        for(var i = 1; i <= 5; i++){
+            if(i <= ratingValue){
+                $("#star-"+i).addClass("checked");
+            }
+            else{
+                $("#star-"+i).removeClass("checked");
+            }
+        }
+    }
+});
+  
+$("#save-review").click(function(event){
+    event.preventDefault();
+    var history = {
+        name: recipeMeal,
+        url: recipeUrl,
+        ingredients: recipeIngredients,
+        instructions: recipeInstructions,
+        nutrition: nutrientsObj,
+        rating: ratingValue,
+        notes: $("#notes").val()
+    }
+    console.log("saving");
+    console.log(history);
+    $("#review-modal").modal("hide");
+
+    
+    getCookingEl.classList.add("hide");
+    categorySelectionEl.classList.remove("hide");
+
+});
