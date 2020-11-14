@@ -11,6 +11,8 @@ var checkboxIngredients = document.getElementsByClassName("ingredients-box");
 // var recipeIngredients;
 // var recipeInstructions; 
 
+var modalOpen = false;
+
 function loadCook (){
     var imageThumbnail = document.createElement("img");
     imageThumbnail.setAttribute("src",recipeUrl);
@@ -94,6 +96,20 @@ function loadInstructions(){
             else{
                 console.log("done");//modal?
                 $("#review-modal").modal("show");
+
+                $("#review-modal").modal({
+                    onHide: function(){
+                        console.log(modalOpen);
+                        if(modalOpen){
+                            modalOpen = false;
+                            saveReview();
+                        }
+                    },
+                    onShow: function(){
+                        modalOpen = true;
+                        console.log(modalOpen);
+                    }
+                }).modal('show');
             }
         });
     }
@@ -128,8 +144,8 @@ $(".rating-star").click(function(){
     }
 });
   
-$("#save-review").click(function(event){
-    event.preventDefault();
+
+function saveReview(){
     var history = {
         name: recipeMeal,
         url: recipeUrl,
@@ -190,6 +206,11 @@ $("#save-review").click(function(event){
     getCookingEl.classList.add("hide");
     categorySelectionEl.classList.remove("hide");
 
+}
+
+$("#save-review").click(function(event){
+    event.preventDefault();
+    saveReview();
 });
 
 // resets global variables
