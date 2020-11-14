@@ -39,7 +39,7 @@
       </div>
 
 <!-- List of buttons to select country category -->
-    <div class="hide" id="categorySelection">
+    <div class="" id="categorySelection">
         <div class="ui raised padded container segment">
           <h1 class="ui header padded center aligned">What's on the menu today?</h1>
           <div class="ui divider"></div>
@@ -108,26 +108,52 @@
         </div>
 
         <div class="row">
-          <div id="backToCountries">
-            <button class="ui huge button red" >Choose a different cuisine</button>
-          </div>
-          <div id="moreRecipes">
-            <button class="ui huge button teal">Show me more</button>
-          </div> 
+  
+            <button class="ui huge button red" id="backToCountries">Choose a different cuisine</button>
+          <button class="ui huge button teal" id="moreRecipes">Show me more</button>
+         
         </div>
       </div> 
 </div> 
 
 
 <!-- When A recipe is Selected -->
-<div class="" id="recipe">
+<div class="hide" id="recipe">
   <div class="ui container">
     <div class="ui raised very padded segment">
       <h1 class="ui centered header" id="recipe-name">Selected Recipe</h1>
       <div class="ui divider"></div>
-      <div class="row">
-        <img src="hero_bg.jpg" class="ui centered huge image">
+      <div class="row" id="recipe-image">
+        <!-- <img src="hero_bg.jpg" class="ui centered huge image"> -->
       </div>
+      <div class="ui divider"></div>
+
+      <div class="row">
+        
+      <h2>Nutritional Information</h2>
+      <h3>Nutrition if serving for <input type="number" name="number-serving" id="number-serving" value=1 min="1" max="20" required></h3>
+      <p>
+        <ul id="nutrition-details"></ul>
+      </p>
+
+      <h3>Ingredients</h3>
+      <ul id="ingredients-list">
+        <!-- <li>Ingredient 1</li> -->
+      </ul>
+
+      <h3>Instructions</h3>
+      <ul id="instructions-list">
+        <!-- <li>Blender</li> -->
+      </ul>
+    
+      </div>
+
+      <div class="row">
+        <button class="ui button red" id="cook-it">Cook it!</button>
+        <button class="ui button" id="differentRecipe">Nope</button>
+        <button class="ui button" id="save">Save For Later</button>
+      </div>
+      
       
     </div>
   </div>

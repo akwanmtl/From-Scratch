@@ -353,7 +353,78 @@ backBtn.addEventListener("click",function(){
     categoryEl.classList.add("hide");
 })
 
+var getCookingEl = document.getElementById("getCooking");
+
+var recipeTitle = document.getElementById("recipe-name");
+var recipeImage = document.getElementById("recipe-image");
+var nutritionDetails = document.getElementById("nutrition-details");
+var ingredientList = document.getElementById("ingredients-list");
+var instructionList = document.getElementById("instructions-list");
+var numberPeople = document.getElementById("number-serving");
+
+var differentRecipeBtn = document.getElementById("differentRecipe");
+var saveBtn = document.getElementById("save");
+var cookBtn = document.getElementById("cook-it");
+
+var recipeMeal = "";
+var serving = 4;
+var previewNutrients = [
+    {
+        name:"calories",
+        unit:"",
+        dv: false
+    },
+    {
+        name:"totalFat",
+        unit:"g",
+        dv:65
+    },
+    {
+        name:"satFat",
+        unit:"g",
+        dv:20
+    },
+    {
+        name:"transFat",
+        unit:"g",
+        dv:false
+    },
+    {
+        name:"cholesterol",
+        unit:"mg",
+        dv:300
+    },
+    {
+        name:"sodium",
+        unit:"mg",
+        dv:2300
+    },
+    {
+        name:"carbs",
+        unit:"g",
+        dv:300
+    },
+    {
+        name:"fiber",
+        unit:"g",
+        dv:25
+    },
+    {
+        name:"sugar",
+        unit:"g",
+        dv: false
+    },
+    {
+        name:"protein",
+        unit:"g",
+        dv: false
+    }
+];
+
 function showRecipe(mealName){
+
+    recipeEl.classList.remove("hide");
+    categoryEl.classList.add("hide");
 
     console.log(mealName);
     recipeMeal = mealName;
@@ -380,7 +451,7 @@ function showRecipe(mealName){
             imageThumbnail.setAttribute("src",recipe.strMealThumb);
             imageThumbnail.setAttribute("alt",recipe.strMeal);
             // image classes
-            imageThumbnail.classList.add("col");
+            imageThumbnail.classList.add("ui","centered","large","image");
             recipeImage.innerHTML="";
             recipeImage.appendChild(imageThumbnail);
 
@@ -401,6 +472,18 @@ function showRecipe(mealName){
                 if(i > 20) break;
             }
 
+            instructionList.innerHTML = "";
+            var instructions = recipe["strInstructions"].split(".");
+            for(var i = 0; i < instructions.length; i++){
+                var instructionItem = document.createElement("li");
+                if(instructions[i].trim().length > 7){
+                    instructionItem.textContent = instructions[i].trim()+".";
+                    instructionList.appendChild(instructionItem);
+                }
+            }
+
+            console.log(instructionItem.textContent)
+
             // getNutrition(food).then(function(nutrients){ // for the api
                 var nutrients = nutritionSample.foods; //when not using api
                 //nutritional facts section
@@ -415,19 +498,10 @@ function showRecipe(mealName){
             // }); // for the api
 
             // showing instructions
-            instructionList.innerHTML = "";
-            var instructions = recipe["strInstructions"].split(".");
-            for(var i = 0; i < instructions.length; i++){
-                var instructionItem = document.createElement("li");
-                if(instructions[i].trim().length > 7){
-                    instructionItem.textContent = instructions[i].trim()+".";
-                    instructionList.appendChild(instructionItem);
-                }
-            }
+            
 
             //ADDED PARTS
-            recipeEl.classList.remove("hide");
-            categoryEl.classList.add("hide");
+            
         })
         .catch(function(err){
             console.log(err);
