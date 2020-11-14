@@ -11,7 +11,7 @@ var recipeList = document.getElementById("recipe-list"); //div that contains up 
 var moreBtn = document.getElementById("moreRecipes"); // button to show next 5 recipes
 var backBtn = document.getElementById("backToCountries");
 
-var countriesList = ["American","British","Canadian","Chinese","Dutch","Egyptian","French","Indian","Irish","Italian","Jamaican","Japanese","Kenyan","Malaysian","Mexican","Moroccan","Polish","Russian","Spanish","Thai","Tunisian","Turkish","Vietnamese"];
+var countriesList = ["American","British","Canadian","Chinese","Dutch","Egyptian","French","Indian","Irish","Italian","Jamaican","Japanese","Kenyan","Malaysian","Mexican","Moroccan","Polish","Russian","Spanish","Thai","Tunisian","Turkish","Vietnamese","Surpise Me!"];
 
 var list;
 var counterRecipe = 0;
@@ -39,7 +39,12 @@ function initializeCountries(){
 
 function getRecipes(country){
 
-    var requestUrl = "https://www.themealdb.com/api/json/v1/1/filter.php?a="+country;
+    if(country === "Surpise Me!"){
+        var requestUrl = "https://www.themealdb.com/api/json/v1/1/random.php"
+    }
+    else{
+        var requestUrl = "https://www.themealdb.com/api/json/v1/1/filter.php?a="+country;
+    }
         fetch(requestUrl)
             .then(function(response){
                 if(!response.ok){
@@ -222,7 +227,10 @@ function getRecipe(meal){
             var food = "";
             
             var i = 1;
-            while(recipe["strMeasure"+i].trim()!==""){
+            // MADE CHANGES******
+            while(recipe["strIngredient"+i]!=null){
+                if(recipe["strIngredient"+i].trim()==="") break;
+
                 var ingredientItem = document.createElement("li"); 
                 var ingredient = recipe["strIngredient"+i];
                 var amount = recipe["strMeasure"+i];
@@ -240,13 +248,6 @@ function getRecipe(meal){
         });
 }
 
-
-
-// function showRecipe(meal){
-//     recipeEl.classList.remove("hide");
-//     categoryEl.classList.add("hide");
-//     console.log(meal)
-// };
 
 function getNutrition (ingredients){
         
@@ -468,9 +469,12 @@ function showRecipe(mealName){
             var food = "";
             ingredientList.innerHTML = "";
             var i = 1;
-            console.log("strMeasure"+i)
-            while(recipe["strMeasure"+i].trim()!==""){
-                
+            console.log("strMeasure"+i);
+
+            // MADE CHANGES******
+            while(recipe["strIngredient"+i]!=null){
+                if(recipe["strIngredient"+i].trim()==="") break;
+               
                 var ingredientItem = document.createElement("li"); 
                 var ingredient = recipe["strIngredient"+i];
                 var amount = recipe["strMeasure"+i];
