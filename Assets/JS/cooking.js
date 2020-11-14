@@ -129,7 +129,8 @@ $("#save-review").click(function(event){
         instructions: recipeInstructions,
         nutrition: nutrientsObj,
         rating: ratingValue,
-        notes: $("#notes").val()
+        notes: $("#notes").val(),
+        date: moment().format("YYYY-MM-DD")
     }
     console.log("saving");
     console.log(history);
