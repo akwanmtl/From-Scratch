@@ -359,11 +359,12 @@ function showSavedForLater(){
 
     buttonsRecipes.classList.add("hide");/********NEW LINE******/
     buttonsHistory.classList.remove("hide");/********NEW LINE******/
-    homeEl.classList.add("hide");/********NEW LINE******/
-    recipeEl.classList.add("hide");/*********NEW LINE*********/
-    getCookingEl.classList.add("hide");/*********NEW LINE*********/
-    categorySelectionEl.classList.add("hide");
-    categoryEl.classList.remove("hide");
+    // homeEl.classList.add("hide");/********NEW LINE******/
+    // recipeEl.classList.add("hide");/*********NEW LINE*********/
+    // getCookingEl.classList.add("hide");/*********NEW LINE*********/
+    // categorySelectionEl.classList.add("hide");
+    // categoryEl.classList.remove("hide");
+    toPage(categoryEl);
     
 }
 
@@ -438,12 +439,12 @@ function loadCookHistory(){
     
     buttonsRecipes.classList.add("hide");/********NEW LINE******/
     buttonsHistory.classList.remove("hide");/********NEW LINE******/
-    homeEl.classList.add("hide");/********NEW LINE******/
-    recipeEl.classList.add("hide");/*********NEW LINE*********/
-    getCookingEl.classList.add("hide");/*********NEW LINE*********/
-    categorySelectionEl.classList.add("hide");
-    categoryEl.classList.remove("hide");
-    
+    // homeEl.classList.add("hide");/********NEW LINE******/
+    // recipeEl.classList.add("hide");/*********NEW LINE*********/
+    // getCookingEl.classList.add("hide");/*********NEW LINE*********/
+    // categorySelectionEl.classList.add("hide");
+    // categoryEl.classList.remove("hide");
+    toPage(categoryEl);
 }
 
 function createStars(num){
@@ -482,33 +483,50 @@ var navHome = document.getElementById("go-to-home");
 var navSaved = document.getElementById("go-to-saved-history");
 var navHistory = document.getElementById("go-to-cooking-history");
 
+var accoutSettings = document.getElementById("account-settings");
+var profileEl = document.getElementById("profile");
 
 var cancelCook = document.getElementById("cancelCook");
 
 startCook.addEventListener("click",function(){
     
-    homeEl.classList.add("hide");
-    categorySelectionEl.classList.remove("hide");
+    toPage(categorySelectionEl);
+    // homeEl.classList.add("hide");
+    // categorySelectionEl.classList.remove("hide");
 })
 
 backToHome.addEventListener("click",function(){
-    categoryEl.classList.add("hide");
-    homeEl.classList.remove("hide");
+    toPage(homeEl);
 });
 
 navSaved.addEventListener("click",showSavedForLater);
 
 navHistory.addEventListener("click",loadCookHistory);
 
-navHome.addEventListener("click",toHome);
+navHome.addEventListener("click",function(){
+    toPage(homeEl);
+});
 
-cancelCook.addEventListener("click",toHome);
+cancelCook.addEventListener("click",function(){
+    toPage(homeEl);
+});
 
-function toHome (){
+// function toHome (){
+//     categoryEl.classList.add("hide");
+//     categorySelectionEl.classList.add("hide");
+//     recipeEl.classList.add("hide");
+//     getCookingEl.classList.add("hide");/*********NEW LINE*********/
+//     homeEl.classList.remove("hide");
+
+// }
+
+function toPage (page){
     categoryEl.classList.add("hide");
     categorySelectionEl.classList.add("hide");
     recipeEl.classList.add("hide");
     getCookingEl.classList.add("hide");/*********NEW LINE*********/
-    homeEl.classList.remove("hide");
+    homeEl.classList.add("hide");
+    profileEl.classList.add("hide");
 
+    page.classList.remove("hide");
 }

@@ -2,7 +2,7 @@
 var user; 
 var userStorage;
 
-signInInitialize("username", "password");
+// signInInitialize("username", "password");
 
 // function that initializes a new user
 function signInInitialize(username, password){

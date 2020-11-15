@@ -24,14 +24,19 @@ var rememberSignup = document.getElementById("remember-signup");
 var errorSignup = document.getElementById("error-signup");
 var cancelSignup = document.getElementById("signup-cancel");
 
+// Decalring the current user div
+var currentUser = document.getElementById("current-user");
+
 var logout = document.getElementById("logout");
 
 // Checks to see if the user wanted to be remembered. If yes, goes straight to the home page
 if(localStorage.getItem("login")) {
     if(localStorage.getItem("login")!==""){
+        
+        loginEl.classList.add("hide");
         loadUser(localStorage.getItem("login"));
 
-        loginEl.classList.add("hide");
+        
         homeEl.classList.remove("hide");
         navbarEl.classList.remove("hide");
     }
@@ -39,6 +44,7 @@ if(localStorage.getItem("login")) {
 
 function loadUser(username){
     user = username;
+    currentUser.textContent = username;
     userStorage = JSON.parse(localStorage.getItem(username));   
     getStats();
 }
@@ -177,6 +183,7 @@ submitSignup.addEventListener("submit",function(event){
         }
         //sets up the new user
         signInInitialize(usernameSignup.value, passwordSignup.value);
+        currentUser.textContent = usernameSignup.value;
         getStats();
         
         //hides the modal
@@ -199,12 +206,3 @@ cancelSignup.addEventListener("click",function(){
 })
 
 
-logout.addEventListener("click",function(){
-    localStorage.setItem("login","");
-    
-    homeEl.classList.add("hide");
-    navbarEl.classList.add("hide");
-    // will need to hide everything else!!!!
-    
-    loginEl.classList.remove("hide");
-})
