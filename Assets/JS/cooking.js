@@ -316,7 +316,10 @@ function showSavedForLater(){
         counterRecipe++;
     }
 
-    moreBtn.classList.add("hide");
+    buttonsRecipes.classList.add("hide");/********NEW LINE******/
+    buttonsHistory.classList.remove("hide");/********NEW LINE******/
+    homeEl.classList.add("hide");/********NEW LINE******/
+    recipeEl.classList.add("hide");/*********NEW LINE*********/
     categorySelectionEl.classList.add("hide");
     categoryEl.classList.remove("hide");
     
@@ -389,7 +392,10 @@ function loadCookHistory(){
         counterRecipe++;
     }
     
-    moreBtn.classList.add("hide");
+    buttonsRecipes.classList.add("hide");/********NEW LINE******/
+    buttonsHistory.classList.remove("hide");/********NEW LINE******/
+    homeEl.classList.add("hide");/********NEW LINE******/
+    recipeEl.classList.add("hide");/*********NEW LINE*********/
     categorySelectionEl.classList.add("hide");
     categoryEl.classList.remove("hide");
     
@@ -407,3 +413,35 @@ savedHistoryEl.addEventListener("click",showSavedForLater);
 
 // When you click on the show cooking button
 cookingHistoryEl.addEventListener("click",loadCookHistory);
+
+/******New part****/
+var startCook = document.getElementById("start-cooking");
+// var buttonsRecipes = document.getElementById("buttonsRecipes");
+// var buttonsHistory = document.getElementById("buttonsHistory");
+var backToHome = document.getElementById("backToHome");
+
+var navHome = document.getElementById("go-to-home");
+var navSaved = document.getElementById("go-to-saved-history");
+var navHistory = document.getElementById("go-to-cooking-history");
+
+startCook.addEventListener("click",function(){
+    
+    homeEl.classList.add("hide");
+    categorySelectionEl.classList.remove("hide");
+})
+
+backToHome.addEventListener("click",function(){
+    categoryEl.classList.add("hide");
+    homeEl.classList.remove("hide");
+});
+
+navSaved.addEventListener("click",showSavedForLater);
+
+navHistory.addEventListener("click",loadCookHistory);
+
+navHome.addEventListener("click",function(){
+    categoryEl.classList.add("hide");
+    categorySelectionEl.classList.add("hide");
+    recipeEl.classList.add("hide");
+    homeEl.classList.remove("hide");
+});

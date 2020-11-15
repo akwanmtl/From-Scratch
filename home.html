@@ -48,142 +48,254 @@
           <img src="hero_bg.jpg" class="">
         </div>
         
-
+        
         <h1 class="ui header center aligned huge">Your Stats</h1>
-        <p>You've cooked <span id="overall"></span> times overall.</p>
-        <p>You've cooked <span id="monthly"></span> times this month.</p>
+        <div class="ui segment">
+          <div class="ui two column center aligned grid">
+            <div class="column">
+              <p>You've cooked</p>
+              <h2 id="overall"></h2>
+              <p>times so far</p>
+              <p></p>
+            </div>
+            <div class="column">
+              <p>You've cooked</p>
+              <h2 id="monthly"></h2>
+              <p>times this month</p>
+              <p></p>
+            </div>
+          </div>
+          <div class="ui vertical divider">AND</div>
+        </div>
+        
+        <!-- <p>You've cooked <span id="overall"></span> times overall.</p>
+        <p>You've cooked <span id="monthly"></span> times this month.</p> -->
         <div class="ui divider"></div>
-        <button class="ui red button huge" style="margin-top:1rem">Let's Cook</button>
-        <button class="ui button huge">Saved for Later</button>
-        <button class="ui button huge">Cooking History</button>
+        <button class="ui red button huge" style="margin-top:1rem" id="start-cooking">Let's Cook</button>
+        <button class="ui button huge" id="saved-history">Saved for Later</button>
+        <button class="ui button huge" id="cooking-history">Cooking History</button>
       </div>
 
     </div>  
   </div>
 
 <!-- Login page -->
-<div id="login" class="">
-  <div class="ui raised very padded text container segment">
-    <div class="column twelve">
-      <div class="row">
-        <img src="hero_bg.jpg" class="">
-      </div>
-    </div>
-
-
-    <div>
-      <h1 class="ui header center aligned huge">Let's Get Cookin'</h1>
-      <p>Do you want to be a better cook? Do you want eat healthy with homeade meals? Do you want to save money from eating out?</p>
-      <p>This website will allow you to keep a recipe box and keep track your cooking skills. Login or signup to get cookin'</p>
-
-
-      <div class="ui divider"></div>
-        <div class="ui center aligned grid">
-          <button class="ui red button huge" style="margin-top:1rem" id="login-button">Login</button>
-          <button class="ui button huge" style="margin-top:1rem" id="sign-up"><i class="signup icon"></i>Sign up</button>
+  <div id="login" class="">
+    <div class="ui raised very padded text container segment">
+      <div class="column twelve">
+        <div class="row">
+          <img src="hero_bg.jpg" class="">
         </div>
       </div>
 
-  </div>  
+      <div>
+        <h1 class="ui header center aligned huge">Let's Get Cookin'</h1>
+        <p>Do you want to be a better cook? Do you want eat healthy with homeade meals? Do you want to save money from eating out?</p>
+        <p>This website will allow you to keep a recipe box and keep track your cooking skills. Login or signup to get cookin'</p>
 
-</div>
+        <div class="ui divider"></div>
+          <div class="ui center aligned grid">
+            <button class="ui red button huge" style="margin-top:1rem" id="login-button">Login</button>
+            <button class="ui button huge" style="margin-top:1rem" id="sign-up"><i class="signup icon"></i>Sign up</button>
+          </div>
+        </div>
+
+    </div>  
+
+  </div>
 
 <!--Login modal-->
-<div class="ui fullscreen modal transition" id="login-modal">
-  <i class="close icon"></i>
-  <div class="header">
-      Login
-  </div>
-  <div class="content">
-      <form class="ui form" id="login-form">
-        
-        <div class="required field">
-          <label>Username</label>
-          <div class="ui left icon input">
-            <input type="text" placeholder="Username" name="username-login" id="username-login">
-            <i class="user icon"></i>
+  <div class="ui fullscreen modal transition" id="login-modal">
+    <i class="close icon"></i>
+    <div class="header">
+        Login
+    </div>
+    <div class="content">
+        <form class="ui form" id="login-form">
+          
+          <div class="required field">
+            <label>Username</label>
+            <div class="ui left icon input">
+              <input type="text" placeholder="Username" name="username-login" id="username-login">
+              <i class="user icon"></i>
+            </div>
           </div>
-        </div>
 
-        <div class="required field">
-          <label>Password</label>
-          <div class="ui left icon input">
-            <input type="password" name="password-login" id="password-login">
-            <i class="lock icon"></i>
+          <div class="required field">
+            <label>Password</label>
+            <div class="ui left icon input">
+              <input type="password" name="password-login" id="password-login">
+              <i class="lock icon"></i>
+            </div>
           </div>
-        </div>
-        <div class="field">
-          <div class="ui checkbox">
-            <input type="checkbox" name="remember" id="remember-login">
-            <label>Remember me</label>
+          <div class="field">
+            <div class="ui checkbox">
+              <input type="checkbox" name="remember" id="remember-login">
+              <label>Remember me</label>
+            </div>
           </div>
-        </div>
-        <div class="ui error message" id="error-login"></div>
-        <div class="ui button" id="login-cancel">Cancel</div>
-        <button class="ui green button" type="submit" id="login-button">Login</button>
-      </form>
+          <div class="ui error message" id="error-login"></div>
+          <div class="ui button" id="login-cancel">Cancel</div>
+          <button class="ui green button" type="submit" id="login-button">Login</button>
+        </form>
+        
+    </div>
       
   </div>
-    
-</div>
 
-<!--Signup modal-->
-<div class="ui fullscreen modal transition" id="signup-modal">
-  <i class="close icon"></i>
-  <div class="header">
-      Login
-  </div>
-  <div class="content">
-      <form class="ui form" id="signup-form">
+  <!--Signup modal-->
+  <div class="ui fullscreen modal transition" id="signup-modal">
+    <i class="close icon"></i>
+    <div class="header">
+        Login
+    </div>
+    <div class="content">
+        <form class="ui form" id="signup-form">
+          
+          <div class="required field">
+            <label>Username</label>
+            <div class="ui left icon input">
+              <input type="text" placeholder="Username" name="username-signup" id="username-signup">
+              <i class="user icon"></i>
+            </div>
+          </div>
+
+          <div class="required field">
+            <label>Password</label>
+            <div class="ui left icon input">
+              <input type="password" name="password-signup" id="password-signup">
+              <i class="lock icon"></i>
+            </div>
+          </div>
+
+          <div class="required field">
+            <label>Confirm Password</label>
+            <div class="ui left icon input">
+              <input type="password" name="password-confirm-signup" id="password-confirm-signup">
+              <i class="lock icon"></i>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="ui checkbox">
+              <input type="checkbox" name="remember" id="remember-signup">
+              <label>Remember me</label>
+            </div>
+          </div>
+          <div class="ui error message" id="error-signup"></div>
+          <div class="ui button" id="signup-cancel">Cancel</div>
+          <button class="ui green button" type="submit" id="signup-button">Sign Up</button>
+        </form>
         
-        <div class="required field">
-          <label>Username</label>
-          <div class="ui left icon input">
-            <input type="text" placeholder="Username" name="username-signup" id="username-signup">
-            <i class="user icon"></i>
-          </div>
-        </div>
-
-        <div class="required field">
-          <label>Password</label>
-          <div class="ui left icon input">
-            <input type="password" name="password-signup" id="password-signup">
-            <i class="lock icon"></i>
-          </div>
-        </div>
-
-        <div class="required field">
-          <label>Confirm Password</label>
-          <div class="ui left icon input">
-            <input type="password" name="password-confirm-signup" id="password-confirm-signup">
-            <i class="lock icon"></i>
-          </div>
-        </div>
-
-        <div class="field">
-          <div class="ui checkbox">
-            <input type="checkbox" name="remember" id="remember-signup">
-            <label>Remember me</label>
-          </div>
-        </div>
-        <div class="ui error message" id="error-signup"></div>
-        <div class="ui button" id="signup-cancel">Cancel</div>
-        <button class="ui green button" type="submit" id="signup-button">Sign Up</button>
-      </form>
+    </div>
       
   </div>
+
+
+  <!-- List of buttons to select country category -->
+  <div class="hide" id="categorySelection">
+    <div class="ui raised padded container segment">
+      <h1 class="ui header padded center aligned">What's on the menu today?</h1>
+      <div class="ui divider"></div>
+      <div class="ui segment" id="countries-box"></div>
+    </div>
+  </div> 
+
+<!-- Recipes List Display Section -->
+<div class="hide" id="category">
+  <div class="ui container">
+      <div class="ui raised very padded segment">
+        <h1 class="ui header padded center aligned">Pick a recipe</h1>
+        <div class="ui divider"></div>
+        <div class="ui grid" id="recipe-list"></div>
+
+      </div>
+
+      <div class="row" id="buttonsRecipes">
+
+        <button class="ui huge button red" id="backToCountries">Choose a different cuisine</button>
+        <button class="ui huge button teal" id="moreRecipes">Show me more</button>
+       
+      </div>
+
+      <div class="row hide" id="buttonsHistory">
+
+        <button class="ui huge button red" id="backToHome">Return to homepage</button>
+       
+      </div>
+    </div> 
+</div> 
+
+
+<!-- When A recipe is Selected -->
+<div class="hide" id="recipe">
+  <div class="ui container">
+    <div class="ui raised very padded segment">
+      <h1 class="ui centered header" id="recipe-name">Selected Recipe</h1>
+      <div class="ui divider"></div>
+      <div class="row" id="recipe-image">
+      </div>
+      <div class="ui divider"></div>
+
+      <div class="row">
+        
+        <h2>Nutritional Information</h2>
+        <h3>Nutrition if serving for <input type="number" name="number-serving" id="number-serving" value=4 min="1" max="20" required></h3>
+        <p>
+          <ul id="nutrition-details"></ul>
+        </p>
+
+        <h3>Ingredients</h3>
+        <ul id="ingredients-list"></ul>
+
+        <h3>Instructions</h3>
+        <ul id="instructions-list"></ul>
     
+      </div>
+
+      <div class="row">
+        <button class="ui button red" id="cook-it">Cook it!</button>
+        <button class="ui button" id="differentRecipe">Nope</button>
+        <button class="ui button" id="save">Save For Later</button>
+      </div>
+      
+      
+    </div>
+  </div>
 </div>
 
 
+ <!-- Lets get cooking section -->
+ <div class="hide" id="getCooking">
+  <div class="ui container">
+    <div class="ui raised very padded segment">
+      <!-- It is not suposed to have a title here, it is just there so you can id what are you looking at -->
+      
+      <h1 class="ui centered header">Let's get Cookin'</h1>
 
+      <!-- Image of the finished recipie -->
+      <!-- <img src="./Assets/Images/hero_bg.jpg" class="card-img-top" alt="..."> -->
+      <div id=recipe-image-cooking></div>
+      <!-- Recipie content -->
+      <div class="card-body">
+          <h2 class="card-title" id="recipe-name-cooking"></h2>
+         <!-- <p class="card-text">This recipie is for 4 people.</p> -->
+          <h6 id="procedure">Pull out the ingredients</h6>
+          <div id="steps">
+          </div>
 
+          <!-- Some extra text -->
+          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+      </div>
 
+      <!-- Buttons in the secction, ¡they dont work jet! -->
+      <button class="btn btn-info mb-5 ">Nevermind</button><br>
 
+    </div>
 
+  </div>
 
-
-
+</section>
 
  
 
@@ -200,10 +312,10 @@
 
     <script src="./Assets/JS/storage.js"></script>
     <script src="./Assets/JS/login.js"></script>
-    <!-- <script src="./Assets/JS/script.js"></script>
+    <!-- <script src="./Assets/JS/script.js"></script>-->
     <script src="./Assets/JS/nutritionSample.js"></script>
     <script src="./Assets/JS/script-countries.js"></script>
-    <script src="./Assets/JS/cooking.js"></script> -->
+    <script src="./Assets/JS/cooking.js"></script> 
 
     <!-- "script zone end" -->
 </body>

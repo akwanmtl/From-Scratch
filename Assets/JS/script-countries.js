@@ -11,6 +11,10 @@ var recipeList = document.getElementById("recipe-list"); //div that contains up 
 var moreBtn = document.getElementById("moreRecipes"); // button to show next 5 recipes
 var backBtn = document.getElementById("backToCountries");
 
+var buttonsRecipes = document.getElementById("buttonsRecipes");
+var buttonsHistory = document.getElementById("buttonsHistory");
+
+
 var countriesList = ["American","British","Canadian","Chinese","Dutch","Egyptian","French","Indian","Irish","Italian","Jamaican","Japanese","Kenyan","Malaysian","Mexican","Moroccan","Polish","Russian","Spanish","Thai","Tunisian","Turkish","Vietnamese","Surpise Me!"];
 
 var list;
@@ -23,10 +27,10 @@ convertNutrition(nutritionSample.foods);
 
 
 function initializeCountries(){
-   
+
     for(var i = 0; i < countriesList.length; i++){
         var countryBtn = document.createElement("button"); 
-        countryBtn.classList.add("btn", "btn-info","mb-2", "ml-2"); //TO CHANGE/ADD CLASS TO MAKE IT PRETTY
+        countryBtn.classList.add("ui", "button", "large"); 
         countryBtn.setAttribute("data-country",countriesList[i]);
         countryBtn.textContent = countriesList[i];
         countryBtn.addEventListener("click", function(){
@@ -34,6 +38,7 @@ function initializeCountries(){
             getRecipes(this.getAttribute("data-country"));
         });
         countriesBox.appendChild(countryBtn);
+        
     }
 }
 
@@ -69,8 +74,6 @@ function getRecipes(country){
                 console.log(err)
             });
 
-            
-    
 
 }
 
@@ -90,23 +93,19 @@ function createRecipeCard(){
     console.log(counterRecipe);
     var start = counterRecipe;
     while(counterRecipe < Math.min(list.length,5+start)){
-        var card = document.createElement("div");
-        card.classList.add("card","m-3");
         var row = document.createElement("div");
-        row.classList.add("row","no-gutters");
+        row.classList.add("row");
         var colImg = document.createElement("div");
-        colImg.classList.add("col-md-4");
+        colImg.classList.add("six", "wide", "column");
         var thumbnail = document.createElement("img");
-        thumbnail.classList.add("card-img");
         thumbnail.setAttribute("alt",list[counterRecipe].strMeal);
         thumbnail.setAttribute("src",list[counterRecipe].strMealThumb);
         colImg.appendChild(thumbnail);
 
         var colTxt = document.createElement("div");
-        colTxt.classList.add("col-md-8");
-        var cardBody = document.createElement("div");
-        cardBody.classList.add("card-body");
-        var cardTitle = document.createElement("h5");
+        colTxt.classList.add("ten", "wide", "column");
+        var cardBody = document.createElement("h4");
+        var cardTitle = document.createElement("h2");
         cardTitle.classList.add("card-title");
         cardTitle.textContent = list[counterRecipe].strMeal;
 
@@ -114,7 +113,7 @@ function createRecipeCard(){
         cardText.classList.add("card-text");
         cardText.textContent = "Nutrition Preview"
         // This is needed - just comment out to not use up the API
-        // getNutritionPreview(list[i].strMeal,cardText);
+        // getNutritionPreview(list[counterRecipe].strMeal,cardText);
         cardBody.appendChild(cardTitle);
         cardBody.appendChild(cardText);
 
@@ -123,24 +122,26 @@ function createRecipeCard(){
         row.appendChild(colImg);
         row.appendChild(colTxt);
 
-        card.appendChild(row);
-
-        card.setAttribute("data-meal",list[counterRecipe].strMeal);
+        row.setAttribute("data-meal",list[counterRecipe].strMeal);
         // getRecipe(list[i].strMeal);
         
-        card.addEventListener("click",function(event){
+        row.addEventListener("click",function(event){
             // console.log(this.getAttribute("data-meal"));
             showRecipe(this.getAttribute("data-meal"));
         });
 
-        recipeList.appendChild(card);
+        recipeList.appendChild(row);
         counterRecipe++;
     }
+
+    /*******CHANGED PART*************/
+    buttonsHistory.classList.add("hide");
+    buttonsRecipes.classList.remove("hide");
     if (counterRecipe < list.length - 1){
-        moreBtn.classList.remove("hide");
+        moreBtn.classList.remove("disabled");
     }
     else{
-        moreBtn.classList.add("hide");
+        moreBtn.classList.add("disabled");
     }
 }
 
@@ -459,7 +460,7 @@ function showRecipe(mealName){
             imageThumbnail.setAttribute("src",recipe.strMealThumb);
             imageThumbnail.setAttribute("alt",recipe.strMeal);
             // image classes
-            imageThumbnail.classList.add("col");
+            imageThumbnail.classList.add("ui","centered","large","image");
             recipeImage.innerHTML="";
             recipeImage.appendChild(imageThumbnail);
 

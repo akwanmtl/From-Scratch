@@ -53,8 +53,10 @@ function getStats(){
             numCooking++;
             console.log("hellow");
             var current = moment().format("YYYY-MM");
+            // var current = moment().format("YYYY-MM-DD");
             var day = cookingHistory[i].comment[j].date;
             if(current === day.slice(0,7)) thisMonth++;
+            // if(current === day) thisMonth++;
         }
     }
     document.getElementById("overall").textContent = numCooking;
