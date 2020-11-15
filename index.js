@@ -4,7 +4,8 @@ var recipeEl = document.querySelector("#recipe");
 
 var countriesBox = document.getElementById("countries-box");
 var recipeList = document.getElementById("recipe-list");
-var historyList = document.getElementById("history-list")
+var historyList = document.getElementById("history-list");
+var savedLaterList = document.getElementById("saved-later-list")
 
 var moreBtn = document.getElementById("moreRecipes");
 var backBtn = document.getElementById("backToCountries");
@@ -574,7 +575,7 @@ saveBtn.addEventListener("click",function(){
 //
 
 var cookingHistoryEl = document.getElementById("go-to-cooking-history");
-var savedHistoryEl = document.getElementById("go-to-saved-later");
+var savedLaterEl = document.getElementById("go-to-saved-later");
 
 
 var cookBtn = document.getElementById("cook-it");
@@ -767,6 +768,7 @@ $(".rating-star").click(function(){
 //
 
 var cookHistoryPage = document.querySelector("#cookedHistory")
+var savedLaterPage = document.querySelector("#savedLater")
 
 var user; 
 var userStorage;
@@ -865,6 +867,73 @@ function saveReview(){
 
 }
 
+function showSavedForLater(){
+
+    //display only Save for Later page
+    savedLaterPage.classList.remove("hide");
+
+    // hide everything else
+    categorySelectionEl.classList.add("hide");
+    cookHistoryPage.classList.add("hide");
+    categoryEl.classList.add("hide");
+
+    counterRecipe = 0;
+    recipeList.innerHTML = "";
+    list = userStorage.savedHistory;
+    while(counterRecipe < list.length){
+        
+        var row = document.createElement("div");
+        row.classList.add("row");
+        var colImg = document.createElement("div");
+        colImg.classList.add("six", "wide", "column");
+        var thumbnail = document.createElement("img");
+        
+        thumbnail.setAttribute("alt",list[counterRecipe].name);
+        thumbnail.setAttribute("src",list[counterRecipe].url);
+        colImg.appendChild(thumbnail);
+
+        var colTxt = document.createElement("div");
+        colTxt.classList.add("ten", "wide", "column");
+        var cardBody = document.createElement("h4");
+
+        var cardTitle = document.createElement("h2");
+        cardTitle.classList.add("card-title");
+        cardTitle.textContent = list[counterRecipe].name;
+
+        var cardText = document.createElement("p");
+        cardText.classList.add("card-text");
+        cardText.textContent = "Nutrition Preview";
+
+        // This is needed - just comment out to not use up the API
+        // getNutritionPreview(list[i].strMeal,cardText);
+        cardBody.appendChild(cardTitle);
+        cardBody.appendChild(cardText);
+
+        colTxt.appendChild(cardBody);
+
+        row.appendChild(colImg);
+        row.appendChild(colTxt);
+
+
+        row.setAttribute("data-meal",list[counterRecipe].name);
+        
+        row.addEventListener("click",function(event){
+            showRecipe(this.getAttribute("data-meal"));
+        });
+
+        savedLaterList.appendChild(row);
+        counterRecipe++;
+    }
+
+    buttonsRecipes.classList.add("hide");/********NEW LINE******/
+    buttonsHistory.classList.remove("hide");/********NEW LINE******/
+    homeEl.classList.add("hide");/********NEW LINE******/
+    recipeEl.classList.add("hide");/*********NEW LINE*********/
+    getCookingEl.classList.add("hide");/*********NEW LINE*********/
+    
+    
+}
+
 // when the user click on the save in the review modal 
 $("#save-review").click(function(event){
     event.preventDefault();
@@ -884,7 +953,13 @@ function loadCookHistory(){
     list = userStorage.cookingHistory;
     console.log(userStorage.cookingHistory)
 
-    cookHistoryPage.classList.remove("hide")
+    // display only Cook History
+    cookHistoryPage.classList.remove("hide");
+
+    // hide everything else
+    savedLaterPage.classList.add("hide");
+    categorySelectionEl.classList.add("hide");
+    categoryEl.classList.add("hide");
 
     while(counterRecipe < list.length){
         
@@ -953,4 +1028,55 @@ function loadCookHistory(){
     
 }
 
+
+
+
+// For when the "Save for Later" button clicked
+
+saveBtn.addEventListener("click",function(){
+    console.log("saving...");
+
+    var interested = {
+        name: recipeMeal,
+        url: recipeUrl,
+        ingredients: recipeIngredients,
+        instructions: recipeInstructions,
+        nutrition: nutrientsObj,
+        date: moment().format("YYYY-MM-DD"),
+        serving: serving
+    }
+    if (userStorage.savedHistory.length == 0){
+        userStorage.savedHistory.unshift(interested);
+    }
+    else {
+        var index = -1;
+        for(var i = 0; i < userStorage.savedHistory.length; i++){
+            if(userStorage.savedHistory[i].name == recipeMeal){
+                index = i;
+                break;
+            }
+        }
+        if(index != -1){
+            userStorage.savedHistory.splice(index,1);
+        }
+        userStorage.savedHistory.unshift(interested);
+    }
+
+    localStorage.setItem(user,JSON.stringify(userStorage));
+    
+
+    recipeEl.classList.add("hide");
+    location.href = "#";
+    location.href = "#category";
+    categoryEl.classList.remove("hide");
+
+});
+
+
+
+
+// When you click saved for later in top menu
+savedLaterEl.addEventListener("click",showSavedForLater);
+
+// When you click Cooking History in top menu
 cookingHistoryEl.addEventListener("click",loadCookHistory);
