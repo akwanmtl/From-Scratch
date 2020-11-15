@@ -1,19 +1,42 @@
+// Declaring the variables for the elements
+
+var cookingHistoryEl = document.getElementById("cooking-history");
+var savedHistoryEl = document.getElementById("saved-history");
+
+// This is the button to start cooking
 var cookBtn = document.getElementById("cook-it");
+
+// These are the components of the cooking page
 var recipeImageCook = document.getElementById("recipe-image-cooking");
 var recipeNameCook = document.getElementById("recipe-name-cooking");
 var procedureCook = document.getElementById("procedure");
 var steps = document.getElementById("steps");
 
-var checkboxIngredients = document.getElementsByClassName("ingredients-box");
-
-// these will be global variables
-// var recipeMeal;
-// var recipeIngredients;
-// var recipeInstructions; 
-
+// variables 
 var modalOpen = false;
+var alreadySaved = false;
 
+// rating
+var ratingValue = 0;
+
+// resets global variables
+function reset(){
+    recipeMeal = "";
+    recipeIngredients = "";
+    recipeInstructions = ""; 
+    serving = 4;
+    recipeUrl = "";
+    recipeIngredients = [];
+    recipeInstructions = [];
+    nutrientsObj = {};
+    ratingValue = 0;
+    $("#notes").val("");
+    $(".rating-star").removeClass("checked");
+}
+
+// function that stars to load the cooking application and present the ingredients
 function loadCook (){
+    // create the image
     var imageThumbnail = document.createElement("img");
     imageThumbnail.setAttribute("src",recipeUrl);
     imageThumbnail.setAttribute("alt",recipeMeal);
@@ -30,28 +53,34 @@ function loadCook (){
     //sections for the list of ingredients
     steps.innerHTML = "";
 
-    
-    console.log(recipeIngredients)
+    // shows the ingredients with checkbox
     for(var i = 0; i < recipeIngredients.length-1; i++){
+        // creates the checkbox
         var ingredientCheck = document.createElement("input");
         ingredientCheck.setAttribute("type","checkbox");
         ingredientCheck.setAttribute("id","box-"+i);
         ingredientCheck.classList.add("ingredients-box")
+        // creates the label
         var ingredientLabel = document.createElement("label");
         ingredientLabel.setAttribute("for","box-"+i);
         ingredientLabel.textContent = recipeIngredients[i];
+
+        // appends the checkbox, label and a line break to the steps div
         steps.appendChild(ingredientCheck);
         steps.appendChild(ingredientLabel);
         steps.appendChild(document.createElement("br"));
 
-        //checks whether all checkboxes have been checked
+        // when the user clicks on the checkbox or label
         ingredientCheck.addEventListener("change", function(){
+            // adds a strike to the current ingredient
             if(this.checked){
                 this.nextElementSibling.classList.add("strike");
             }
+            // removes a strike to the current ingredient
             else{
                 this.nextElementSibling.classList.remove("strike");
             }
+            //checks whether all checkboxes have been checked
             if (document.querySelectorAll("input.ingredients-box:checked").length === recipeIngredients.length-1){
             loadInstructions();
             }
@@ -64,48 +93,63 @@ function loadInstructions(){
     procedureCook.textContent = "Let's Start Cooking";
     steps.innerHTML = "";
 
+    // shows the instructions with checkbox
     for(var i = 0; i < recipeInstructions.length; i++){
+        // creates checkbox
         var instructionCheck = document.createElement("input");
         instructionCheck.setAttribute("type","checkbox");
         instructionCheck.setAttribute("id","box-"+i);
-        instructionCheck.classList.add("ingredients-box")
+        instructionCheck.classList.add("ingredients-box");
+        
+        // creates label
         var instructionLabel = document.createElement("label");
         instructionLabel.classList.add("label-instructions")
         instructionLabel.setAttribute("for","box-"+i);
         instructionLabel.textContent = recipeInstructions[i];
+
+        // appends checkbox, label and line break to the steps box
         steps.appendChild(instructionCheck);
         steps.appendChild(instructionLabel);
         steps.appendChild(document.createElement("br"));
+
+        // if it is not the first step, disable
         if(i != 0) instructionCheck.disabled = true;
+
+        // if it is the first step, assign the class active
         if(i == 0) instructionLabel.classList.add("label-active");
 
-        
+        // when the user clicks on the checkbox or label 
         instructionCheck.addEventListener("change", function(){
-            var boxId = this.getAttribute("id");
-            console.log("boxId", boxId);
-            
-            console.log("length", recipeInstructions.length);
 
+            // get the id of the checkbox
+            var boxId = this.getAttribute("id");
+            // get the number
             var num = parseInt(boxId.slice(4,boxId.length)) + 1;
-            console.log("num",num);
+            // set the current step to disabled with a strike
             this.disabled = true;
-            
             this.nextElementSibling.classList.remove("label-active"); 
             this.nextElementSibling.classList.add("strike"); 
 
+            // if there are still more steps
             if (num < recipeInstructions.length){
+                // set the next step to active
                 document.getElementById("box-"+num).disabled = false;
                 document.getElementById("box-"+num).nextElementSibling.classList.add("label-active");
             }
-            else{
-                // console.log("done");//modal?
 
+            // else, opens the modal
+            else{
+                // when the modal is closed, check to see if the comments were saved previously 
+                // also has a flag to make sure that it only runs the save review once if needed
                 $("#review-modal").modal({
                     onHide: function(){
                         console.log(modalOpen);
                         if(modalOpen){
                             modalOpen = false;
-                            saveReview();
+                            if(!alreadySaved){
+                                saveReview();
+                                alreadySaved = false;
+                            }
                         }
                     },
                     onShow: function(){
@@ -116,24 +160,18 @@ function loadInstructions(){
             }
         });
     }
-
 }
 
-cookBtn.addEventListener("click",function(){
-    loadCook();
-    recipeEl.classList.add("hide");
-    getCookingEl.classList.remove("hide");
-});
 
 
-
-var ratingValue = 0;
+// when the user clicks on the stars, it will change the rating
 $(".rating-star").click(function(){
-    console.log($(this).attr("data-star"))
+    //if the user clicks on the same amount of star, removes the rating
     if(ratingValue == $(this).attr("data-star")){
         $(".rating-star").removeClass("checked");
         ratingValue = 0;
     }
+    //else, set the star check up to where the user clicked
     else{
         ratingValue = $(this).attr("data-star");
         for(var i = 1; i <= 5; i++){
@@ -147,8 +185,10 @@ $(".rating-star").click(function(){
     }
 });
   
-
+// function that will save the review into local storage
 function saveReview(){
+
+    // creates a new object to be saved
     var history = {
         name: recipeMeal,
         url: recipeUrl,
@@ -162,13 +202,16 @@ function saveReview(){
         }],
         serving: serving
     }
-    console.log("saving");
 
+    // if cookingHistory array is empty, assign the object at the first index 
     if (userStorage.cookingHistory.length == 0){
-        console.log('new');
         userStorage.cookingHistory[0] = history;
     }
+
+    // or else
     else {
+
+        // checks if the user has already cooked this recipe before
         var index = -1;
         for(var i = 0; i < userStorage.cookingHistory.length; i++){
             if(userStorage.cookingHistory[i].name == recipeMeal){
@@ -176,24 +219,19 @@ function saveReview(){
                 break;
             }
         }
+        // if it exists, then add the comment object to the existing one
         if(index != -1){
             var commentNew =  history.comment[0];
-            // console.log("index", index)
-            console.log("new comment:", commentNew);
-            // console.log(userStorage.cookingHistory[index].comment);
             var commentArray = userStorage.cookingHistory[index].comment;
-            console.log("comments:", commentArray);
-            commentArray.push(commentNew);
-            // userStorage.cookingHistory[index].comment.unshift(commentNew);
+            commentArray.unshift(commentNew);
             userStorage.serving = history.serving;
 
-            // var temp = userStorage.cookingHistory.splice(index,1)[0];
-            // console.log("removed", temp);
-            // console.log("removed", userStorage.cookingHistory);
+            var temp = userStorage.cookingHistory.splice(index,1)[0];
 
-            // userStorage.cookingHistory.unshift(temp);
-            // console.log(userStorage);
+            userStorage.cookingHistory.unshift(temp);
+            
         }
+        // if not, push the history object at the front of the array
         else{
             userStorage.cookingHistory.unshift(history);
         }
@@ -208,9 +246,10 @@ function saveReview(){
         }
     }
     
+    // save to local storage
     localStorage.setItem(user,JSON.stringify(userStorage));
-    $("#review-modal").modal("hide");
 
+    // reset the global variable
     reset();
 
     getCookingEl.classList.add("hide");
@@ -218,31 +257,17 @@ function saveReview(){
 
 }
 
+// when the user click on the save in the review modal 
 $("#save-review").click(function(event){
     event.preventDefault();
     saveReview();
+    alreadySaved = true;
+    $("#review-modal").modal("hide");
 });
 
-// resets global variables
-function reset(){
-    recipeMeal = "";
-    recipeIngredients = "";
-    recipeInstructions = ""; 
-    serving = 4;
-    recipeUrl = "";
-    recipeIngredients = [];
-    recipeInstructions = [];
-    nutrientsObj = {};
-    ratingValue = 0;
-    $("#notes").val("");
-    $(".rating-star").removeClass("checked");
-
-}
-
-
-// Viewing saved history
-
+// load the list of recipes that was saved for later
 function showSavedForLater(){
+
     counterRecipe = 0;
     recipeList.innerHTML = "";
     list = userStorage.savedHistory;
@@ -280,13 +305,10 @@ function showSavedForLater(){
         row.appendChild(colImg);
         row.appendChild(colTxt);
 
-        // card.appendChild(row);
 
         row.setAttribute("data-meal",list[counterRecipe].name);
-        // getRecipe(list[i].strMeal);
         
         row.addEventListener("click",function(event){
-            // console.log(this.getAttribute("data-meal"));
             showRecipe(this.getAttribute("data-meal"));
         });
 
@@ -295,13 +317,13 @@ function showSavedForLater(){
     }
 
     moreBtn.classList.add("hide");
-    //Changed the order *****
     categorySelectionEl.classList.add("hide");
     categoryEl.classList.remove("hide");
     
 }
-// view cooking history
 
+
+// load the list of recipes that was previously cooked
 function loadCookHistory(){
     counterRecipe = 0;
     recipeList.innerHTML = "";
@@ -357,10 +379,7 @@ function loadCookHistory(){
         row.appendChild(colImg);
         row.appendChild(colTxt);
 
-        // card.appendChild(row);
-
         row.setAttribute("data-meal",list[counterRecipe].name);
-        // getRecipe(list[i].strMeal);
         
         row.addEventListener("click",function(event){
             showRecipe(this.getAttribute("data-meal"));
@@ -371,18 +390,20 @@ function loadCookHistory(){
     }
     
     moreBtn.classList.add("hide");
-    //Changed the order ****
     categorySelectionEl.classList.add("hide");
     categoryEl.classList.remove("hide");
     
 }
 
-var savedHistoryEl = document.getElementById("saved-history");
+// when you click on the cooking button, goes to the cooking div
+cookBtn.addEventListener("click",function(){
+    loadCook();
+    recipeEl.classList.add("hide");
+    getCookingEl.classList.remove("hide");
+});
 
+// When you click on the show saved for later button
 savedHistoryEl.addEventListener("click",showSavedForLater);
 
-// Viewing cooking history
-
-var cookingHistoryEl = document.getElementById("cooking-history");
-
+// When you click on the show cooking button
 cookingHistoryEl.addEventListener("click",loadCookHistory);
