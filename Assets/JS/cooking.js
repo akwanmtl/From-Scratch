@@ -56,6 +56,10 @@ function loadCook (){
     // shows the ingredients with checkbox
     for(var i = 0; i < recipeIngredients.length-1; i++){
         // creates the checkbox
+        var field = document.createElement("div");
+        field.classList.add("field");
+        var row = document.createElement("div");
+        row.classList.add("ui","checkbox");
         var ingredientCheck = document.createElement("input");
         ingredientCheck.setAttribute("type","checkbox");
         ingredientCheck.setAttribute("id","box-"+i);
@@ -63,22 +67,28 @@ function loadCook (){
         // creates the label
         var ingredientLabel = document.createElement("label");
         ingredientLabel.setAttribute("for","box-"+i);
+        // ingredientLabel.classList.add("strikethrough");
         ingredientLabel.textContent = recipeIngredients[i];
 
         // appends the checkbox, label and a line break to the steps div
-        steps.appendChild(ingredientCheck);
-        steps.appendChild(ingredientLabel);
-        steps.appendChild(document.createElement("br"));
+        row.appendChild(ingredientCheck);
+        row.appendChild(ingredientLabel);
+        field.appendChild(row);
+        steps.appendChild(field);
 
         // when the user clicks on the checkbox or label
         ingredientCheck.addEventListener("change", function(){
+            
             // adds a strike to the current ingredient
             if(this.checked){
-                this.nextElementSibling.classList.add("strike");
+                console.log('mark   ')
+                // this.nextElementSibling.classList.add("strikethrough");
+                this.nextElementSibling.setAttribute("style","text-decoration: line-through;");
             }
             // removes a strike to the current ingredient
             else{
-                this.nextElementSibling.classList.remove("strike");
+                // this.nextElementSibling.classList.remove("strikethrough");
+                this.nextElementSibling.setAttribute("style","");
             }
             //checks whether all checkboxes have been checked
             if (document.querySelectorAll("input.ingredients-box:checked").length === recipeIngredients.length-1){
@@ -95,28 +105,49 @@ function loadInstructions(){
 
     // shows the instructions with checkbox
     for(var i = 0; i < recipeInstructions.length; i++){
-        // creates checkbox
+
+        var field = document.createElement("div");
+        field.classList.add("field");
+        var row = document.createElement("div");
+        row.classList.add("ui","checkbox");
         var instructionCheck = document.createElement("input");
         instructionCheck.setAttribute("type","checkbox");
         instructionCheck.setAttribute("id","box-"+i);
-        instructionCheck.classList.add("ingredients-box");
-        
-        // creates label
+        instructionCheck.classList.add("ingredients-box")
+        // creates the label
         var instructionLabel = document.createElement("label");
-        instructionLabel.classList.add("label-instructions")
         instructionLabel.setAttribute("for","box-"+i);
+        // ingredientLabel.classList.add("strikethrough");
         instructionLabel.textContent = recipeInstructions[i];
 
-        // appends checkbox, label and line break to the steps box
-        steps.appendChild(instructionCheck);
-        steps.appendChild(instructionLabel);
-        steps.appendChild(document.createElement("br"));
+        // appends the checkbox, label and a line break to the steps div
+        row.appendChild(instructionCheck);
+        row.appendChild(instructionLabel);
+        field.appendChild(row);
+        steps.appendChild(field);
+        // creates checkbox
+        // var instructionCheck = document.createElement("input");
+        // instructionCheck.setAttribute("type","checkbox");
+        // instructionCheck.setAttribute("id","box-"+i);
+        // instructionCheck.classList.add("ingredients-box");
+        
+        // // creates label
+        // var instructionLabel = document.createElement("label");
+        // instructionLabel.classList.add("label-instructions")
+        // instructionLabel.setAttribute("for","box-"+i);
+        // instructionLabel.textContent = recipeInstructions[i];
+
+        // // appends checkbox, label and line break to the steps box
+        // steps.appendChild(instructionCheck);
+        // steps.appendChild(instructionLabel);
+        // steps.appendChild(document.createElement("br"));
 
         // if it is not the first step, disable
         if(i != 0) instructionCheck.disabled = true;
 
         // if it is the first step, assign the class active
-        if(i == 0) instructionLabel.classList.add("label-active");
+        // if(i == 0) instructionLabel.classList.add("label-active");
+        if(i == 0) instructionLabel.setAttribute("style","font-size:24px; line-height:30px");
 
         // when the user clicks on the checkbox or label 
         instructionCheck.addEventListener("change", function(){
@@ -127,16 +158,19 @@ function loadInstructions(){
             var num = parseInt(boxId.slice(4,boxId.length)) + 1;
             // set the current step to disabled with a strike
             this.disabled = true;
-            this.nextElementSibling.classList.remove("label-active"); 
-            this.nextElementSibling.classList.add("strike"); 
+            // this.nextElementSibling.classList.remove("label-active"); 
+            // this.nextElementSibling.classList.add("strikethrough"); 
+            this.nextElementSibling.setAttribute("style","text-decoration:line-through")
 
             // if there are still more steps
+            console.log("is it done:",num < recipeInstructions.length);
             if (num < recipeInstructions.length){
                 // set the next step to active
                 document.getElementById("box-"+num).disabled = false;
-                document.getElementById("box-"+num).nextElementSibling.classList.add("label-active");
+                // document.getElementById("box-"+num).nextElementSibling.classList.add("label-active");
+                document.getElementById("box-"+num).nextElementSibling.setAttribute("style","font-size:24px; line-height:30px");
             }
-
+            
             // else, opens the modal
             else{
                 // when the modal is closed, check to see if the comments were saved previously 
@@ -165,21 +199,28 @@ function loadInstructions(){
 
 
 // when the user clicks on the stars, it will change the rating
-$(".rating-star").click(function(){
+$(".rating-star").click(function(event){
+    console.log("stars");
+    console.log("stars", ratingValue);
+    var star = event.target;
     //if the user clicks on the same amount of star, removes the rating
-    if(ratingValue == $(this).attr("data-star")){
-        $(".rating-star").removeClass("checked");
+    if(ratingValue == star.getAttribute("data-star")){
+        // $(".rating-star").removeClass("checked");
+        $(".rating-star").attr("style","color:black");
         ratingValue = 0;
     }
     //else, set the star check up to where the user clicked
     else{
-        ratingValue = $(this).attr("data-star");
+        ratingValue = star.getAttribute("data-star");
         for(var i = 1; i <= 5; i++){
             if(i <= ratingValue){
-                $("#star-"+i).addClass("checked");
+                // $("#star-"+i).addClass("checked");
+                
+                $("#star-"+i).attr("style","color:orange");
             }
             else{
-                $("#star-"+i).removeClass("checked");
+                // $("#star-"+i).removeClass("checked");
+                $("#star-"+i).attr("style","color:black");
             }
         }
     }
