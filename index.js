@@ -484,8 +484,8 @@ function showRecipe(mealName){
 
             console.log(instructionItem.textContent)
 
-            // getNutrition(food).then(function(nutrients){ // for the api
-                var nutrients = nutritionSample.foods; //when not using api
+            getNutrition(food).then(function(nutrients){ // for the api
+                // var nutrients = nutritionSample.foods; //when not using api
                 //nutritional facts section
                 
                 nutritionDetails.innerHTML = "";
@@ -495,7 +495,7 @@ function showRecipe(mealName){
 
                 updateNutrition();
                 
-            // }); // for the api
+            }); // for the api
 
             // showing instructions
             
@@ -508,3 +508,57 @@ function showRecipe(mealName){
         })
 };
 
+
+function updateNutrition(){
+    nutritionDetails.innerHTML = "";
+    for (var i = 0; i < previewNutrients.length; i++){
+                     
+        var amount = nutrientsObj[previewNutrients[i].name];                
+        
+        var nutrientItem = document.createElement("li");
+    
+        nutrientItem.textContent = previewNutrients[i].name + ": " + Math.round(amount/serving) + " " + previewNutrients[i].unit;     
+                   
+        nutritionDetails.appendChild(nutrientItem);
+    }
+}
+
+numberPeople.addEventListener("change",function(){
+    if(this.value%1!=0){
+        
+        this.value = (Math.ceil(this.value) > 20)? 20: Math.ceil(this.value);
+        serving = this.value;
+        updateNutrition();
+    }
+    else if(this.value < 1){
+        this.value = 1;
+        serving = 1;
+        updateNutrition();
+    }
+    else if(this.value > 20){
+        this.value = 20;
+        serving = 20;
+        updateNutrition();
+    }
+    else{
+        serving = this.value;
+        updateNutrition();
+    }
+});
+
+differentRecipeBtn.addEventListener("click",function(){
+    recipeEl.classList.add("hide");
+    categoryEl.classList.remove("hide");
+});
+
+saveBtn.addEventListener("click",function(){
+    console.log("saving...");
+    console.log(recipeMeal);
+    console.log(nutrientsObj);
+});
+
+
+cookBtn.addEventListener("click",function(){
+    recipeEl.classList.add("hide");
+    getCookingEl.classList.remove("hide");
+});
