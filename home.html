@@ -61,7 +61,7 @@
     </div>  
   </div>
 
-<!-- Homepage -->
+<!-- Login page -->
 <div id="login" class="">
   <div class="ui raised very padded text container segment">
     <div class="column twelve">
@@ -83,73 +83,97 @@
           <button class="ui button huge" style="margin-top:1rem" id="sign-up"><i class="signup icon"></i>Sign up</button>
         </div>
       </div>
-      <!-- <div class="ui placeholder segment"> -->
-        <!-- <div class="ui two column very relaxed stackable grid">
-          <div class="column">
-            <div class="ui form">
-              <div class="field">
-                <label>Username</label>
-                <div class="ui left icon input">
-                  <input type="text" placeholder="Username">
-                  <i class="user icon"></i>
-                </div>
-              </div>
-              <div class="field">
-                <label>Password</label>
-                <div class="ui left icon input">
-                  <input type="password">
-                  <i class="lock icon"></i>
-                </div>
-              </div>
-              <div class="ui blue submit button">Login</div>
-            </div>
-          </div>
-          <div class="middle aligned column">
-            <div class="ui big button">
-              <i class="signup icon"></i>
-              Sign Up
-            </div>
-          </div>
-        </div>
-        <div class="ui vertical divider">
-          Or
-        </div>
-      </div> -->
-    <!-- </div> -->
-
-
-    <div class="ui tiny modal transition" id="login-modal">
-      <i class="close icon"></i>
-      <div class="header">
-          Rate and Review Your Cooking
-      </div>
-      <div class="content">
-          <div class="ui form">
-              <label>How many stars would you give yourself?</label>
-              <div class="field">
-                  <span class="fa fa-star rating-star" id="star-1" data-star = 1></span>
-                  <span class="fa fa-star rating-star" id="star-2" data-star = 2></span>
-                  <span class="fa fa-star rating-star" id="star-3" data-star = 3> </span>
-                  <span class="fa fa-star rating-star" id="star-4" data-star = 4></span>
-                  <span class="fa fa-star rating-star" id="star-5" data-star = 5></span>
-              </div>
-              <div class="field">
-                  <label>Notes for next time</label>
-                  <textarea id="notes" placeholder="Notes and Comments"></textarea>
-              </div>
-          </div>
-      </div>
-      <div class="actions">
-        <div class="ui green button" id="save-review">Save</div>
-      </div>
-    </div>
 
   </div>  
+
 </div>
 
-     
+<!--Login modal-->
+<div class="ui tiny modal transition" id="login-modal">
+  <i class="close icon"></i>
+  <div class="header">
+      Login
+  </div>
+  <div class="content">
+      <form class="ui form" id="login-form">
+        
+        <div class="required field">
+          <label>Username</label>
+          <div class="ui left icon input">
+            <input type="text" placeholder="Username" name="username-login" id="username-login">
+            <i class="user icon"></i>
+          </div>
+        </div>
 
+        <div class="required field">
+          <label>Password</label>
+          <div class="ui left icon input">
+            <input type="password" name="password-login" id="password-login">
+            <i class="lock icon"></i>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui checkbox">
+            <input type="checkbox" name="remember" id="remember-login">
+            <label>Remember me</label>
+          </div>
+        </div>
+        <div class="ui error message" id="error-login"></div>
+        <div class="ui button" id="login-cancel">Cancel</div>
+        <button class="ui green button" type="submit" id="login-button">Login</button>
+      </form>
+      
+  </div>
+    
+</div>
 
+<!--Signup modal-->
+<div class="ui tiny modal transition" id="signup-modal">
+  <i class="close icon"></i>
+  <div class="header">
+      Login
+  </div>
+  <div class="content">
+      <form class="ui form" id="signup-form">
+        
+        <div class="required field">
+          <label>Username</label>
+          <div class="ui left icon input">
+            <input type="text" placeholder="Username" name="username-signup" id="username-signup">
+            <i class="user icon"></i>
+          </div>
+        </div>
+
+        <div class="required field">
+          <label>Password</label>
+          <div class="ui left icon input">
+            <input type="password" name="password-signup" id="password-signup">
+            <i class="lock icon"></i>
+          </div>
+        </div>
+
+        <div class="required field">
+          <label>Confirm Password</label>
+          <div class="ui left icon input">
+            <input type="password" name="password-confirm-signup" id="password-confirm-signup">
+            <i class="lock icon"></i>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="ui checkbox">
+            <input type="checkbox" name="remember" id="remember-signup">
+            <label>Remember me</label>
+          </div>
+        </div>
+        <div class="ui error message" id="error-signup"></div>
+        <div class="ui button" id="signup-cancel">Cancel</div>
+        <button class="ui green button" type="submit" id="signup-button">Sign Up</button>
+      </form>
+      
+  </div>
+    
+</div>
 
 
 
