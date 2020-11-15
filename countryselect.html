@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="style.css">
     <title>SecretSauce</title>
 </head>
@@ -18,10 +19,10 @@
           <a class="item">
             <i class="home icon"></i> Home
           </a>
-          <a class="item">
+          <a class="item" id="go-to-saved-later">
             <i class="thumbtack icon"></i> For Later
           </a>
-          <a class="item">
+          <a class="item" id="go-to-cooking-history">
             <i class="book icon"></i> Cooking History
           </a>
           <div class="ui simple dropdown item">
@@ -56,6 +57,8 @@
         <h1 class="ui header padded center aligned">Pick a recipe</h1>
         <div class="ui divider"></div>
         <div class="ui grid" id="recipe-list">
+
+          <!-- Sample of how it 1 recipe listing would look -->
             <!-- <div class="row">
                 <div class="six wide column">
                     <img src="hero_bg.jpg">
@@ -64,43 +67,8 @@
                     <h3>Chicken Nuggets</h3>
                     <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt nostrum animi officiis accusamus debitis illo omnis delectus consequuntur magni!</p>
                 </div>
-            </div>
-            <div class="row">
-                <div class="six wide column">
-                    <img src="hero_bg.jpg">
-                </div>
-                <div class="ten wide column">
-                    <h3>Chicken Nuggets</h3>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt nostrum animi officiis accusamus debitis illo omnis delectus consequuntur magni!</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="six wide column">
-                    <img src="hero_bg.jpg">
-                </div>
-                <div class="ten wide column">
-                    <h3>Chicken Nuggets</h3>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt nostrum animi officiis accusamus debitis illo omnis delectus consequuntur magni!</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="six wide column">
-                    <img src="hero_bg.jpg">
-                </div>
-                <div class="ten wide column">
-                    <h3>Chicken Nuggets</h3>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt nostrum animi officiis accusamus debitis illo omnis delectus consequuntur magni!</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="six wide column">
-                    <img src="hero_bg.jpg">
-                </div>
-                <div class="ten wide column">
-                    <h3>Chicken Nuggets</h3>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt nostrum animi officiis accusamus debitis illo omnis delectus consequuntur magni!</p>
-                </div>
             </div> -->
+           
             
 
         </div>
@@ -117,7 +85,7 @@
 </div> 
 
 
-<!-- When A recipe is Selected -->
+<!-- When a recipe is Selected section -->
 <div class="hide" id="recipe">
   <div class="ui container">
     <div class="ui raised very padded segment">
@@ -157,21 +125,56 @@
       
     </div>
   </div>
+</div>
 
 
 
+  <!-- Let's Cook! Section -->
 
+<div class="hide" id="getCooking">
+  <div class="ui container">
+    <div class="ui raised very padded segment">
+      <h1 class="ui centered header">Let's Get Cooking!</h1>
+      <div class="ui divider"></div>
+      <div class="row" id="recipe-image-cooking"></div>
+      <h2 class="ui centered header" id="recipe-name-cooking"></h2>
+      <h3 id="procedure">Pull out the Ingredients</h3>
+      <div id="steps">
+        <li>Sugar</li>
+        <li>Flour</li>
+        <li>Oil</li>
+      </div>
 
-
-
-
-
-
-
+    </div>
+  </div>
 
 </div>
 
-     
+
+<!-- Cooking History Section -->
+
+<div class="hide" id="cookedHistory">
+  <div class="ui container">
+      <div class="ui raised very padded segment">
+        <h1 class="ui header padded center aligned">Recently Cooked</h1>
+        <div class="ui divider"></div>
+        <div class="ui grid" id="history-list"></div>
+      </div>
+    </div> 
+</div> 
+
+
+<!-- Saved For Later Section -->
+
+<div class="hide" id="savedLater">
+  <div class="ui container">
+      <div class="ui raised very padded segment">
+        <h1 class="ui header padded center aligned">Saved for Later</h1>
+        <div class="ui divider"></div>
+        <div class="ui grid" id="saved-later-list"></div>
+      </div>
+    </div> 
+</div> 
 
 
 
@@ -179,12 +182,43 @@
 
 
 
+<!-- Review Modal -->
+
+
+<div class="ui small modal transition" id="review-modal">
+  <i class="close icon"></i>
+  <div class="header">
+      Rate and Review Your Cooking
+  </div>
+  <div class="content">
+      <div class="ui form">
+          <label>How many stars would you give yourself?</label>
+          <div class="field">
+              <span class="fa fa-star rating-star" id="star-1" data-star = 1></span>
+              <span class="fa fa-star rating-star" id="star-2" data-star = 2></span>
+              <span class="fa fa-star rating-star" id="star-3" data-star = 3> </span>
+              <span class="fa fa-star rating-star" id="star-4" data-star = 4></span>
+              <span class="fa fa-star rating-star" id="star-5" data-star = 5></span>
+          </div>
+          <div class="field">
+              <label>Notes for next time</label>
+              <textarea id="notes" placeholder="Notes and Comments"></textarea>
+          </div>
+      </div>
+  </div>
+  <div class="actions">
+    <div class="ui green button" id="save-review">Save</div>
+  </div>
+</div>
 
 
 
 
 
+<!-- script section -->
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
   <script src="index.js"></script> 
 </body>
