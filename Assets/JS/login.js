@@ -1,10 +1,15 @@
-var loginBtn = document.getElementById("login");
+var loginBtn = document.getElementById("login-button");
 var signUpBtn = document.getElementById("sign-up");
 
 loginBtn.addEventListener("click",function(){
+    
     $('#login-modal').modal({
         onHide:function(){
-            resetLogin();
+            errorLogin.classList.remove("visible");
+            errorLogin.textContent = "";
+            usernameLogin.value = "";
+            passwordLogin.value = "";
+            rememberLogin.checked = false;  
         }
     }).modal("show");
 });
@@ -12,27 +17,15 @@ loginBtn.addEventListener("click",function(){
 signUpBtn.addEventListener("click",function(){
     $('#signup-modal').modal({
         onHide:function(){
-            resetSignup();
+            errorSignup.classList.remove("visible");
+            errorSignup.textContent = "";
+            usernameSignup.value = "";
+            passwordSignup.value = "";
+            passwordConfirmSignup.value = "";
+            rememberSignup.checked = false;  
         }
     }).modal("show");
 });
-
-function resetLogin (){
-    errorLogin.classList.remove("visible");
-    errorLogin.textContent = "";
-    usernameLogin.value = "";
-    passwordLogin.value = "";
-    rememberLogin.checked = false;  
-}
-
-function resetSignup (){
-    errorSignup.classList.remove("visible");
-    errorSignup.textContent = "";
-    usernameSignup.value = "";
-    passwordSignup.value = "";
-    passwordConfirmSignup.value = "";
-    rememberSignup.checked = false;  
-}
 
 
 var submitLogin = document.getElementById("login-form");
@@ -76,13 +69,14 @@ submitLogin.addEventListener("submit",function(event){
         errorLogin.textContent = "Either username or password is incorrect";
     }
     else{
-        $('#login-modal').modal("hide");
+        
         if(rememberLogin.checked){
-            localStorage.setItem("login",usernameLogin);
+            localStorage.setItem("login",usernameLogin.value);
         } 
 
-        resetLogin();
+        signInInitialize(usernameLogin.value, passwordLogin.value);
 
+        $('#login-modal').modal("hide");
         loginEl.classList.add("hide");
         homeEl.classList.remove("hide");
         navbarEl.classList.remove("hide");
@@ -98,25 +92,31 @@ submitSignup.addEventListener("submit",function(event){
     
     if(usernameSignup.value===""){
         console.log('blank')
-        errorLogin.classList.add("visible");
-        errorLogin.innerText = "Please enter a username";
+        errorSignup.classList.add("visible");
+        errorSignup.innerText = "Please enter a username";
     }
-    else if(!localStorage.getItem(usernameLogin.value)){
-        errorLogin.classList.add("visible");
-        errorLogin.textContent = "Either username or password is incorrect";
+    else if(localStorage.getItem(usernameSignup.value)){
+        errorSignup.classList.add("visible");
+        errorSignup.textContent = "Username already exists";
     }
-    else if (JSON.parse(localStorage.getItem(usernameLogin.value)).password !== passwordLogin.value){
-        errorLogin.classList.add("visible");
-        errorLogin.textContent = "Either username or password is incorrect";
+    else if (passwordSignup.value ===""){
+        errorSignup.classList.add("visible");
+        errorSignup.innerText = "Please enter a password";
+    }
+    else if(passwordSignup.value !== passwordConfirmSignup.value){
+        errorSignup.classList.add("visible");
+        errorSignup.innerText = "Your confirmation password does not match";
     }
     else{
-        $('#login-modal').modal("hide");
-        if(rememberLogin.checked){
-            localStorage.setItem("login",usernameLogin);
+        
+        if(rememberSignup.checked){
+            console.log("checked!!")
+            localStorage.setItem("login",usernameSignup.value);
         } 
 
-        resetLogin();
+        signInInitialize(usernameSignup.value, passwordSignup.value);
 
+        $('#signup-modal').modal("hide");
         loginEl.classList.add("hide");
         homeEl.classList.remove("hide");
         navbarEl.classList.remove("hide");
