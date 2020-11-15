@@ -361,6 +361,7 @@ function showSavedForLater(){
     buttonsHistory.classList.remove("hide");/********NEW LINE******/
     homeEl.classList.add("hide");/********NEW LINE******/
     recipeEl.classList.add("hide");/*********NEW LINE*********/
+    getCookingEl.classList.add("hide");/*********NEW LINE*********/
     categorySelectionEl.classList.add("hide");
     categoryEl.classList.remove("hide");
     
@@ -395,26 +396,28 @@ function loadCookHistory(){
         cardTitle.classList.add("card-title");
         cardTitle.textContent = list[counterRecipe].name;
 
-        var cardText = document.createElement("p");
+        var cardText = document.createElement("h3");
         cardText.classList.add("card-text");
-        cardText.textContent = "Notes";
+        // cardText.textContent = "Notes";
         var comments = list[counterRecipe].comment;
         console.log(comments.length)
         for(var i = 0; i < comments.length; i++){
-            var dateText = document.createElement("h5");
-            var ratingText = document.createElement("p");
+            var dateText = document.createElement("h3");
+            dateText.setAttribute("style","margin-bottom:5px")
+            // var ratingText = document.createElement("p");
             var notesText = document.createElement("p");
 
             dateText.textContent = comments[i].date;
-            ratingText.textContent = "You gave it "+ comments[i].rating + " stars!";
+            // ratingText.textContent = "You gave it "+ comments[i].rating + " stars!";
             notesText.textContent = "Notes:\n" + comments[i].notes;
             cardText.appendChild(dateText);
-            cardText.appendChild(ratingText);
+            // cardText.appendChild(ratingText);
+            cardText.appendChild(createStars(comments[i].rating));
             cardText.appendChild(notesText);
         } 
 
-        // This is needed - just comment out to not use up the API
-        // getNutritionPreview(list[i].strMeal,cardText);
+        cardText.setAttribute("style","height:200px; overflow:auto");
+
         cardBody.appendChild(cardTitle);
         cardBody.appendChild(cardText);
 
@@ -437,9 +440,23 @@ function loadCookHistory(){
     buttonsHistory.classList.remove("hide");/********NEW LINE******/
     homeEl.classList.add("hide");/********NEW LINE******/
     recipeEl.classList.add("hide");/*********NEW LINE*********/
+    getCookingEl.classList.add("hide");/*********NEW LINE*********/
     categorySelectionEl.classList.add("hide");
     categoryEl.classList.remove("hide");
     
+}
+
+function createStars(num){
+    var newDiv = document.createElement("div");
+    for(var i = 1; i <= 5; i++){
+        var newSpan = document.createElement("span"); //fa fa-star rating-star
+        newSpan.classList.add("fa","fa-star");
+        if(i <= num){
+            newSpan.setAttribute("style","color:orange");
+        }
+        newDiv.appendChild(newSpan);
+    }
+    return newDiv;
 }
 
 // when you click on the cooking button, goes to the cooking div
@@ -465,6 +482,9 @@ var navHome = document.getElementById("go-to-home");
 var navSaved = document.getElementById("go-to-saved-history");
 var navHistory = document.getElementById("go-to-cooking-history");
 
+
+var cancelCook = document.getElementById("cancelCook");
+
 startCook.addEventListener("click",function(){
     
     homeEl.classList.add("hide");
@@ -480,9 +500,15 @@ navSaved.addEventListener("click",showSavedForLater);
 
 navHistory.addEventListener("click",loadCookHistory);
 
-navHome.addEventListener("click",function(){
+navHome.addEventListener("click",toHome);
+
+cancelCook.addEventListener("click",toHome);
+
+function toHome (){
     categoryEl.classList.add("hide");
     categorySelectionEl.classList.add("hide");
     recipeEl.classList.add("hide");
+    getCookingEl.classList.add("hide");/*********NEW LINE*********/
     homeEl.classList.remove("hide");
-});
+
+}

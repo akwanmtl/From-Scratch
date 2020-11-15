@@ -35,8 +35,9 @@ li{
     text-decoration: line-through;
 }
 
-.ui.fullscreen.modal {
+#review-modal {
     /* margin-left: 300px; */
+    position:relative;
     left:2.5% !important;
 }
 

@@ -9,6 +9,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <!-- "jquery" library Link -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script> 
+
     <link rel="stylesheet" href="style.css">
     <title>SecretSauce</title>
 </head>
@@ -110,7 +114,7 @@
   </div>
 
 <!--Login modal-->
-  <div class="ui fullscreen modal transition" id="login-modal">
+  <div class="ui fullscreen modal transition" id="login-modal"  style="position:relative;">
     <i class="close icon"></i>
     <div class="header">
         Login
@@ -149,7 +153,7 @@
   </div>
 
   <!--Signup modal-->
-  <div class="ui fullscreen modal transition" id="signup-modal">
+  <div class="ui fullscreen modal transition" id="signup-modal"  style="position:relative;">
     <i class="close icon"></i>
     <div class="header">
         Login
@@ -277,7 +281,7 @@
         <!-- It is not suposed to have a title here, it is just there so you can id what are you looking at -->
         
         <h1 class="ui centered header">Let's get Cookin'</h1>
-
+        
         <!-- Image of the finished recipie -->
         <!-- <img src="./Assets/Images/hero_bg.jpg" class="card-img-top" alt="..."> -->
         <div id=recipe-image-cooking></div>
@@ -291,8 +295,9 @@
         </div>
 
         <!-- Buttons in the secction, ¡they dont work jet! -->
-        <button class="btn btn-info mb-5 ">Nevermind</button><br>
-
+        <div class="row">
+          <button class="ui button red" id="cancelCook">Change my mind</button>
+        </div>
       </div>
 
     </div>
@@ -300,7 +305,7 @@
   </div>
 
  
-<div class="ui fullscreen modal transition" id="review-modal">
+<div class="ui fullscreen modal transition" id="review-modal" style="position:relative; left:2.5% !important">
   <i class="close icon"></i>
   <div class="header">
       Rate and Review Your Cooking
@@ -328,10 +333,7 @@
 
   <!-- "script zone" -->
 
-    <!-- "jquery" library Link -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script> 
-
+    
     <!-- "moment" library Link -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
