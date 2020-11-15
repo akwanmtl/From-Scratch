@@ -503,14 +503,17 @@ function showRecipe(mealName){
             // showing instructions
             recipeInstructions = [];
             instructionList.innerHTML = "";
-            var instructions = recipe["strInstructions"].split(".");
+            var instructions = recipe["strInstructions"].split(".").join("\n").split("\n"); /***CHANGE**/
+            console.log(instructions)
+            
+            // var instructions = recipe["strInstructions"].split(".");
             for(var i = 0; i < instructions.length; i++){
                 var instructionItem = document.createElement("li");
-                if(instructions[i].trim().length > 7){
+                if(instructions[i].trim().length > 9){
                     instructionItem.textContent = instructions[i].trim()+".";
                     instructionList.appendChild(instructionItem);
 
-                    recipeInstructions.push(instructions[i].trim()+".");
+                    recipeInstructions.push(instructions[i].trim())+".";
                 }
             }
 
