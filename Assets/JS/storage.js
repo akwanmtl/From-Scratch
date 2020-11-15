@@ -1,37 +1,24 @@
-// var user = "username"; // to be changed with login
-// var password = "password";
+//Declare the global variable for the username and the user object
+var user; 
 var userStorage;
 
+signInInitialize("username", "password");
+
+// function that initializes a new user
 function signInInitialize(username, password){
     if(!localStorage.getItem(username)){
-        console.log('no user');
         userStorage = {
             user: username,
             password: password,
             savedHistory : [],
             cookingHistory: []
         }
+        user = username;
         localStorage.setItem(username, JSON.stringify(userStorage));
     }
     else{
+        user = username;
         userStorage = JSON.parse(localStorage.getItem(username));
     }
 }
 
-
-// console.log("before", userStorage);
-// if(!localStorage.getItem(user)){
-//     console.log('no user');
-//     userStorage = {
-//         user: user,
-//         password: password,
-//         savedHistory : [],
-//         cookingHistory: []
-//     }
-//     localStorage.setItem(user, JSON.stringify(userStorage));
-// }
-// else{
-//     userStorage = JSON.parse(localStorage.getItem(user));
-// }
-
-// console.log("after", userStorage);

@@ -82,7 +82,11 @@ function loadInstructions(){
         
         instructionCheck.addEventListener("change", function(){
             var boxId = this.getAttribute("id");
-            var num = parseInt(boxId.slice(4,recipeInstructions.length)) + 1;
+            console.log("boxId", boxId);
+            
+            console.log("length", recipeInstructions.length);
+
+            var num = parseInt(boxId.slice(4,boxId.length)) + 1;
             console.log("num",num);
             this.disabled = true;
             
@@ -94,8 +98,7 @@ function loadInstructions(){
                 document.getElementById("box-"+num).nextElementSibling.classList.add("label-active");
             }
             else{
-                console.log("done");//modal?
-                $("#review-modal").modal("show");
+                // console.log("done");//modal?
 
                 $("#review-modal").modal({
                     onHide: function(){
@@ -162,6 +165,7 @@ function saveReview(){
     console.log("saving");
 
     if (userStorage.cookingHistory.length == 0){
+        console.log('new');
         userStorage.cookingHistory[0] = history;
     }
     else {
@@ -174,15 +178,21 @@ function saveReview(){
         }
         if(index != -1){
             var commentNew =  history.comment[0];
-            console.log(userStorage.cookingHistory[index].comment);
-            userStorage.cookingHistory[index].comment.unshift(commentNew);
+            // console.log("index", index)
+            console.log("new comment:", commentNew);
+            // console.log(userStorage.cookingHistory[index].comment);
+            var commentArray = userStorage.cookingHistory[index].comment;
+            console.log("comments:", commentArray);
+            commentArray.push(commentNew);
+            // userStorage.cookingHistory[index].comment.unshift(commentNew);
             userStorage.serving = history.serving;
-            var temp = userStorage.cookingHistory.splice(index,1)[0];
-            console.log("removed", temp);
-            console.log("removed", userStorage.cookingHistory);
 
-            userStorage.cookingHistory.unshift(temp);
-            console.log(userStorage);
+            // var temp = userStorage.cookingHistory.splice(index,1)[0];
+            // console.log("removed", temp);
+            // console.log("removed", userStorage.cookingHistory);
+
+            // userStorage.cookingHistory.unshift(temp);
+            // console.log(userStorage);
         }
         else{
             userStorage.cookingHistory.unshift(history);

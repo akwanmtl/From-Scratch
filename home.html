@@ -16,25 +16,25 @@
         <div class="left item">
           <img src="fire_1f525.png" id="menuLogo">
         </div>
-        <a class="item">
+        <a class="item" id="go-to-home">
           <i class="home icon"></i> Home
         </a>
-        <a class="item">
+        <a class="item" id="go-to-saved-history">
           <i class="thumbtack icon"></i> For Later
         </a>
-        <a class="item">
+        <a class="item" id="go-to-cooking-history">
           <i class="book icon"></i> Cooking History
         </a>
-        <div class="ui simple dropdown item">
+        <!-- <div class="ui simple dropdown item">
           More
           <i class="dropdown icon"></i>
           <div class="menu">
             <a class="item"><i class="edit icon"></i> Edit Profile</a>
             <a class="item"><i class="settings icon"></i> Account Settings</a>
           </div>
-        </div>
+        </div> -->
         <div class="right menu">
-          <a class="ui item">Logout</a>
+          <a class="ui item" id="logout">Logout</a>
         </div>
       </div>
     </div>
@@ -47,11 +47,11 @@
         <div class="row">
           <img src="hero_bg.jpg" class="">
         </div>
+        
 
-
-        <h1 class="ui header center aligned huge">Let's Get Cookin'</h1>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit numquam porro debitis saepe voluptatem minima quia, sed quo ratione. Vero, modi aliquid consequuntur sequi quae laboriosam sint amet animi in.</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque assumenda exercitationem, praesentium quaerat quasi eum nesciunt fugit odio suscipit vitae adipisci aperiam, qui tenetur eius illum eaque saepe fuga in?</p>
+        <h1 class="ui header center aligned huge">Your Stats</h1>
+        <p>You've cooked <span id="overall"></span> times overall.</p>
+        <p>You've cooked <span id="monthly"></span> times this month.</p>
         <div class="ui divider"></div>
         <button class="ui red button huge" style="margin-top:1rem">Let's Cook</button>
         <button class="ui button huge">Saved for Later</button>
