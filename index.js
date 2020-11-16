@@ -112,12 +112,17 @@ function createRecipeCard(){
         cardTitle.classList.add("card-title");
         cardTitle.textContent = list[counterRecipe].strMeal;
 
+        var cardSubTitle = document.createElement("h3");
+        cardSubTitle.classList.add("ui","centered","header")
+        cardSubTitle.textContent = "Nutrition Preview"
+
         var cardText = document.createElement("p");
         cardText.classList.add("card-text");
-        cardText.textContent = "Nutrition Preview"
+        cardText.textContent = "";
         // This is needed - just comment out to not use up the API
-        // getNutritionPreview(list[i].strMeal,cardText);
+        // getNutritionPreview(list[counterRecipe].strMeal,cardText);
         cardBody.appendChild(cardTitle);
+        cardBody.appendChild(cardSubTitle);
         cardBody.appendChild(cardText);
 
         colTxt.appendChild(cardBody);
@@ -154,8 +159,14 @@ function getNutritionPreview(meal,el){
             console.log(nutrients);
             nutrientsObj = convertNutrition(nutrients);
             console.log(nutrientsObj);
-            var row = document.createElement("div");
-            row.classList.add("row");
+            var row = document.createElement("table");
+            row.classList.add("ui","teal","table");
+            var tHead = document.createElement("thead");
+            var tHeadRow = document.createElement("tr");
+            var tInfoRow = document.createElement("tr");
+            tHead.appendChild(tHeadRow);
+            tHead.appendChild(tInfoRow);
+            row.appendChild(tHead);
             //calories, sat fat, sodium, sugar, protein
             var previewNutrients = [
                 {
@@ -185,25 +196,26 @@ function getNutritionPreview(meal,el){
                 }
             ];
             for (var i = 0; i < previewNutrients.length; i++){
-                var newDiv = document.createElement("div");
-                newDiv.classList.add("col-2");
-                var pName = document.createElement("p");
+                // var newDiv = document.createElement("tr");
+                // newDiv.classList.add("col-2");
+                var pName = document.createElement("th");
                 pName.textContent = previewNutrients[i].name;
-                newDiv.appendChild(pName);
+                // newDiv.appendChild(pName);
                 
-                var pAmount = document.createElement("p");
+                var pAmount = document.createElement("td");
                 var amount = nutrientsObj[previewNutrients[i].name];                
                 pAmount.textContent = Math.round(amount/4) + " " + previewNutrients[i].unit;
-                newDiv.appendChild(pAmount);
+                // newDiv.appendChild(pAmount);
 
                 if(previewNutrients[i].dv){
                     var percent = (amount/(previewNutrients[i].dv*4)).toFixed(1);
                     var pPercent = document.createElement("p");
                     pPercent.textContent = percent + "%DV";
-                    newDiv.appendChild(pPercent);
+                    pAmount.appendChild(pPercent);
                 }
                 
-                row.appendChild(newDiv);
+                tHeadRow.appendChild(pName);
+                tInfoRow.appendChild(pAmount);
             }
             el.appendChild(row);
 
@@ -497,8 +509,8 @@ function showRecipe(mealName){
 
             console.log(instructionItem.textContent)
 
-            getNutrition(food).then(function(nutrients){ // for the api
-                // var nutrients = nutritionSample.foods; //when not using api
+            // getNutrition(food).then(function(nutrients){ // for the api
+                var nutrients = nutritionSample.foods; //when not using api
                 //nutritional facts section
                 
                 nutritionDetails.innerHTML = "";
@@ -508,7 +520,7 @@ function showRecipe(mealName){
 
                 updateNutrition();
                 
-            }); // for the api
+            // }); // for the api
 
             // showing instructions
             
@@ -524,16 +536,29 @@ function showRecipe(mealName){
 
 function updateNutrition(){
     nutritionDetails.innerHTML = "";
+
     for (var i = 0; i < previewNutrients.length; i++){
                      
         var amount = nutrientsObj[previewNutrients[i].name];                
         
-        var nutrientItem = document.createElement("li");
-    
-        nutrientItem.textContent = previewNutrients[i].name + ": " + Math.round(amount/serving) + " " + previewNutrients[i].unit;     
-                   
+        var nutrientItem = document.createElement("tr");
+        nutrientItem.classList.add("center", "aligned");
+
+        var nutrientName = document.createElement("th");
+        nutrientName.textContent = previewNutrients[i].name;
+
+        var nutrientInfo = document.createElement("td");
+        nutrientInfo.textContent = Math.round(amount/serving) + " " + previewNutrients[i].unit;
+
+        // nutrientItem.textContent = previewNutrients[i].name + ": " + Math.round(amount/serving) + " " + previewNutrients[i].unit;     
+        nutrientItem.appendChild(nutrientName);
+        nutrientItem.appendChild(nutrientInfo);           
         nutritionDetails.appendChild(nutrientItem);
+        
+        
     }
+
+    
 }
 
 numberPeople.addEventListener("change",function(){
