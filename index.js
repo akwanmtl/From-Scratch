@@ -509,8 +509,8 @@ function showRecipe(mealName){
 
             console.log(instructionItem.textContent)
 
-            getNutrition(food).then(function(nutrients){ // for the api
-                // var nutrients = nutritionSample.foods; //when not using api
+            // getNutrition(food).then(function(nutrients){ // for the api
+                var nutrients = nutritionSample.foods; //when not using api
                 //nutritional facts section
                 
                 nutritionDetails.innerHTML = "";
@@ -520,7 +520,7 @@ function showRecipe(mealName){
 
                 updateNutrition();
                 
-            }); // for the api
+            // }); // for the api
 
             // showing instructions
             
@@ -536,16 +536,29 @@ function showRecipe(mealName){
 
 function updateNutrition(){
     nutritionDetails.innerHTML = "";
+
     for (var i = 0; i < previewNutrients.length; i++){
                      
         var amount = nutrientsObj[previewNutrients[i].name];                
         
-        var nutrientItem = document.createElement("li");
-    
-        nutrientItem.textContent = previewNutrients[i].name + ": " + Math.round(amount/serving) + " " + previewNutrients[i].unit;     
-                   
+        var nutrientItem = document.createElement("tr");
+        nutrientItem.classList.add("center", "aligned");
+
+        var nutrientName = document.createElement("th");
+        nutrientName.textContent = previewNutrients[i].name;
+
+        var nutrientInfo = document.createElement("td");
+        nutrientInfo.textContent = Math.round(amount/serving) + " " + previewNutrients[i].unit;
+
+        // nutrientItem.textContent = previewNutrients[i].name + ": " + Math.round(amount/serving) + " " + previewNutrients[i].unit;     
+        nutrientItem.appendChild(nutrientName);
+        nutrientItem.appendChild(nutrientInfo);           
         nutritionDetails.appendChild(nutrientItem);
+        
+        
     }
+
+    
 }
 
 numberPeople.addEventListener("change",function(){

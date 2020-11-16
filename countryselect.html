@@ -119,9 +119,9 @@
         
       <h2>Nutritional Information</h2>
       <h3>Nutrition if serving for <input type="number" name="number-serving" id="number-serving" value=1 min="1" max="20" required></h3>
-      <p>
-        <ul id="nutrition-details"></ul>
-      </p>
+      <table class="ui small celled black table" id=nutrition-details>
+        <!-- <ul id="nutrition-details"></ul> -->
+      </table>
 
       <h3>Ingredients</h3>
       <ul id="ingredients-list">
@@ -239,6 +239,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+  <script src="nutritionSample.js"></script> 
   <script src="index.js"></script> 
 </body>
 </html>
