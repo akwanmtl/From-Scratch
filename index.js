@@ -126,8 +126,8 @@ function createRecipeCard(){
         var cardText = document.createElement("p");
         cardText.classList.add("card-text");
         cardText.textContent = "Nutrition Preview - 4 servings";
-        // This is needed - just comment out to not use up the API
-        // getNutritionPreview(list[counterRecipe].strMeal,cardText);
+        // This uses the api
+        previewNutrition(list[counterRecipe].strMeal,cardText);
 
         cardBody.appendChild(cardTitle);
         cardBody.appendChild(cardText);
@@ -156,84 +156,86 @@ function createRecipeCard(){
     }
 };
 
-// Function that will get the nutritional fact
-// This will need to be updated!!!!!
-
-function getNutritionPreview(meal,el){
+// takes in the recipe name and the element to put the information
+function previewNutrition(meal, el){
     getSingleRecipe(meal).then(function(ingredients){
-        // el.textContent = ingredients;
         getNutrition(ingredients).then(function(nutrients){
-
             nutrientsObj = convertNutrition(nutrients);
-            var row = document.createElement("div");
-            row.classList.add("ui","teal","table","unstackable");
-            var tHead = document.createElement("thead");
-            var tHeadRow = document.createElement("tr");
-            var tInfoRow = document.createElement("tr");
-            tHead.appendChild(tHeadRow);
-            tHead.appendChild(tInfoRow);
-            row.appendChild(tHead);
-            //calories, sat fat, sodium, sugar, protein
-            var previewNutrients = [
-                {
-                    name:"calories",
-                    display:"Calories",
-                    unit:"",
-                    dv: false
-                },
-                {
-                    name:"satFat",
-                    display:"Saturated Fat",
-                    unit:"g",
-                    dv:20
-                },
-                {
-                    name:"sodium",
-                    display:"Sodium",
-                    unit:"mg",
-                    dv:2300
-                },
-                {
-                    name:"sugar",
-                    display:"Sugar",
-                    unit:"g",
-                    dv: false
-                },
-                {
-                    name:"protein",
-                    display:"Protein",
-                    unit:"g",
-                    dv: false
-                }
-            ];
-            for (var i = 0; i < previewNutrients.length; i++){
-                var pName = document.createElement("th");
-                pName.textContent = previewNutrients[i].display;
-                
-                var pAmount = document.createElement("td");
-                var amount = nutrientsObj[previewNutrients[i].name];       
-                if(amount/4 < 1 && amount/4 > 0){
-                    pAmount.textContent = (amount/4).toFixed(1) + " " + previewNutrients[i].unit;
-                }   
-                else{
-                    pAmount.textContent = Math.round(amount/4) + " " + previewNutrients[i].unit;
-                }      
-                                
-                if(previewNutrients[i].dv){
-                    var percent = Math.round(amount/(previewNutrients[i].dv*4)*100);
-                    var pPercent = document.createElement("p");
-                    pPercent.textContent = percent + "%DV";
-                    pAmount.appendChild(pPercent);
-                }
-                
-                tHeadRow.appendChild(pName);
-                tInfoRow.appendChild(pAmount);
-            }
-            el.appendChild(row);
-
+            getNutritionPreview(nutrientsObj,4,el);
         });
     });
+}
+
+// new get nutrition preview - outputs a table 
+function getNutritionPreview(nutrition, serving, el){
     
+    var row = document.createElement("div");
+    row.classList.add("ui","teal","table","unstackable");
+    var tHead = document.createElement("thead");
+    var tHeadRow = document.createElement("tr");
+    var tInfoRow = document.createElement("tr");
+    tHead.appendChild(tHeadRow);
+    tHead.appendChild(tInfoRow);
+    row.appendChild(tHead);
+    //calories, sat fat, sodium, sugar, protein
+    var previewNutrients = [
+        {
+            name:"calories",
+            display:"Calories",
+            unit:"",
+            dv: false
+        },
+        {
+            name:"satFat",
+            display:"Saturated Fat",
+            unit:"g",
+            dv:20
+        },
+        {
+            name:"sodium",
+            display:"Sodium",
+            unit:"mg",
+            dv:2300
+        },
+        {
+            name:"sugar",
+            display:"Sugar",
+            unit:"g",
+            dv: false
+        },
+        {
+            name:"protein",
+            display:"Protein",
+            unit:"g",
+            dv: false
+        }
+    ];
+    for (var i = 0; i < previewNutrients.length; i++){
+        var pName = document.createElement("th");
+        pName.textContent = previewNutrients[i].display;
+        
+        var pAmount = document.createElement("td");
+        var amount = nutrition[previewNutrients[i].name];       
+        if(amount/4 < 1 && amount/4 > 0){
+            pAmount.textContent = (amount/4).toFixed(1) + " " + previewNutrients[i].unit;
+        }   
+        else{
+            pAmount.textContent = Math.round(amount/serving) + " " + previewNutrients[i].unit;
+        }      
+                        
+        if(previewNutrients[i].dv){
+            var percent = Math.round(amount/(previewNutrients[i].dv*serving)*100);
+            var pPercent = document.createElement("p");
+            pPercent.textContent = percent + "%DV";
+            pAmount.appendChild(pPercent);
+        }
+        
+        tHeadRow.appendChild(pName);
+        tInfoRow.appendChild(pAmount);
+    }
+    el.appendChild(row);
+
+       
 }
 
 // function that will get the information for one recipe - used to see the nutrition preview
@@ -947,80 +949,6 @@ function getServing(meal,list){
 }
 
 
-function getNutritionPreviewSaved(mealObj, el){
-    var nutrientsObj = mealObj.nutrition;
-    var serving = mealObj.serving;
-    var row = document.createElement("div");
-    row.classList.add("ui","teal","table");
-    var tHead = document.createElement("thead");
-    var tHeadRow = document.createElement("tr");
-    var tInfoRow = document.createElement("tr");
-    tHead.appendChild(tHeadRow);
-    tHead.appendChild(tInfoRow);
-    row.appendChild(tHead);
-    //calories, sat fat, sodium, sugar, protein
-    var previewNutrients = [
-        {
-            name:"calories",
-            display:"Calories",
-            unit:"",
-            dv: false
-        },
-        {
-            name:"satFat",
-            display:"Saturated Fat",
-            unit:"g",
-            dv:20
-        },
-        {
-            name:"sodium",
-            display:"Sodium",
-            unit:"mg",
-            dv:2300
-        },
-        {
-            name:"sugar",
-            display:"Sugar",
-            unit:"g",
-            dv: false
-        },
-        {
-            name:"protein",
-            display:"Protein",
-            unit:"g",
-            dv: false
-        }
-    ];
-    for (var i = 0; i < previewNutrients.length; i++){
-        var pName = document.createElement("th");
-        pName.textContent = previewNutrients[i].display;
-        
-        var pAmount = document.createElement("td");
-        var amount = nutrientsObj[previewNutrients[i].name];   
-        
-        if(amount/serving < 1 &&  amount/serving > 0){
-            pAmount.textContent = (amount/serving).toFixed(1) + " " + previewNutrients[i].unit;
-        }
-        else{
-            pAmount.textContent = Math.round(amount/serving) + " " + previewNutrients[i].unit;
-        }
-        // pAmount.textContent = Math.round(amount/serving) + " " + previewNutrients[i].unit;
-        
-        if(previewNutrients[i].dv){
-            var percent = Math.round(amount/(previewNutrients[i].dv*serving)*100);
-            var pPercent = document.createElement("p");
-            pPercent.textContent = percent + "%DV";
-            pAmount.appendChild(pPercent);
-        }
-        
-        tHeadRow.appendChild(pName);
-        tInfoRow.appendChild(pAmount);
-    }
-    el.appendChild(row);
-
-    
-}
-
 function showSavedForLater(){
     recipeListText.innerText = "Saved Recipes"
     counterRecipe = 0;
@@ -1051,7 +979,7 @@ function showSavedForLater(){
         cardText.textContent = (list[counterRecipe].serving == 1) ? "Nutrition Preview - " + list[counterRecipe].serving + " serving" : "Nutrition Preview - " + list[counterRecipe].serving + " servings"
 
         // get nutrition preview from the nutrition object saved
-        getNutritionPreviewSaved(list[counterRecipe],cardText);
+        getNutritionPreview(list[counterRecipe].nutrition,list[counterRecipe].serving,cardText);
         cardBody.appendChild(cardTitle);
         cardBody.appendChild(cardText);
 
