@@ -39,8 +39,44 @@ THEN I am given appropriate nutitional information for that number of servings
 WHEN I want to save the recipe for later
 THEN I can save and go back to the previous list of recipes
 WHEN I am ready to cook the recipe
+THEN I am presented in a step-by-step manner on what ingredients I need and the steps to make the recipe
+WHEN I complete all the steps
+THEN I prompted with a review to rate my meal and/or leave feedback for future reference
+WEHN I finish review my cooking
+THEN the recipe is saved into a Cooking History list
+WHEN I view my Cooking History
+THEN I see the rating and feedback for each recipe that I have made and can cook them again
+WHEN I view my Saved for Later list
+THEN I will see all the recipes that I have saved which I can view and cook
+WHEN I logout of the website
+THEN I am back to the login/sign up page
+WHEN I go to Account Settings
+THEN I can edit my username, my password or delete account
 
-Here are the screenshots of online quiz.
+Here are the screenshots of Recipe Box App.
+Login page
+![Login Page]() 
+
+Home page
+![Home Page]() 
+
+List of Cuisines
+![Cuisines Page]() 
+
+List of Recipes
+![List of Recipes Page]() 
+
+Recipe Page
+![Recipe Page]() 
+
+Cook it Page
+![Cook it Page]() 
+
+Saved Recipes
+![Saved Recipes Page]() 
+
+Cooking history
+![Cooking History Page]() 
 
 
 Link to the Github repository: 
@@ -49,6 +85,9 @@ Link to the website:
 
 ## Credits
 
+Collaborators:
+* [Keith Crooc](like to github)
+* [Javier ](like to github)
 
 * [License badge link](https://gist.github.com/lukas-h/2a5d00690736b4c3a7ba)
 
