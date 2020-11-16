@@ -212,7 +212,7 @@ function getNutritionPreview(meal,el){
                 
                 var pAmount = document.createElement("td");
                 var amount = nutrientsObj[previewNutrients[i].name];       
-                if(amount/4 < 1){
+                if(amount/4 < 1 && amount/4 > 0){
                     pAmount.textContent = (amount/4).toFixed(1) + " " + previewNutrients[i].unit;
                 }   
                 else{
@@ -559,7 +559,7 @@ function updateNutrition(){
         nutrientName.textContent = previewNutrients[i].display;
 
         var nutrientInfo = document.createElement("td");
-        if(amount/serving < 1){
+        if(amount/serving < 1 && amount/serving > 0){
             nutrientInfo.textContent = (amount/serving).toFixed(1) + " " + previewNutrients[i].unit;
         }
         else{
@@ -998,7 +998,7 @@ function getNutritionPreviewSaved(mealObj, el){
         var pAmount = document.createElement("td");
         var amount = nutrientsObj[previewNutrients[i].name];   
         
-        if(amount/serving < 1){
+        if(amount/serving < 1 &&  amount/serving > 0){
             pAmount.textContent = (amount/serving).toFixed(1) + " " + previewNutrients[i].unit;
         }
         else{
