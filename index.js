@@ -17,7 +17,7 @@ var buttonsRecipes = document.getElementById("buttonsRecipes");
 var buttonsHistory = document.getElementById("buttonsHistory");
 
 // List of cuisine + Surpise Me!
-var countriesList = ["American","British","Canadian","Chinese","Dutch","Egyptian","French","Indian","Irish","Italian","Jamaican","Japanese","Kenyan","Malaysian","Mexican","Moroccan","Polish","Russian","Spanish","Thai","Tunisian","Turkish","Vietnamese","Suprise Me!"];
+var countriesList = ["American","British","Canadian","Chinese","Dutch","Egyptian","French","Indian","Irish","Italian","Jamaican","Japanese","Kenyan","Malaysian","Mexican","Moroccan","Polish","Russian","Spanish","Thai","Tunisian","Turkish","Vietnamese","Surprise Me!"];
 
 // Declare global variables to go through the recipes of a cuisine
 var list;
@@ -51,7 +51,7 @@ function getRecipes(country){
     // categoryEl.classList.remove("hide");
 
     // Get the url for random recipe 
-    if(country === "Surpise Me!"){
+    if(country === "Surprise Me!"){
         var requestUrl = "https://www.themealdb.com/api/json/v1/1/random.php"
     }
     // Get the url for recipes from that country
@@ -67,8 +67,9 @@ function getRecipes(country){
                 return response.json();
             })
             .then(function(data){
+                console.log(data);
                 list = shuffle(data.meals); // Shuffle the list of recipes for variety
-
+                console.log("serving", serving)
                 counterRecipe = 0; //set the counter to 0
                 createRecipeCard(); //Call the function to create the recipe card
 
@@ -124,9 +125,9 @@ function createRecipeCard(){
 // Nutrition preview for 4 servings
         var cardText = document.createElement("p");
         cardText.classList.add("card-text");
-        cardText.textContent = "Nutrition Preview";
+        cardText.textContent = "Nutrition Preview - 4 servings";
         // This is needed - just comment out to not use up the API
-        // getNutritionPreview(list[i].strMeal,cardText);
+        // getNutritionPreview(list[counterRecipe].strMeal,cardText);
 
         cardBody.appendChild(cardTitle);
         cardBody.appendChild(cardText);
@@ -165,55 +166,63 @@ function getNutritionPreview(meal,el){
 
             nutrientsObj = convertNutrition(nutrients);
             var row = document.createElement("div");
-            row.classList.add("row");
+            row.classList.add("ui","teal","table");
+            var tHead = document.createElement("thead");
+            var tHeadRow = document.createElement("tr");
+            var tInfoRow = document.createElement("tr");
+            tHead.appendChild(tHeadRow);
+            tHead.appendChild(tInfoRow);
+            row.appendChild(tHead);
             //calories, sat fat, sodium, sugar, protein
             var previewNutrients = [
                 {
                     name:"calories",
+                    display:"Calories",
                     unit:"",
                     dv: false
                 },
                 {
                     name:"satFat",
+                    display:"Saturated Fat",
                     unit:"g",
                     dv:20
                 },
                 {
                     name:"sodium",
+                    display:"Sodium",
                     unit:"mg",
                     dv:2300
                 },
                 {
                     name:"sugar",
+                    display:"Sugar",
                     unit:"g",
                     dv: false
                 },
                 {
                     name:"protein",
+                    display:"Protein",
                     unit:"g",
                     dv: false
                 }
             ];
             for (var i = 0; i < previewNutrients.length; i++){
-                var newDiv = document.createElement("div");
-                newDiv.classList.add("col-2");
-                var pName = document.createElement("p");
-                pName.textContent = previewNutrients[i].name;
-                newDiv.appendChild(pName);
+                var pName = document.createElement("th");
+                pName.textContent = previewNutrients[i].display;
                 
-                var pAmount = document.createElement("p");
+                var pAmount = document.createElement("td");
                 var amount = nutrientsObj[previewNutrients[i].name];                
                 pAmount.textContent = Math.round(amount/4) + " " + previewNutrients[i].unit;
-                newDiv.appendChild(pAmount);
-
+                
                 if(previewNutrients[i].dv){
                     var percent = (amount/(previewNutrients[i].dv*4)).toFixed(1);
                     var pPercent = document.createElement("p");
                     pPercent.textContent = percent + "%DV";
-                    newDiv.appendChild(pPercent);
+                    pAmount.appendChild(pPercent);
                 }
                 
-                row.appendChild(newDiv);
+                tHeadRow.appendChild(pName);
+                tInfoRow.appendChild(pAmount);
             }
             el.appendChild(row);
 
@@ -565,8 +574,7 @@ numberPeople.addEventListener("change",function(){
 
 // If the user choose different recipe, goes back to previous page
 differentRecipeBtn.addEventListener("click",function(){
-    // recipeEl.classList.add("hide");
-    // categoryEl.classList.remove("hide");
+    numberPeople.value = 4;
     toPage(categoryEl);
 });
 
@@ -611,6 +619,7 @@ saveBtn.addEventListener("click",function(){
     // location.href = "#";
     // location.href = "#category";
     // categoryEl.classList.remove("hide");
+    numberPeople.value = 4;
     toPage(categoryEl);
 
 });
@@ -887,10 +896,86 @@ $("#save-review").click(function(event){
 });
 
 
-// var cookHistoryPage = document.querySelector("#cookedHistory")
-// var savedLaterPage = document.querySelector("#savedLater")
-
 /*****This section for when the user go through their history*****/
+
+// fuction that loads the serving saved for the recipe
+function getServing(meal,list){
+    for(var i = 0; i < list.length; i++){
+        if(list[i].name === meal){
+            numberPeople.value = list[i].serving;
+            break;
+        }
+    }
+
+}
+
+
+function getNutritionPreviewSaved(mealObj, el){
+    var nutrientsObj = mealObj.nutrition;
+    var serving = mealObj.serving;
+    var row = document.createElement("div");
+    row.classList.add("ui","teal","table");
+    var tHead = document.createElement("thead");
+    var tHeadRow = document.createElement("tr");
+    var tInfoRow = document.createElement("tr");
+    tHead.appendChild(tHeadRow);
+    tHead.appendChild(tInfoRow);
+    row.appendChild(tHead);
+    //calories, sat fat, sodium, sugar, protein
+    var previewNutrients = [
+        {
+            name:"calories",
+            display:"Calories",
+            unit:"",
+            dv: false
+        },
+        {
+            name:"satFat",
+            display:"Saturated Fat",
+            unit:"g",
+            dv:20
+        },
+        {
+            name:"sodium",
+            display:"Sodium",
+            unit:"mg",
+            dv:2300
+        },
+        {
+            name:"sugar",
+            display:"Sugar",
+            unit:"g",
+            dv: false
+        },
+        {
+            name:"protein",
+            display:"Protein",
+            unit:"g",
+            dv: false
+        }
+    ];
+    for (var i = 0; i < previewNutrients.length; i++){
+        var pName = document.createElement("th");
+        pName.textContent = previewNutrients[i].display;
+        
+        var pAmount = document.createElement("td");
+        var amount = nutrientsObj[previewNutrients[i].name];                
+        pAmount.textContent = Math.round(amount/serving) + " " + previewNutrients[i].unit;
+        
+        if(previewNutrients[i].dv){
+            var percent = (amount/(previewNutrients[i].dv*4)).toFixed(1);
+            var pPercent = document.createElement("p");
+            pPercent.textContent = percent + "%DV";
+            pAmount.appendChild(pPercent);
+        }
+        
+        tHeadRow.appendChild(pName);
+        tInfoRow.appendChild(pAmount);
+    }
+    el.appendChild(row);
+
+    
+}
 
 function showSavedForLater(){
     recipeListText.innerText = "Saved Recipes"
@@ -919,11 +1004,10 @@ function showSavedForLater(){
 
         var cardText = document.createElement("p");
         cardText.classList.add("card-text");
-        cardText.textContent = "Nutrition Preview";
+        cardText.textContent = (list[counterRecipe].serving == 1) ? "Nutrition Preview - " + list[counterRecipe].serving + " serving" : "Nutrition Preview - " + list[counterRecipe].serving + " servings"
 
-        // MIGHT NEED TO WRITE A DIFFERENT FUNCTION
-        // to user
-        // getNutritionPreview(list[i].strMeal,cardText);
+        // get nutrition preview from the nutrition object saved
+        getNutritionPreviewSaved(list[counterRecipe],cardText);
         cardBody.appendChild(cardTitle);
         cardBody.appendChild(cardText);
 
@@ -936,6 +1020,7 @@ function showSavedForLater(){
         row.setAttribute("data-meal",list[counterRecipe].name);
         
         row.addEventListener("click",function(event){
+            getServing(this.getAttribute("data-meal"),list); //get the serving before loading the recipe
             showRecipe(this.getAttribute("data-meal"));
         });
 
@@ -947,13 +1032,6 @@ function showSavedForLater(){
     buttonsRecipes.classList.add("hide");/********NEW LINE******/
     buttonsHistory.classList.remove("hide");/********NEW LINE******/
     toPage(categoryEl);
-            // //display only Save for Later page
-        // savedLaterPage.classList.remove("hide");
-
-        // // hide everything else
-        // categorySelectionEl.classList.add("hide");
-        // cookHistoryPage.classList.add("hide");
-        // categoryEl.classList.add("hide");
     
 }
 
@@ -1018,8 +1096,8 @@ function loadCookHistory(){
         row.setAttribute("data-meal",list[counterRecipe].name);
         
         row.addEventListener("click",function(event){
+            getServing(this.getAttribute("data-meal"),list); //get the serving before loading the recipe
             showRecipe(this.getAttribute("data-meal"));
-            // cookHistoryPage.classList.add("hide");
         });
 
         // historyList.appendChild(row);
