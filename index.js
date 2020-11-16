@@ -166,7 +166,7 @@ function getNutritionPreview(meal,el){
 
             nutrientsObj = convertNutrition(nutrients);
             var row = document.createElement("div");
-            row.classList.add("ui","teal","table");
+            row.classList.add("ui","teal","table","unstackable");
             var tHead = document.createElement("thead");
             var tHeadRow = document.createElement("tr");
             var tInfoRow = document.createElement("tr");
@@ -211,11 +211,16 @@ function getNutritionPreview(meal,el){
                 pName.textContent = previewNutrients[i].display;
                 
                 var pAmount = document.createElement("td");
-                var amount = nutrientsObj[previewNutrients[i].name];                
-                pAmount.textContent = Math.round(amount/4) + " " + previewNutrients[i].unit;
-                
+                var amount = nutrientsObj[previewNutrients[i].name];       
+                if(amount/4 < 1){
+                    pAmount.textContent = (amount/4).toFixed(1) + " " + previewNutrients[i].unit;
+                }   
+                else{
+                    pAmount.textContent = Math.round(amount/4) + " " + previewNutrients[i].unit;
+                }      
+                                
                 if(previewNutrients[i].dv){
-                    var percent = (amount/(previewNutrients[i].dv*4)).toFixed(1);
+                    var percent = Math.round(amount/(previewNutrients[i].dv*4)*100);
                     var pPercent = document.createElement("p");
                     pPercent.textContent = percent + "%DV";
                     pAmount.appendChild(pPercent);
@@ -385,51 +390,61 @@ var nutrientsObj; //the nutrients
 var previewNutrients = [
     {
         name:"calories",
+        display:"Calories",
         unit:"",
         dv: false
     },
     {
         name:"totalFat",
+        display:"Total Fat",
         unit:"g",
         dv:65
     },
     {
         name:"satFat",
+        display:"Saturated Fat",
         unit:"g",
         dv:20
     },
     {
         name:"transFat",
+        display:"Trans Fat",
         unit:"g",
         dv:false
     },
     {
         name:"cholesterol",
+        display:"Cholesterol",
         unit:"mg",
         dv:300
     },
     {
         name:"sodium",
+        display:"Sodium",
         unit:"mg",
         dv:2300
     },
     {
         name:"carbs",
+        display:"Carbohydrates",
         unit:"g",
         dv:300
     },
     {
         name:"fiber",
+        display:"Fiber",
         unit:"g",
         dv:25
     },
     {
         name:"sugar",
+        display:"Suagr",
         unit:"g",
         dv: false
     },
     {
         name:"protein",
+        display:"Protein",
         unit:"g",
         dv: false
     }
@@ -530,18 +545,40 @@ function showRecipe(mealName){
 };
 
 // function that will show the nutrition 
-// Could change to look better
 function updateNutrition(){
     nutritionDetails.innerHTML = "";
+    
     for (var i = 0; i < previewNutrients.length; i++){
                      
         var amount = nutrientsObj[previewNutrients[i].name];                
         
-        var nutrientItem = document.createElement("li");
-    
-        nutrientItem.textContent = previewNutrients[i].name + ": " + Math.round(amount/serving) + " " + previewNutrients[i].unit;     
-                   
+        var nutrientItem = document.createElement("tr");
+        nutrientItem.classList.add("center", "aligned");
+
+        var nutrientName = document.createElement("th");
+        nutrientName.textContent = previewNutrients[i].display;
+
+        var nutrientInfo = document.createElement("td");
+        if(amount/serving < 1){
+            nutrientInfo.textContent = (amount/serving).toFixed(1) + " " + previewNutrients[i].unit;
+        }
+        else{
+            nutrientInfo.textContent = Math.round(amount/serving) + " " + previewNutrients[i].unit;
+        }
+        
+
+        
+        var nutrientDV = document.createElement("td");
+        if(previewNutrients[i].dv){
+            nutrientDV.textContent = Math.round(amount/serving/previewNutrients[i].dv*100) + "%DV";
+        }
+       
+
+        nutrientItem.appendChild(nutrientName);
+        nutrientItem.appendChild(nutrientInfo); 
+        nutrientItem.appendChild(nutrientDV);             
         nutritionDetails.appendChild(nutrientItem);
+        
     }
 }
 
@@ -959,11 +996,18 @@ function getNutritionPreviewSaved(mealObj, el){
         pName.textContent = previewNutrients[i].display;
         
         var pAmount = document.createElement("td");
-        var amount = nutrientsObj[previewNutrients[i].name];                
-        pAmount.textContent = Math.round(amount/serving) + " " + previewNutrients[i].unit;
+        var amount = nutrientsObj[previewNutrients[i].name];   
+        
+        if(amount/serving < 1){
+            pAmount.textContent = (amount/serving).toFixed(1) + " " + previewNutrients[i].unit;
+        }
+        else{
+            pAmount.textContent = Math.round(amount/serving) + " " + previewNutrients[i].unit;
+        }
+        // pAmount.textContent = Math.round(amount/serving) + " " + previewNutrients[i].unit;
         
         if(previewNutrients[i].dv){
-            var percent = (amount/(previewNutrients[i].dv*4)).toFixed(1);
+            var percent = Math.round(amount/(previewNutrients[i].dv*serving)*100);
             var pPercent = document.createElement("p");
             pPercent.textContent = percent + "%DV";
             pAmount.appendChild(pPercent);
