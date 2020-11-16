@@ -1,3 +1,4 @@
+// Declare the differnet 'Pages'
 var categorySelectionEl = document.querySelector("#categorySelection");
 var categoryEl = document.querySelector("#category");
 var recipeEl = document.querySelector("#recipe");
@@ -10,13 +11,23 @@ var savedLaterList = document.getElementById("saved-later-list")
 var moreBtn = document.getElementById("moreRecipes");
 var backBtn = document.getElementById("backToCountries");
 
-var countriesList = ["American","British","Canadian","Chinese","Dutch","Egyptian","French","Indian","Irish","Italian","Jamaican","Japanese","Kenyan","Malaysian","Mexican","Moroccan","Polish","Russian","Spanish","Thai","Tunisian","Turkish","Vietnamese"];
+var countriesList = ["American","British","Canadian","Chinese","Dutch","Egyptian","French","Indian","Irish","Italian","Jamaican","Japanese","Kenyan","Malaysian","Mexican","Moroccan","Polish","Russian","Spanish","Thai","Tunisian","Turkish","Vietnamese","Suprise Me!"];
 
 var list;
 var counterRecipe = 0;
 
 initializeCountries();
 
+function toPage (page){
+    categoryEl.classList.add("hide");
+    categorySelectionEl.classList.add("hide");
+    recipeEl.classList.add("hide");
+    getCookingEl.classList.add("hide");
+    homeEl.classList.add("hide");
+    profileEl.classList.add("hide");
+
+    page.classList.remove("hide");
+}
 
 function initializeCountries(){
    
@@ -42,8 +53,13 @@ function getRecipes(country){
     categorySelectionEl.classList.add("hide");
     categoryEl.classList.remove("hide");
 
+    if(country === "Surpise Me!"){
+        var requestUrl = "https://www.themealdb.com/api/json/v1/1/random.php"
+    }
+    else{
+        var requestUrl = "https://www.themealdb.com/api/json/v1/1/filter.php?a="+country;
+    }
 
-    var requestUrl = "https://www.themealdb.com/api/json/v1/1/filter.php?a="+country;
         fetch(requestUrl)
             .then(function(response){
                 if(!response.ok){
