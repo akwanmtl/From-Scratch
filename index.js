@@ -1,24 +1,60 @@
-// Declare the differnet 'Pages'
-var categorySelectionEl = document.querySelector("#categorySelection");
-var categoryEl = document.querySelector("#category");
-var recipeEl = document.querySelector("#recipe");
+// Declare the different 'Pages'
+var categorySelectionEl = document.querySelector("#categorySelection"); // Page with cuisine buttons 
+var categoryEl = document.querySelector("#category"); // Page with list of recipes
+var recipeEl = document.querySelector("#recipe"); // Page with recipe
+var getCookingEl = document.getElementById("getCooking"); // Page Let's cook it
+var cookingHistoryEl = document.getElementById("go-to-cooking-history"); // Page with cooking history
+var savedLaterEl = document.getElementById("go-to-saved-later"); // Page with saved history
 
-var countriesBox = document.getElementById("countries-box");
-var recipeList = document.getElementById("recipe-list");
-var historyList = document.getElementById("history-list");
-var savedLaterList = document.getElementById("saved-later-list")
+/*****Setup localstorage*****/
+var user; 
+var userStorage;
 
-var moreBtn = document.getElementById("moreRecipes");
-var backBtn = document.getElementById("backToCountries");
+// signInInitialize("username", "password");
 
+// function that initializes a new user
+function signInInitialize(username, password){
+    if(!localStorage.getItem(username)){
+        userStorage = {
+            user: username,
+            password: password,
+            savedHistory : [],
+            cookingHistory: []
+        }
+        user = username;
+        localStorage.setItem(username, JSON.stringify(userStorage));
+    }
+    else{
+        user = username;
+        userStorage = JSON.parse(localStorage.getItem(username));
+    }
+}
+
+
+/*****This section for when the user starts picking a new recipe*****/
+
+var countriesBox = document.getElementById("countries-box"); // Div for the buttons of cuisine
+var recipeList = document.getElementById("recipe-list"); // Div for list of up to 5 recipes
+
+// Might want to move this to another section
+var historyList = document.getElementById("history-list"); // Div for list of cooked recipes
+var savedLaterList = document.getElementById("saved-later-list") // Div for list of saved recipes
+
+
+var moreBtn = document.getElementById("moreRecipes"); // Button to show more recipes
+var backBtn = document.getElementById("backToCountries"); // Buttons to go back to the list of cuisines
+
+// List of cuisine + Surpise Me!
 var countriesList = ["American","British","Canadian","Chinese","Dutch","Egyptian","French","Indian","Irish","Italian","Jamaican","Japanese","Kenyan","Malaysian","Mexican","Moroccan","Polish","Russian","Spanish","Thai","Tunisian","Turkish","Vietnamese","Suprise Me!"];
 
+// Declare global variables to go through the recipes of a cuisine
 var list;
 var counterRecipe = 0;
 
-initializeCountries();
+// THIS SECTION MIGHT MOVE TO THE TOP
+initializeCountries(); // Initialize the list of countries, do this at the beginning
 
-function toPage (page){
+function toPage(page){
     categoryEl.classList.add("hide");
     categorySelectionEl.classList.add("hide");
     recipeEl.classList.add("hide");
@@ -26,67 +62,66 @@ function toPage (page){
     homeEl.classList.add("hide");
     profileEl.classList.add("hide");
 
+    // location.href = page;
     page.classList.remove("hide");
 }
 
+// Creates the buttons and appends it to the div
 function initializeCountries(){
    
     for(var i = 0; i < countriesList.length; i++){
         var countryBtn = document.createElement("button"); 
+
         countryBtn.classList.add("ui", "button", "large"); 
         countryBtn.setAttribute("data-country",countriesList[i]);
         countryBtn.textContent = countriesList[i];
+
         countryBtn.addEventListener("click", function(){
-            console.log("to page that shows 5 recipes");
             getRecipes(this.getAttribute("data-country"));
         });
-        countriesBox.appendChild(countryBtn);
-        
-    }
 
+        countriesBox.appendChild(countryBtn);
+    }
 }
 
-
-
+// Get the list of recipes for that country/cuisine
 function getRecipes(country){
 
-    categorySelectionEl.classList.add("hide");
-    categoryEl.classList.remove("hide");
+//CHANGED
+    // categorySelectionEl.classList.add("hide");
+    // categoryEl.classList.remove("hide");
 
+    // Get the url for random recipe 
     if(country === "Surpise Me!"){
         var requestUrl = "https://www.themealdb.com/api/json/v1/1/random.php"
     }
+    // Get the url for recipes from that country
     else{
         var requestUrl = "https://www.themealdb.com/api/json/v1/1/filter.php?a="+country;
     }
-
+        // fetch the data    
         fetch(requestUrl)
             .then(function(response){
                 if(!response.ok){
                     throw new Error("Network error");
                 }
-                return response.json()
+                return response.json();
             })
             .then(function(data){
-                console.log(data)
-                list = shuffle(data.meals);
-                // var list = data.meals;
+                list = shuffle(data.meals); // Shuffle the list of recipes for variety
 
-                console.log(list);
-                counterRecipe = 0;
-                createRecipeCard();
+                counterRecipe = 0; //set the counter to 0
+                createRecipeCard(); //Call the function to create the recipe card
 
-                //
-                
-
+                toPage(categoryEl);
                 
             })
             .catch(function(err){
                 console.log(err)
             });
-
 }
 
+// shuffle array function
 function shuffle(arr){
     for (var i = arr.length - 1; i > 0; i--) {
         var j = Math.floor(Math.random() * (i + 1));
@@ -97,42 +132,43 @@ function shuffle(arr){
     return arr;
 }
 
-console.log(list)
-
-
-
-
+// function that creates the list of up to 5 recipes on a page
 function createRecipeCard(){
     
     recipeList.innerHTML = "";
-    console.log(counterRecipe);
-    var start = counterRecipe;
+    var start = counterRecipe; //keeps tracks of the counter - needed if user wants to show more recipes
+
+    //Loop through the recipes - up to 5 times
     while(counterRecipe < Math.min(list.length, 5+start)){
-        // var card = document.createElement("div");
-        // card.classList.add("card","m-3");
+
         var row = document.createElement("div");
         row.classList.add("row");
+
         var colImg = document.createElement("div");
         colImg.classList.add("six", "wide", "column");
+
+        // Create image of the recipe
         var thumbnail = document.createElement("img");
-        // thumbnail.classList.add("card-img");
         thumbnail.setAttribute("alt",list[counterRecipe].strMeal);
         thumbnail.setAttribute("src",list[counterRecipe].strMealThumb);
         colImg.appendChild(thumbnail);
 
         var colTxt = document.createElement("div");
         colTxt.classList.add("ten", "wide", "column");
+
         var cardBody = document.createElement("h4");
-        // cardBody.classList.add("card-body");
+        // Name of recipe
         var cardTitle = document.createElement("h2");
         cardTitle.classList.add("card-title");
         cardTitle.textContent = list[counterRecipe].strMeal;
 
+// Nutrition preview for 4 servings
         var cardText = document.createElement("p");
         cardText.classList.add("card-text");
-        cardText.textContent = "Nutrition Preview"
+        cardText.textContent = "Nutrition Preview";
         // This is needed - just comment out to not use up the API
         // getNutritionPreview(list[i].strMeal,cardText);
+
         cardBody.appendChild(cardTitle);
         cardBody.appendChild(cardText);
 
@@ -141,19 +177,17 @@ function createRecipeCard(){
         row.appendChild(colImg);
         row.appendChild(colTxt);
 
-        // card.appendChild(row);
-
         row.setAttribute("data-meal",list[counterRecipe].strMeal);
-        // getRecipe(list[i].strMeal);
         
+        // If the 'card' is click, it will call the showRecipe function
         row.addEventListener("click",function(event){
-            // console.log(this.getAttribute("data-meal"));
             showRecipe(this.getAttribute("data-meal"));
         });
 
         recipeList.appendChild(row);
         counterRecipe++;
     }
+    // Make the More Recipes button hidden if there are no more recipe for that cuisine
     if (counterRecipe < list.length - 1){
         moreBtn.classList.remove("hide");
     }
@@ -162,14 +196,15 @@ function createRecipeCard(){
     }
 };
 
+// Function that will get the nutritional fact
+// This will need to be updated!!!!!
+
 function getNutritionPreview(meal,el){
-    getRecipe(meal).then(function(ingredients){
+    getSingleRecipe(meal).then(function(ingredients){
         // el.textContent = ingredients;
         getNutrition(ingredients).then(function(nutrients){
 
-            console.log(nutrients);
             nutrientsObj = convertNutrition(nutrients);
-            console.log(nutrientsObj);
             var row = document.createElement("div");
             row.classList.add("row");
             //calories, sat fat, sodium, sugar, protein
@@ -228,8 +263,11 @@ function getNutritionPreview(meal,el){
     
 }
 
-function getRecipe(meal){
+// function that will get the information for one recipe - used to see the nutrition preview
+function getSingleRecipe(meal){
+    
     var requestUrl = "https://www.themealdb.com/api/json/v1/1/search.php?s="+meal;
+    // return a fetch promise
     return fetch(requestUrl)
         .then(function(response){
             if(!response.ok){
@@ -238,14 +276,16 @@ function getRecipe(meal){
             return response.json()
         })
         .then(function(data){
-            console.log(data);
 
             var recipe = data.meals[0];
-            
             var food = "";
             
+            
             var i = 1;
-            while(recipe["strMeasure"+i].trim()!==""){
+            // get the list of ingredients delineated with \n
+            while(recipe["strIngredient"+i]!=null){
+                if(recipe["strIngredient"+i].trim()==="") break;
+
                 var ingredientItem = document.createElement("li"); 
                 var ingredient = recipe["strIngredient"+i];
                 var amount = recipe["strMeasure"+i];
@@ -254,8 +294,6 @@ function getRecipe(meal){
                 
                 i++;
             }
-            // console.log(food);
-            // getNutrition(food);
             return food; 
         })
         .catch(function(err){
@@ -263,17 +301,20 @@ function getRecipe(meal){
         });
 }
 
+// function that retrieves the nutritional facts of the ingredients
 function getNutrition (ingredients){
         
     var nutritionixUrl = "https://trackapi.nutritionix.com/v2/natural/nutrients"
 
-    console.log(ingredients)
+    // return a fetch promise
     return fetch(nutritionixUrl,{
         method:"POST",
         mode:'cors',
         headers:{
-            "x-app-id":"930ff8d0", 
-            "x-app-key":"0dd8cb8ed1cc72e3f116ffb344108992",
+            //"x-app-id":"930ff8d0", // KC's API KEY
+            //"x-app-key":"0dd8cb8ed1cc72e3f116ffb344108992", // KC's API KEY
+            "x-app-id":"18e9c76c", // AK's API KEY
+            "x-app-key":"442fbbe0551eec1c295ae3a72082b9b2", // AK's API KEY
             "x-remote-user-id":0,
             "Content-Type":"application/json"
         },
@@ -284,20 +325,22 @@ function getNutrition (ingredients){
         
     })
     .then(function(response){
-        console.log("response2", response);
         return response.json();
     })
     .then(function(data){
-        console.log('data',data);   
+        console.log('nutritional',data);   
         return data.foods;
-        // convertNutrition(data.foods)
     })
     .catch(function(err){
         console.log(err);
     });
 }
 
+// function that converts the data retrieved from Nutritionix api into something easier to comprehend
+// and return an object
 function convertNutrition(foods){
+    
+    // object containing all the nutrition ffor this website
     var nutrientsObj = {
         calories: 0,
         totalFat: 0,
@@ -311,19 +354,9 @@ function convertNutrition(foods){
         protein: 0
     };
 
-    // var calories = 0; //208
-    // var totalFat = 0; //204
-    // var satFat = 0; //606
-    // var transFat = 0; //605
-    // var cholesterol = 0; //601
-    // var sodium = 0; //307 
-    // var carbs = 0; //205
-    // var fiber = 0; //291
-    // var sugar = 0; //269
-    // var protein = 0; //203
-
+    // goes through each ingredient and add the amount for each component
     for (var i = 0; i < foods.length; i++){
-        // console.log("ingredient#: ",i)
+        
         nutrientsObj.calories += (foods[i].nf_calories) ? foods[i].nf_calories : 0;
         nutrientsObj.totalFat += (foods[i].nf_total_fat) ? foods[i].nf_total_fat : 0;
         nutrientsObj.satFat += (foods[i].nf_saturated_fat) ? foods[i].nf_saturated_fat : 0;
@@ -335,57 +368,52 @@ function convertNutrition(foods){
         nutrientsObj.sugar += (foods[i].nf_sugars) ? foods[i].nf_sugars : 0;
         nutrientsObj.protein += (foods[i].nf_protein) ? foods[i].nf_protein : 0;
 
+        // for transfat, we need to go to the full nutrients list and find attr_id of 605
         var full_nutrients = foods[i].full_nutrients;
         for (var j = 0; j < full_nutrients.length; j++){
             if(full_nutrients[j].attr_id == 605){
-                // console.log("transfat",full_nutrients[j].attr_id);
-                // console.log("transfat",full_nutrients[j].value);
                 nutrientsObj.transFat += full_nutrients[j].value;
                 break;
             }
         }
-
-        // transFat += foods[i].full_nutrients.findIndex(function(element){
-        //     return element.attr_id === 605;
-        // });
-
     }
-
-    console.log("calories", nutrientsObj.calories);
-    console.log("totalFat", nutrientsObj.totalFat);
-    console.log("satFat", nutrientsObj.satFat);
-    console.log("sodium", nutrientsObj.sodium);
-    console.log("cholesterol", nutrientsObj.cholesterol);
-    console.log("carbs", nutrientsObj.carbs);
-    console.log("fiber", nutrientsObj.fiber);
-    console.log("sugar", nutrientsObj.sugar);
-    console.log("protein", nutrientsObj.protein)
-
     return nutrientsObj;
-
 }
 
-moreBtn.addEventListener("click",createRecipeCard);
+ // Button to show more recipe
+moreBtn.addEventListener("click",createRecipeCard); 
+
+// Button to return back to the home page
 backBtn.addEventListener("click",function(){
-    categorySelectionEl.classList.remove("hide");
-    categoryEl.classList.add("hide");
-})
+    // categorySelectionEl.classList.remove("hide");
+    // categoryEl.classList.add("hide");
+    toPage(categorySelectionEl);
+});
 
-var getCookingEl = document.getElementById("getCooking");
+/*****This section for when the user picked a recipe*****/
 
-var recipeTitle = document.getElementById("recipe-name");
+// Elements of the page
+var recipeTitle = document.getElementById("recipe-name"); 
 var recipeImage = document.getElementById("recipe-image");
 var nutritionDetails = document.getElementById("nutrition-details");
 var ingredientList = document.getElementById("ingredients-list");
 var instructionList = document.getElementById("instructions-list");
 var numberPeople = document.getElementById("number-serving");
 
+// Buttons of the page
 var differentRecipeBtn = document.getElementById("differentRecipe");
 var saveBtn = document.getElementById("save");
 var cookBtn = document.getElementById("cook-it");
 
-var recipeMeal = "";
-var serving = 4;
+// Global variables that will be stored in localStorage - to avoid having to call the api again
+var recipeMeal; // name of the meal
+var recipeIngredients; // ingredients 
+var recipeInstructions; // instructions
+var recipeUrl; //url for the images
+var serving = 4; //the number of serving that they changed
+var nutrientsObj; //the nutrients
+
+// Objects with the information of the relevant Nutrients
 var previewNutrients = [
     {
         name:"calories",
@@ -439,15 +467,15 @@ var previewNutrients = [
     }
 ];
 
+// displays the recipe page
 function showRecipe(mealName){
 
-    recipeEl.classList.remove("hide");
-    location.href = "#";
-    location.href = "#recipe";
-    categoryEl.classList.add("hide");
+    // recipeEl.classList.remove("hide");
+    // location.href = "#";
+    // location.href = "#recipe";
+    // categoryEl.classList.add("hide");
 
-    console.log(mealName);
-    recipeMeal = mealName;
+    recipeMeal = mealName; // assign the name of the recipe
     var requestUrl = "https://www.themealdb.com/api/json/v1/1/search.php?s="+mealName;
     fetch(requestUrl)
         .then(function(response){
@@ -475,13 +503,13 @@ function showRecipe(mealName){
             recipeImage.innerHTML="";
             recipeImage.appendChild(imageThumbnail);
 
-            recipeUrl = recipe.strMealThumb;
+            recipeUrl = recipe.strMealThumb; // assign the url
 
-            //get the recipes instructions and nutrients
+            
             var food = "";
             ingredientList.innerHTML = "";
             var i = 1;
-            console.log("strMeasure"+i)
+            // get the recipe ingrdients
             while(recipe["strMeasure"+i].trim()!==null){
                 if(recipe["strIngredient"+i].trim()==="") break;
                 
@@ -492,44 +520,41 @@ function showRecipe(mealName){
                 food = food.concat(amount + " " + ingredient + "\n");
                 ingredientList.appendChild(ingredientItem);
                 i++;
-                if(i > 20) break;
+                if(i > 20) break; //the api only has a maximun of 20 ingredients
             }
 
-            recipeIngredients = food.split("\n");
+            recipeIngredients = food.split("\n"); // assign the ingredients
+
+            // get the nutrition from the ingredients
+            getNutrition(food).then(function(nutrients){ // for the api
+                // var nutrients = nutritionSample.foods; //when not using api
+                //nutritional facts section
+                
+                nutritionDetails.innerHTML = "";
+                nutrientsObj = convertNutrition(nutrients); // assign the nutrition object
+
+                updateNutrition();
+                
+            }); // for the api
 
             //showing instructions
             recipeInstructions = [];
             instructionList.innerHTML = "";
-            var instructions = recipe["strInstructions"].split(".");
+            // separate the string retrieved from the api based on . and \n
+            var instructions = recipe["strInstructions"].split(".").join("\n").split("\n"); 
+            
             for(var i = 0; i < instructions.length; i++){
                 var instructionItem = document.createElement("li");
                 if(instructions[i].trim().length > 7){
                     instructionItem.textContent = instructions[i].trim()+".";
                     instructionList.appendChild(instructionItem);
 
-                    recipeInstructions.push(instructions[i].trim()+".")
+                    recipeInstructions.push(instructions[i].trim()+"."); // assign instructions
                 }
             }
 
-            console.log(instructionItem.textContent)
-
-            getNutrition(food).then(function(nutrients){ // for the api
-                // var nutrients = nutritionSample.foods; //when not using api
-                //nutritional facts section
-                
-                nutritionDetails.innerHTML = "";
-                console.log(nutrients);
-                nutrientsObj = convertNutrition(nutrients);
-                console.log(nutrientsObj);
-
-                updateNutrition();
-                
-            }); // for the api
-
-            // showing instructions
-            
-
             //ADDED PARTS - Keith: moved to beginning of function
+            toPage(recipeEl);
             
         })
         .catch(function(err){
@@ -537,7 +562,8 @@ function showRecipe(mealName){
         })
 };
 
-
+// function that will show the nutrition 
+// Could change to look better
 function updateNutrition(){
     nutritionDetails.innerHTML = "";
     for (var i = 0; i < previewNutrients.length; i++){
@@ -552,65 +578,101 @@ function updateNutrition(){
     }
 }
 
+// if user changes the number of serving, it will update the nutritional facts accordingly
 numberPeople.addEventListener("change",function(){
+    // if user enters float, round up to a max of 20
     if(this.value%1!=0){
-        
         this.value = (Math.ceil(this.value) > 20)? 20: Math.ceil(this.value);
         serving = this.value;
         updateNutrition();
     }
+    // if user enters something less than 1, set to 1
     else if(this.value < 1){
         this.value = 1;
         serving = 1;
         updateNutrition();
     }
+    // if user enters something more than 20, set to 20
     else if(this.value > 20){
         this.value = 20;
         serving = 20;
         updateNutrition();
     }
+    // set to the number that the user has entered
     else{
         serving = this.value;
         updateNutrition();
     }
 });
 
+// If the user choose different recipe, goes back to previous page
 differentRecipeBtn.addEventListener("click",function(){
-    recipeEl.classList.add("hide");
-    categoryEl.classList.remove("hide");
+    // recipeEl.classList.add("hide");
+    // categoryEl.classList.remove("hide");
+    toPage(categoryEl);
 });
 
+// if the user clicks on save for later button, it will save the recipe to the saved history and will go back to the main screen
 saveBtn.addEventListener("click",function(){
-    console.log("saving...");
-    console.log(recipeMeal);
-    console.log(nutrientsObj);
+    // object format
+    var interested = {
+        name: recipeMeal,
+        url: recipeUrl,
+        ingredients: recipeIngredients,
+        instructions: recipeInstructions,
+        nutrition: nutrientsObj,
+        date: moment().format("YYYY-MM-DD"),
+        serving: serving
+    }
+    // the user does not have anything saved yet, set to the first position
+    if (userStorage.savedHistory.length == 0){
+        userStorage.savedHistory.unshift(interested);
+    }
+    else {
+        // checks whether the recipe has been saved previously
+        var index = -1;
+        for(var i = 0; i < userStorage.savedHistory.length; i++){
+            if(userStorage.savedHistory[i].name == recipeMeal){
+                index = i;
+                break;
+            }
+        }
+        // if yes, remove the recipe in the index
+        if(index != -1){
+            userStorage.savedHistory.splice(index,1);
+        }
+        //and put it at the beginning of the list
+        userStorage.savedHistory.unshift(interested);
+    }
+
+    //save to localstorage, using the username as key
+    localStorage.setItem(user,JSON.stringify(userStorage));
+    
+
+    // recipeEl.classList.add("hide");
+    // location.href = "#";
+    // location.href = "#category";
+    // categoryEl.classList.remove("hide");
+    toPage(categoryEl);
+
 });
 
-//
-// Let's Cook Section
-//
+/*****This section for when the user starts cooking the recipe*****/
 
-var cookingHistoryEl = document.getElementById("go-to-cooking-history");
-var savedLaterEl = document.getElementById("go-to-saved-later");
-
-
-var cookBtn = document.getElementById("cook-it");
+// elements of the cook it page
 var recipeImageCook = document.getElementById("recipe-image-cooking");
 var recipeNameCook = document.getElementById("recipe-name-cooking");
 var procedureCook = document.getElementById("procedure");
 var steps = document.getElementById("steps");
 
-var checkboxIngredients = document.getElementsByClassName("ingredients-box");
-
-// variables 
+// variables used to flag the review modal
 var modalOpen = false;
 var alreadySaved = false;
 
-// rating
+// global variable for rating
 var ratingValue = 0;
 
-
-// reset global variables for when user returns or begins "home"
+// reset global variables for when user cancels cooking recipe or returns home
 function reset(){
     recipeMeal = "";
     recipeIngredients = "";
@@ -625,7 +687,9 @@ function reset(){
     $(".rating-star").removeClass("checked");
 }
 
+// loads the cook-it page
 function loadCook (){
+    // create image
     var imageThumbnail = document.createElement("img");
     imageThumbnail.setAttribute("src",recipeUrl);
     imageThumbnail.setAttribute("alt",recipeMeal);
@@ -635,6 +699,7 @@ function loadCook (){
     recipeImageCook.innerHTML="";
     recipeImageCook.appendChild(imageThumbnail);
 
+    // set recipe name
     recipeNameCook.textContent = recipeMeal;
 
     procedureCook.textContent = "Pull out the ingredients";
@@ -642,7 +707,6 @@ function loadCook (){
     //sections for the list of ingredients
     steps.innerHTML = "";
 
-    
     // shows the ingredients with checkbox
     for(var i = 0; i < recipeIngredients.length-1; i++){
         // creates the checkbox
@@ -672,18 +736,13 @@ function loadCook (){
             }
             //checks whether all checkboxes have been checked
             if (document.querySelectorAll("input.ingredients-box:checked").length === recipeIngredients.length-1){
-            loadInstructions();
+                loadInstructions();  //load the instructions next
             }
         });
     }
 }
 
-cookBtn.addEventListener("click",function(){
-    recipeEl.classList.add("hide");
-    getCookingEl.classList.remove("hide");
-    loadCook();
-});
-
+// function that loads the instructions
 function loadInstructions(){
     procedureCook.textContent = "Let's Start Cooking";
     steps.innerHTML = "";
@@ -777,37 +836,20 @@ $(".rating-star").click(function(){
     }
 });
 
+//when the user clicks on let's cook button
+cookBtn.addEventListener("click",function(){
+    // recipeEl.classList.add("hide");
+    // getCookingEl.classList.remove("hide");
+    loadCook();
+    toPage(getCookingEl);
+});
 
 
-//
-// Saving Information
-//
+/*****This section for when the user saves review*****/
 
 var cookHistoryPage = document.querySelector("#cookedHistory")
 var savedLaterPage = document.querySelector("#savedLater")
 
-var user; 
-var userStorage;
-
-signInInitialize("username", "password");
-
-// function that initializes a new user
-function signInInitialize(username, password){
-    if(!localStorage.getItem(username)){
-        userStorage = {
-            user: username,
-            password: password,
-            savedHistory : [],
-            cookingHistory: []
-        }
-        user = username;
-        localStorage.setItem(username, JSON.stringify(userStorage));
-    }
-    else{
-        user = username;
-        userStorage = JSON.parse(localStorage.getItem(username));
-    }
-}
 
 
 
