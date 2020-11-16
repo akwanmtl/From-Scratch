@@ -1,35 +1,3 @@
-// Declare the different 'Pages'
-var categorySelectionEl = document.querySelector("#categorySelection"); // Page with cuisine buttons 
-var categoryEl = document.querySelector("#category"); // Page with list of recipes
-var recipeEl = document.querySelector("#recipe"); // Page with recipe
-var getCookingEl = document.getElementById("getCooking"); // Page Let's cook it
-var cookingHistoryEl = document.getElementById("go-to-cooking-history"); // Page with cooking history
-var savedLaterEl = document.getElementById("go-to-saved-later"); // Page with saved history
-
-/*****Setup localstorage*****/
-var user; 
-var userStorage;
-
-// signInInitialize("username", "password");
-
-// function that initializes a new user
-function signInInitialize(username, password){
-    if(!localStorage.getItem(username)){
-        userStorage = {
-            user: username,
-            password: password,
-            savedHistory : [],
-            cookingHistory: []
-        }
-        user = username;
-        localStorage.setItem(username, JSON.stringify(userStorage));
-    }
-    else{
-        user = username;
-        userStorage = JSON.parse(localStorage.getItem(username));
-    }
-}
-
 
 /*****This section for when the user starts picking a new recipe*****/
 
@@ -44,6 +12,9 @@ var savedLaterList = document.getElementById("saved-later-list") // Div for list
 var moreBtn = document.getElementById("moreRecipes"); // Button to show more recipes
 var backBtn = document.getElementById("backToCountries"); // Buttons to go back to the list of cuisines
 
+var buttonsRecipes = document.getElementById("buttonsRecipes");
+var buttonsHistory = document.getElementById("buttonsHistory");
+
 // List of cuisine + Surpise Me!
 var countriesList = ["American","British","Canadian","Chinese","Dutch","Egyptian","French","Indian","Irish","Italian","Jamaican","Japanese","Kenyan","Malaysian","Mexican","Moroccan","Polish","Russian","Spanish","Thai","Tunisian","Turkish","Vietnamese","Suprise Me!"];
 
@@ -51,20 +22,7 @@ var countriesList = ["American","British","Canadian","Chinese","Dutch","Egyptian
 var list;
 var counterRecipe = 0;
 
-// THIS SECTION MIGHT MOVE TO THE TOP
 initializeCountries(); // Initialize the list of countries, do this at the beginning
-
-function toPage(page){
-    categoryEl.classList.add("hide");
-    categorySelectionEl.classList.add("hide");
-    recipeEl.classList.add("hide");
-    getCookingEl.classList.add("hide");
-    homeEl.classList.add("hide");
-    profileEl.classList.add("hide");
-
-    // location.href = page;
-    page.classList.remove("hide");
-}
 
 // Creates the buttons and appends it to the div
 function initializeCountries(){
@@ -672,20 +630,7 @@ var alreadySaved = false;
 // global variable for rating
 var ratingValue = 0;
 
-// reset global variables for when user cancels cooking recipe or returns home
-function reset(){
-    recipeMeal = "";
-    recipeIngredients = "";
-    recipeInstructions = ""; 
-    serving = 4;
-    recipeUrl = "";
-    recipeIngredients = [];
-    recipeInstructions = [];
-    nutrientsObj = {};
-    ratingValue = 0;
-    $("#notes").val("");
-    $(".rating-star").removeClass("checked");
-}
+
 
 // loads the cook-it page
 function loadCook (){
@@ -844,16 +789,9 @@ cookBtn.addEventListener("click",function(){
     toPage(getCookingEl);
 });
 
-
 /*****This section for when the user saves review*****/
 
-var cookHistoryPage = document.querySelector("#cookedHistory")
-var savedLaterPage = document.querySelector("#savedLater")
-
-
-
-
-
+// when the user saves a review
 function saveReview(){
 
     // creates a new object to be saved
@@ -871,15 +809,12 @@ function saveReview(){
         serving: serving
     }
 
-
     // if cookingHistory array is empty, assign the object at the first index 
     if (userStorage.cookingHistory.length == 0){
         userStorage.cookingHistory[0] = history;
     }
-
     // or else
     else {
-
         // checks if the user has already cooked this recipe before
         var index = -1;
         for(var i = 0; i < userStorage.cookingHistory.length; i++){
@@ -905,7 +840,7 @@ function saveReview(){
             userStorage.cookingHistory.unshift(history);
         }
     }
-    // check if it is in the saved history
+    // check if it is in the saved history. if it is, remove it
     if (userStorage.savedHistory.length != 0){
         for(var i = 0; i < userStorage.savedHistory.length; i++){
             if(userStorage.savedHistory[i].name == recipeMeal){
@@ -921,19 +856,42 @@ function saveReview(){
     // reset the global variable
     reset();
 
-    
-
+    toPage(homeEl);
 }
 
+// reset global variables for when user saves a review
+function reset(){
+    recipeMeal = "";
+    recipeIngredients = "";
+    recipeInstructions = ""; 
+    serving = 4;
+    recipeUrl = "";
+    recipeIngredients = [];
+    recipeInstructions = [];
+    nutrientsObj = {};
+    ratingValue = 0;
+    $("#notes").val("");
+    $(".rating-star").removeClass("checked");
+}
+
+
+// when the user click on the save in the review modal 
+$("#save-review").click(function(event){
+    event.preventDefault();
+    saveReview();
+    alreadySaved = true;
+    $("#review-modal").modal("hide");
+    // getCookingEl.classList.add("hide");
+    // categorySelectionEl.classList.remove("hide");
+});
+
+
+// var cookHistoryPage = document.querySelector("#cookedHistory")
+// var savedLaterPage = document.querySelector("#savedLater")
+
+/*****This section for when the user go through their history*****/
+
 function showSavedForLater(){
-
-    //display only Save for Later page
-    savedLaterPage.classList.remove("hide");
-
-    // hide everything else
-    categorySelectionEl.classList.add("hide");
-    cookHistoryPage.classList.add("hide");
-    categoryEl.classList.add("hide");
 
     counterRecipe = 0;
     recipeList.innerHTML = "";
@@ -962,7 +920,8 @@ function showSavedForLater(){
         cardText.classList.add("card-text");
         cardText.textContent = "Nutrition Preview";
 
-        // This is needed - just comment out to not use up the API
+        // MIGHT NEED TO WRITE A DIFFERENT FUNCTION
+        // to user
         // getNutritionPreview(list[i].strMeal,cardText);
         cardBody.appendChild(cardTitle);
         cardBody.appendChild(cardText);
@@ -979,29 +938,23 @@ function showSavedForLater(){
             showRecipe(this.getAttribute("data-meal"));
         });
 
-        savedLaterList.appendChild(row);
+        // savedLaterList.appendChild(row);
+        recipeList.appendChild(row);
         counterRecipe++;
     }
 
     buttonsRecipes.classList.add("hide");/********NEW LINE******/
     buttonsHistory.classList.remove("hide");/********NEW LINE******/
-    homeEl.classList.add("hide");/********NEW LINE******/
-    recipeEl.classList.add("hide");/*********NEW LINE*********/
-    getCookingEl.classList.add("hide");/*********NEW LINE*********/
-    
+    toPage(categoryEl);
+            // //display only Save for Later page
+        // savedLaterPage.classList.remove("hide");
+
+        // // hide everything else
+        // categorySelectionEl.classList.add("hide");
+        // cookHistoryPage.classList.add("hide");
+        // categoryEl.classList.add("hide");
     
 }
-
-// when the user click on the save in the review modal 
-$("#save-review").click(function(event){
-    event.preventDefault();
-    saveReview();
-    alreadySaved = true;
-    $("#review-modal").modal("hide");
-    getCookingEl.classList.add("hide");
-    categorySelectionEl.classList.remove("hide");
-});
-
 
 // Load User's Cooking History
 
@@ -1009,15 +962,6 @@ function loadCookHistory(){
     counterRecipe = 0;
     historyList.innerHTML = "";
     list = userStorage.cookingHistory;
-    console.log(userStorage.cookingHistory)
-
-    // display only Cook History
-    cookHistoryPage.classList.remove("hide");
-
-    // hide everything else
-    savedLaterPage.classList.add("hide");
-    categorySelectionEl.classList.add("hide");
-    categoryEl.classList.add("hide");
 
     while(counterRecipe < list.length){
         
@@ -1075,66 +1019,63 @@ function loadCookHistory(){
             cookHistoryPage.classList.add("hide");
         });
 
-        historyList.appendChild(row);
+        // historyList.appendChild(row);
+        recipeList.append(row);
         counterRecipe++;
     }
     
-    moreBtn.classList.add("hide");
-    categorySelectionEl.classList.add("hide");
-
+    buttonsRecipes.classList.add("hide");/********NEW LINE******/
+    buttonsHistory.classList.remove("hide");/********NEW LINE******/
+    toPage(categoryEl);
     // categoryEl.classList.remove("hide");
+
+    // // display only Cook History
+    // cookHistoryPage.classList.remove("hide");
+
+    // // hide everything else
+    // savedLaterPage.classList.add("hide");
+    // categorySelectionEl.classList.add("hide");
+    // categoryEl.classList.add("hide");
     
 }
-
-
-
-
-// For when the "Save for Later" button clicked
-
-saveBtn.addEventListener("click",function(){
-    console.log("saving...");
-
-    var interested = {
-        name: recipeMeal,
-        url: recipeUrl,
-        ingredients: recipeIngredients,
-        instructions: recipeInstructions,
-        nutrition: nutrientsObj,
-        date: moment().format("YYYY-MM-DD"),
-        serving: serving
-    }
-    if (userStorage.savedHistory.length == 0){
-        userStorage.savedHistory.unshift(interested);
-    }
-    else {
-        var index = -1;
-        for(var i = 0; i < userStorage.savedHistory.length; i++){
-            if(userStorage.savedHistory[i].name == recipeMeal){
-                index = i;
-                break;
-            }
-        }
-        if(index != -1){
-            userStorage.savedHistory.splice(index,1);
-        }
-        userStorage.savedHistory.unshift(interested);
-    }
-
-    localStorage.setItem(user,JSON.stringify(userStorage));
-    
-
-    recipeEl.classList.add("hide");
-    location.href = "#";
-    location.href = "#category";
-    categoryEl.classList.remove("hide");
-
-});
-
-
-
 
 // When you click saved for later in top menu
 savedLaterEl.addEventListener("click",showSavedForLater);
 
 // When you click Cooking History in top menu
 cookingHistoryEl.addEventListener("click",loadCookHistory);
+
+
+/*********Remaining Navigation button********/
+
+var startCook = document.getElementById("start-cooking");
+var backToHome = document.getElementById("backToHome");
+
+// nav bar buttons
+var navHome = document.getElementById("go-to-home");
+var navSaved = document.getElementById("go-to-saved-history");
+var navHistory = document.getElementById("go-to-cooking-history");
+
+var cancelCook = document.getElementById("cancelCook");
+
+startCook.addEventListener("click",function(){
+    toPage(categorySelectionEl);
+});
+
+backToHome.addEventListener("click",function(){
+    toPage(homeEl);
+});
+
+// nav bar buttons functionality
+navSaved.addEventListener("click",showSavedForLater);
+
+navHistory.addEventListener("click",loadCookHistory);
+
+navHome.addEventListener("click",function(){
+    toPage(homeEl);
+});
+
+cancelCook.addEventListener("click",function(){
+    toPage(homeEl);
+    reset();
+});
