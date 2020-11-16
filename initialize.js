@@ -8,6 +8,8 @@ var recipeEl = document.querySelector("#recipe"); // Page with recipe
 var getCookingEl = document.getElementById("getCooking"); // Page Let's cook it
 var profileEl = document.getElementById("profile"); // Profile page
 
+// Declaring the current user div
+var currentUser = document.getElementById("current-user");
 
 // function that will switch between pages
 function toPage(page){
@@ -19,7 +21,7 @@ function toPage(page){
     profileEl.classList.add("hide");
     loginEl.classList.add("hide");
 
-    // location.href = page;
+    location.href = "#";
     page.classList.remove("hide");
 }
 
@@ -113,8 +115,6 @@ var rememberSignup = document.getElementById("remember-signup");
 var errorSignup = document.getElementById("error-signup");
 var cancelSignup = document.getElementById("signup-cancel");
 
-// Declaring the current user div
-var currentUser = document.getElementById("current-user");
 
 var logout = document.getElementById("logout"); // to be moved
 

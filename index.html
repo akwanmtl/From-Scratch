@@ -29,16 +29,16 @@
           <img src="fire_1f525.png" id="menuLogo">
         </div>
 
-        <a class="item">
-          <i class="home icon" id="go-to-home"></i>
+        <a class="item" id="go-to-home">
+          <i class="home icon"></i>
           Home
         </a>
-        <a class="item">
-          <i class="thumbtack icon" id="go-to-saved-history"></i>
+        <a class="item" id="go-to-saved-history">
+          <i class="thumbtack icon" ></i>
           For Later
         </a>
-        <a class="item">
-          <i class="book icon" id="go-to-cooking-history"></i>
+        <a class="item"  id="go-to-cooking-history">
+          <i class="book icon"></i>
           Cooking History
         </a>
         <a class="item" id="account-settings">
@@ -247,7 +247,7 @@
   <div class="hide" id="category">
     <div class="ui container">
       <div class="ui raised very padded segment">
-        <h1 class="ui header padded center aligned">Pick a recipe</h1>
+        <h1 class="ui header padded center aligned" id="list-text">Pick a recipe</h1>
         <div class="ui divider"></div>
 
         <div class="ui grid" id="recipe-list"></div> <!-- Recipes will go here -->
@@ -330,9 +330,10 @@
         <!--Ingredients goes here-->
 
         <!--THIS WAS NOT IN OTHER HTML FILE-->
-        <div class="row">
-          <button class="ui button red" id="cancelCook">Change my mind</button>
-        </div>
+        
+      </div>
+      <div class="row">
+        <button class="ui button huge red" id="cancelCook">Change my mind</button>
       </div>
     </div>
   </div>

@@ -3,6 +3,7 @@
 
 var countriesBox = document.getElementById("countries-box"); // Div for the buttons of cuisine
 var recipeList = document.getElementById("recipe-list"); // Div for list of up to 5 recipes
+var recipeListText = document.getElementById("list-text"); // title of the list
 
 // Might want to move this to another section
 var historyList = document.getElementById("history-list"); // Div for list of cooked recipes
@@ -92,7 +93,7 @@ function shuffle(arr){
 
 // function that creates the list of up to 5 recipes on a page
 function createRecipeCard(){
-    
+    recipeListText.innerText = "Pick a Recipe"
     recipeList.innerHTML = "";
     var start = counterRecipe; //keeps tracks of the counter - needed if user wants to show more recipes
 
@@ -511,7 +512,6 @@ function showRecipe(mealName){
                 }
             }
 
-            //ADDED PARTS - Keith: moved to beginning of function
             toPage(recipeEl);
             
         })
@@ -852,9 +852,10 @@ function saveReview(){
     
     // save to local storage
     localStorage.setItem(user,JSON.stringify(userStorage));
-
+    console.log("saving", userStorage.cookingHistory);
     // reset the global variable
     reset();
+    getStats();
 
     toPage(homeEl);
 }
@@ -892,7 +893,7 @@ $("#save-review").click(function(event){
 /*****This section for when the user go through their history*****/
 
 function showSavedForLater(){
-
+    recipeListText.innerText = "Saved Recipes"
     counterRecipe = 0;
     recipeList.innerHTML = "";
     list = userStorage.savedHistory;
@@ -959,8 +960,11 @@ function showSavedForLater(){
 // Load User's Cooking History
 
 function loadCookHistory(){
+
+    recipeListText.innerText ="Recently Cooked";
     counterRecipe = 0;
-    historyList.innerHTML = "";
+    recipeList.innerHTML = "";
+    console.log("loading", userStorage.cookingHistory);
     list = userStorage.cookingHistory;
 
     while(counterRecipe < list.length){
@@ -981,29 +985,28 @@ function loadCookHistory(){
         var cardBody = document.createElement("h4");
 
         var cardTitle = document.createElement("h2");
-        cardTitle.classList.add("card-title");
         cardTitle.textContent = list[counterRecipe].name;
 
-        var cardText = document.createElement("p");
-        cardText.classList.add("card-text");
-        cardText.textContent = "Notes";
+        var cardText = document.createElement("div");
+        // cardText.textContent = "Notes";
         var comments = list[counterRecipe].comment;
-        console.log(comments.length)
         for(var i = 0; i < comments.length; i++){
-            var dateText = document.createElement("h5");
-            var ratingText = document.createElement("p");
+            var dateText = document.createElement("h3");
+            dateText.setAttribute("style","margin-bottom:5px")
+            // var ratingText = document.createElement("p");
             var notesText = document.createElement("p");
 
             dateText.textContent = comments[i].date;
-            ratingText.textContent = "You gave it "+ comments[i].rating + " stars!";
+            // ratingText.textContent = "You gave it "+ comments[i].rating + " stars!";
             notesText.textContent = "Notes:\n" + comments[i].notes;
             cardText.appendChild(dateText);
-            cardText.appendChild(ratingText);
+            // cardText.appendChild(ratingText);
+            cardText.appendChild(createStars(comments[i].rating));
             cardText.appendChild(notesText);
         } 
 
-        // This is needed - just comment out to not use up the API
-        // getNutritionPreview(list[i].strMeal,cardText);
+        cardText.setAttribute("style","height:200px; overflow:auto");
+
         cardBody.appendChild(cardTitle);
         cardBody.appendChild(cardText);
 
@@ -1016,7 +1019,7 @@ function loadCookHistory(){
         
         row.addEventListener("click",function(event){
             showRecipe(this.getAttribute("data-meal"));
-            cookHistoryPage.classList.add("hide");
+            // cookHistoryPage.classList.add("hide");
         });
 
         // historyList.appendChild(row);
@@ -1027,40 +1030,43 @@ function loadCookHistory(){
     buttonsRecipes.classList.add("hide");/********NEW LINE******/
     buttonsHistory.classList.remove("hide");/********NEW LINE******/
     toPage(categoryEl);
-    // categoryEl.classList.remove("hide");
-
-    // // display only Cook History
-    // cookHistoryPage.classList.remove("hide");
-
-    // // hide everything else
-    // savedLaterPage.classList.add("hide");
-    // categorySelectionEl.classList.add("hide");
-    // categoryEl.classList.add("hide");
     
 }
 
-// When you click saved for later in top menu
-savedLaterEl.addEventListener("click",showSavedForLater);
-
-// When you click Cooking History in top menu
-cookingHistoryEl.addEventListener("click",loadCookHistory);
-
+function createStars(num){
+    var newDiv = document.createElement("div");
+    for(var i = 1; i <= 5; i++){
+        var newSpan = document.createElement("span"); //fa fa-star rating-star
+        newSpan.classList.add("fa","fa-star");
+        if(i <= num){
+            newSpan.setAttribute("style","color:orange");
+        }
+        newDiv.appendChild(newSpan);
+    }
+    return newDiv;
+}
 
 /*********Remaining Navigation button********/
 
 var startCook = document.getElementById("start-cooking");
+var savedLaterEl = document.getElementById("saved-history"); 
+var cookingHistoryEl = document.getElementById("cooking-history"); 
 var backToHome = document.getElementById("backToHome");
 
 // nav bar buttons
 var navHome = document.getElementById("go-to-home");
 var navSaved = document.getElementById("go-to-saved-history");
 var navHistory = document.getElementById("go-to-cooking-history");
-
+console.log(navHistory)
 var cancelCook = document.getElementById("cancelCook");
 
 startCook.addEventListener("click",function(){
     toPage(categorySelectionEl);
 });
+
+savedLaterEl.addEventListener("click",showSavedForLater);
+
+cookingHistoryEl.addEventListener("click",loadCookHistory);
 
 backToHome.addEventListener("click",function(){
     toPage(homeEl);

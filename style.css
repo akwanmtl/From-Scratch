@@ -29,24 +29,7 @@ body, html {
   to {transform: scale(1)}
 }
 
-.ui.small.modal {
-  margin-left: 350px;
-  left:2.5% !important;
-}
-
-.strike{
-  text-decoration: line-through;
-}
-
-
-.fa-star {
-  font-size: 24px;
-}
-
-.fa-star:hover{
-  cursor: pointer;
-}
-
+/*Cook it To list styles*/
 .checked {
   color: orange;
 }
@@ -62,7 +45,21 @@ input[type="checkbox"]{
 
 .label-instructions{
   display: inline;
-
 }
+
+.strike{
+  text-decoration: line-through;
+}
+
+/*Star ratings styles*/
+.fa-star {
+  font-size: 24px;
+}
+
+.fa-star:hover{
+  cursor: pointer;
+}
+
+
 
 /*****/
