@@ -148,11 +148,13 @@ function createRecipeCard(){
         counterRecipe++;
     }
     // Make the More Recipes button hidden if there are no more recipe for that cuisine
+    console.log(counterRecipe, list.length - 1)
     if (counterRecipe < list.length - 1){
-        moreBtn.classList.remove("hide");
+        console.log("test")
+        moreBtn.classList.remove("disabled");
     }
     else{
-        moreBtn.classList.add("hide");
+        moreBtn.classList.add("disabled");
     }
 };
 
