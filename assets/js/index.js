@@ -67,7 +67,8 @@ function getRecipes(country){
                 console.log("serving", serving)
                 counterRecipe = 0; //set the counter to 0
                 createRecipeCard(); //Call the function to create the recipe card
-
+                buttonsRecipes.classList.remove("hide");/********NEW LINE******/
+                buttonsHistory.classList.add("hide");/********NEW LINE******/
                 toPage(categoryEl);
                 
             })
@@ -146,7 +147,6 @@ function createRecipeCard(){
         counterRecipe++;
     }
     // Make the More Recipes button hidden if there are no more recipe for that cuisine
-    console.log(counterRecipe, list.length - 1)
     if (counterRecipe < list.length - 1){
         console.log("test")
         moreBtn.classList.remove("disabled");
@@ -286,10 +286,10 @@ function getNutrition (ingredients){
         method:"POST",
         mode:'cors',
         headers:{
-            //"x-app-id":"930ff8d0", // KC's API KEY
-            //"x-app-key":"0dd8cb8ed1cc72e3f116ffb344108992", // KC's API KEY
-            "x-app-id":"18e9c76c", // AK's API KEY
-            "x-app-key":"442fbbe0551eec1c295ae3a72082b9b2", // AK's API KEY
+            "x-app-id":"930ff8d0", // KC's API KEY
+            "x-app-key":"0dd8cb8ed1cc72e3f116ffb344108992", // KC's API KEY
+            // "x-app-id":"18e9c76c", // AK's API KEY
+            // "x-app-key":"442fbbe0551eec1c295ae3a72082b9b2", // AK's API KEY
             "x-remote-user-id":0,
             "Content-Type":"application/json"
         },
