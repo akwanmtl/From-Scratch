@@ -169,7 +169,7 @@ function previewNutrition(meal, el){
 // new get nutrition preview - outputs a table 
 function getNutritionPreview(nutrition, serving, el){
     
-    var row = document.createElement("div");
+    var row = document.createElement("table");
     row.classList.add("ui","teal","table","unstackable");
     var tHead = document.createElement("thead");
     var tHeadRow = document.createElement("tr");
