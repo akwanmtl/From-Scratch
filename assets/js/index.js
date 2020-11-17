@@ -1,4 +1,3 @@
-
 /*****This section for when the user starts picking a new recipe*****/
 
 var countriesBox = document.getElementById("countries-box"); // Div for the buttons of cuisine
@@ -45,10 +44,6 @@ function initializeCountries(){
 
 // Get the list of recipes for that country/cuisine
 function getRecipes(country){
-
-//CHANGED
-    // categorySelectionEl.classList.add("hide");
-    // categoryEl.classList.remove("hide");
 
     // Get the url for random recipe 
     if(country === "Surprise Me!"){
@@ -106,15 +101,18 @@ function createRecipeCard(){
 
         var colImg = document.createElement("div");
         colImg.classList.add("six", "wide", "column");
+        colImg.classList.add("clickable");
 
         // Create image of the recipe
         var thumbnail = document.createElement("img");
         thumbnail.setAttribute("alt",list[counterRecipe].strMeal);
         thumbnail.setAttribute("src",list[counterRecipe].strMealThumb);
         colImg.appendChild(thumbnail);
+        
 
         var colTxt = document.createElement("div");
         colTxt.classList.add("ten", "wide", "column");
+        colTxt.classList.add("clickable");
 
         var cardBody = document.createElement("h4");
         // Name of recipe
@@ -148,11 +146,13 @@ function createRecipeCard(){
         counterRecipe++;
     }
     // Make the More Recipes button hidden if there are no more recipe for that cuisine
+    console.log(counterRecipe, list.length - 1)
     if (counterRecipe < list.length - 1){
-        moreBtn.classList.remove("hide");
+        console.log("test")
+        moreBtn.classList.remove("disabled");
     }
     else{
-        moreBtn.classList.add("hide");
+        moreBtn.classList.add("disabled");
     }
 };
 
@@ -326,7 +326,11 @@ function convertNutrition(foods){
         carbs: 0,
         fiber: 0,
         sugar: 0,
-        protein: 0
+        protein: 0,
+        vitaminD: 0,
+        calcium: 0,
+        iron: 0,
+        potassium: 0
     };
 
     // goes through each ingredient and add the amount for each component
@@ -342,12 +346,44 @@ function convertNutrition(foods){
         nutrientsObj.fiber += (foods[i].nf_dietary_fiber) ? foods[i].nf_dietary_fiber : 0;
         nutrientsObj.sugar += (foods[i].nf_sugars) ? foods[i].nf_sugars : 0;
         nutrientsObj.protein += (foods[i].nf_protein) ? foods[i].nf_protein : 0;
+        // nutrientsObj.calcium += (foods[i].nf_calcium_mg) ? foods[i].nf_calcium_mg : 0;
+        // nutrientsObj.vitaminD += (foods[i].nf_vitamin_d_mcg) ? foods[i].nf_vitamin_d_mcg : 0;
+        nutrientsObj.potassium += (foods[i].nf_potassium) ? foods[i].nf_potassium : 0;
 
         // for transfat, we need to go to the full nutrients list and find attr_id of 605
         var full_nutrients = foods[i].full_nutrients;
         for (var j = 0; j < full_nutrients.length; j++){
             if(full_nutrients[j].attr_id == 605){
                 nutrientsObj.transFat += full_nutrients[j].value;
+                break;
+            }
+        }
+
+        // for iron, we need to go to the full nutrients list and find attr_id of 303
+        var full_nutrients = foods[i].full_nutrients;
+        for (var j = 0; j < full_nutrients.length; j++){
+            if(full_nutrients[j].attr_id == 303){
+                nutrientsObj.iron += full_nutrients[j].value;
+                break;
+            }
+        }
+
+        
+        // for iron, we need to go to the full nutrients list and find attr_id of 301
+        var full_nutrients = foods[i].full_nutrients;
+        for (var j = 0; j < full_nutrients.length; j++){
+            if(full_nutrients[j].attr_id == 301){
+                nutrientsObj.calcium += full_nutrients[j].value;
+                break;
+            }
+        }
+
+        
+        // for vitamin D, we need to go to the full nutrients list and find attr_id of 324
+        var full_nutrients = foods[i].full_nutrients;
+        for (var j = 0; j < full_nutrients.length; j++){
+            if(full_nutrients[j].attr_id == 324){
+                nutrientsObj.vitaminD += full_nutrients[j].value*0.025; // convert ui to mcg
                 break;
             }
         }
@@ -360,8 +396,6 @@ moreBtn.addEventListener("click",createRecipeCard);
 
 // Button to return back to the home page
 backBtn.addEventListener("click",function(){
-    // categorySelectionEl.classList.remove("hide");
-    // categoryEl.classList.add("hide");
     toPage(categorySelectionEl);
 });
 
@@ -400,7 +434,7 @@ var previewNutrients = [
         name:"totalFat",
         display:"Total Fat",
         unit:"g",
-        dv:65
+        dv:78
     },
     {
         name:"satFat",
@@ -436,7 +470,7 @@ var previewNutrients = [
         name:"fiber",
         display:"Fiber",
         unit:"g",
-        dv:25
+        dv:28
     },
     {
         name:"sugar",
@@ -449,16 +483,35 @@ var previewNutrients = [
         display:"Protein",
         unit:"g",
         dv: false
+    },
+    {
+        name:"vitaminD",
+        display:"Vitamin D",
+        unit:"mcg",
+        dv: 20
+    },
+    {
+        name:"calcium",
+        display:"Calcium",
+        unit:"mg",
+        dv: 1300
+    },
+    {
+        name:"iron",
+        display:"Iron",
+        unit:"mg",
+        dv: 18
+    },
+    {
+        name:"potassium",
+        display:"Potassium",
+        unit:"mg",
+        dv: 4700
     }
 ];
 
 // displays the recipe page
 function showRecipe(mealName){
-
-    // recipeEl.classList.remove("hide");
-    // location.href = "#";
-    // location.href = "#recipe";
-    // categoryEl.classList.add("hide");
 
     recipeMeal = mealName; // assign the name of the recipe
     var requestUrl = "https://www.themealdb.com/api/json/v1/1/search.php?s="+mealName;
@@ -653,11 +706,6 @@ saveBtn.addEventListener("click",function(){
     //save to localstorage, using the username as key
     localStorage.setItem(user,JSON.stringify(userStorage));
     
-
-    // recipeEl.classList.add("hide");
-    // location.href = "#";
-    // location.href = "#category";
-    // categoryEl.classList.remove("hide");
     numberPeople.value = 4;
     toPage(categoryEl);
 
@@ -831,8 +879,6 @@ $(".rating-star").click(function(){
 
 //when the user clicks on let's cook button
 cookBtn.addEventListener("click",function(){
-    // recipeEl.classList.add("hide");
-    // getCookingEl.classList.remove("hide");
     loadCook();
     toPage(getCookingEl);
 });
@@ -930,8 +976,6 @@ $("#save-review").click(function(event){
     saveReview();
     alreadySaved = true;
     $("#review-modal").modal("hide");
-    // getCookingEl.classList.add("hide");
-    // categorySelectionEl.classList.remove("hide");
 });
 
 
@@ -948,7 +992,8 @@ function getServing(meal,list){
 
 }
 
-
+// Load User's Saved History
+// it will have the image and the nutrition preview
 function showSavedForLater(){
     recipeListText.innerText = "Saved Recipes"
     counterRecipe = 0;
@@ -965,9 +1010,12 @@ function showSavedForLater(){
         thumbnail.setAttribute("alt",list[counterRecipe].name);
         thumbnail.setAttribute("src",list[counterRecipe].url);
         colImg.appendChild(thumbnail);
+        colImg.classList.add("clickable");
 
         var colTxt = document.createElement("div");
         colTxt.classList.add("ten", "wide", "column");
+        colTxt.classList.add("clickable");
+
         var cardBody = document.createElement("h4");
 
         var cardTitle = document.createElement("h2");
@@ -1008,7 +1056,7 @@ function showSavedForLater(){
 }
 
 // Load User's Cooking History
-
+// it will have the image and the review that the user has entered
 function loadCookHistory(){
 
     recipeListText.innerText ="Recently Cooked";
@@ -1029,9 +1077,11 @@ function loadCookHistory(){
         thumbnail.setAttribute("alt",list[counterRecipe].name);
         thumbnail.setAttribute("src",list[counterRecipe].url);
         colImg.appendChild(thumbnail);
+        colImg.classList.add("clickable");
 
         var colTxt = document.createElement("div");
         colTxt.classList.add("ten", "wide", "column");
+        colTxt.classList.add("clickable");
         var cardBody = document.createElement("h4");
 
         var cardTitle = document.createElement("h2");
@@ -1047,10 +1097,8 @@ function loadCookHistory(){
             var notesText = document.createElement("p");
 
             dateText.textContent = comments[i].date;
-            // ratingText.textContent = "You gave it "+ comments[i].rating + " stars!";
             notesText.textContent = "Notes:\n" + comments[i].notes;
             cardText.appendChild(dateText);
-            // cardText.appendChild(ratingText);
             cardText.appendChild(createStars(comments[i].rating));
             cardText.appendChild(notesText);
         } 
@@ -1083,6 +1131,7 @@ function loadCookHistory(){
     
 }
 
+// create stars for rating
 function createStars(num){
     var newDiv = document.createElement("div");
     for(var i = 1; i <= 5; i++){

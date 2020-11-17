@@ -41,6 +41,7 @@ if(localStorage.getItem("login")) {
     }
 }
 else{
+    toPage(loginEl);
     localStorage.setItem("login","");
 }
 
