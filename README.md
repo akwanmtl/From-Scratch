@@ -66,10 +66,11 @@ List of Cuisines
 ![Cuisines Page](./assets/images/menu.png) 
 
 List of Recipes
-![List of Recipes Page](./assets/images/recipeslist.png) 
+![List of Recipes Page](./assets/images/pickrecipe.PNG) 
 
 Recipe Page
-![Recipe Page](./assets/images/recipe.png) 
+![Recipe Page](./assets/images/recipe1.PNG) 
+![Recipe Page](./assets/images/recipe2.PNG)
 
 Cook it Page
 ![Cook it Page](./assets/images/cookit.png) 
