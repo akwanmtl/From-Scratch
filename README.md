@@ -64,7 +64,7 @@ Home page
 ![Home Page](./assets/images/home.png) 
 
 List of Cuisines
-![Cuisines Page](./assets/images/menu.png) 
+![Cuisines Page](./assets/images/cuisines2.png) 
 
 List of Recipes
 ![List of Recipes Page](./assets/images/pickrecipe.PNG) 
