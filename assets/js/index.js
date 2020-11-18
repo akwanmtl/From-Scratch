@@ -30,7 +30,7 @@ function initializeCountries(){
     for(var i = 0; i < countriesList.length; i++){
         var countryBtn = document.createElement("button"); 
 
-        countryBtn.classList.add("ui", "button", "large"); 
+        countryBtn.classList.add("ui", "button", "large", "country"); 
         countryBtn.setAttribute("data-country",countriesList[i]);
         countryBtn.textContent = countriesList[i];
 
@@ -286,10 +286,10 @@ function getNutrition (ingredients){
         method:"POST",
         mode:'cors',
         headers:{
-            "x-app-id":"930ff8d0", // KC's API KEY
-            "x-app-key":"0dd8cb8ed1cc72e3f116ffb344108992", // KC's API KEY
-            // "x-app-id":"18e9c76c", // AK's API KEY
-            // "x-app-key":"442fbbe0551eec1c295ae3a72082b9b2", // AK's API KEY
+            // "x-app-id":"930ff8d0", // KC's API KEY
+            // "x-app-key":"0dd8cb8ed1cc72e3f116ffb344108992", // KC's API KEY
+            "x-app-id":"18e9c76c", // AK's API KEY
+            "x-app-key":"442fbbe0551eec1c295ae3a72082b9b2", // AK's API KEY
             // "x-app-id":"2834f0f9", // AK other API key
             // "x-app-key": "0b1e46c03489693eebc7ab6744859adc", //AK other API KEY
             "x-remote-user-id":0,
