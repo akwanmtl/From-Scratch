@@ -13,14 +13,14 @@ body, html {
     background-color: antiquewhite;
 }
 
+/*hide div*/
 .hide {
   display: none;
 }
 
+/*buttons for the cuisines*/
 .country{
   width: 160px;
-  /* margin-bottom: 10px !important;
-  margin-right: 5px !important; */
   margin: 5px !important;
 }
   

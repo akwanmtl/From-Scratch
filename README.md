@@ -3,9 +3,10 @@
 ## Description
 From Scratch is a website is a recipe box that allows the user to search for recipes and their nutritional facts. The user can keep track of their previous cooking adventure. This website uses two server-side APIs:
 * [TheMealDB](https://www.themealdb.com/api.php) : Recipe Database 
-* [Nutritionix](https://www.nutritionix.com/business/api) : Nutrition Database
+* [Nutritionix](https://www.nutritionix.com/business/api) : Nutrition Database - Note that we are using a free API key and therefore are limited to the number of requests daily.
 
 The website uses [Semantic UI](https://semantic-ui.com/) framework for a responsive layout. Javascript was used to request data from the APIs and dynamically change the layout of the website. Localstorage was used to store the user cooking history.
+
 
 ## User Story
 ```
