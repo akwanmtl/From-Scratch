@@ -24,16 +24,6 @@ body, html {
   margin: 5px !important;
 }
   
-@-webkit-keyframes animatezoom {
-  from {-webkit-transform: scale(0)}
-  to {-webkit-transform: scale(1)}
-}
-  
-@keyframes animatezoom {
-  from {transform: scale(0)}
-  to {transform: scale(1)}
-}
-
 /*Cook it To list styles*/
 .checked {
   color: orange;
