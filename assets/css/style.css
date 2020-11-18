@@ -13,22 +13,17 @@ body, html {
     background-color: antiquewhite;
 }
 
+/*hide div*/
 .hide {
   display: none;
 }
 
-
-  
-@-webkit-keyframes animatezoom {
-  from {-webkit-transform: scale(0)}
-  to {-webkit-transform: scale(1)}
+/*buttons for the cuisines*/
+.country{
+  width: 160px;
+  margin: 5px !important;
 }
   
-@keyframes animatezoom {
-  from {transform: scale(0)}
-  to {transform: scale(1)}
-}
-
 /*Cook it To list styles*/
 .checked {
   color: orange;
