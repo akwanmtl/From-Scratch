@@ -1,20 +1,21 @@
 # project-1# From Scratch - Your Cooking Helper
 
 ## Description
-This website is a recipe box that allows the user to search for recipes and their nutritional facts. The user can keep track of their previous cooking adventure. This website uses two server-side APIs:
+From Scratch is a website is a recipe box that allows the user to search for recipes and their nutritional facts. The user can keep track of their previous cooking adventure. This website uses two server-side APIs:
 * [TheMealDB](https://www.themealdb.com/api.php) : Recipe Database 
 * [Nutritionix](https://www.nutritionix.com/business/api) : Nutrition Database
 
 The website uses [Semantic UI](https://semantic-ui.com/) framework for a responsive layout. Javascript was used to request data from the APIs and dynamically change the layout of the website. Localstorage was used to store the user cooking history.
 
 ## User Story
-
+```
 As an aspiring cook 
 I WANT to find diverse recipes
 So THAT I can improve my culinary skills, be more health conscious and minimize take-out.
+```
 
 ## Acceptance Criteria
-
+```
 GIVEN I am using the personal recipe box to find recipes
 WHEN I open the recipe box
 THEN I am presented with the login/sign up page
@@ -25,7 +26,7 @@ THEN my user account is activated and I am presented with the home page
 WHEN I login or sign up for the first time
 THEN I am given a choice if I want to stay logged in
 WHEN I am at the homepage
-I am given the option to search for new recipes, recipes that I have saved or recipes that I have cooked
+THEN I am given the option to search for new recipes, recipes that I have saved or recipes that I have cooked
 WHEN I select to choose a new recipe,
 THEN I am presented with a menu with different national cuisines and a Surprise Me option
 WHEN I select a cuisine
@@ -52,43 +53,49 @@ WHEN I logout of the website
 THEN I am back to the login/sign up page
 WHEN I go to Account Settings
 THEN I can edit my username, my password or delete account
+```
 
 Here are the screenshots of Recipe Box App.
 Login page
-![Login Page]() 
+![Login Page](./assets/images/login.png) 
 
 Home page
-![Home Page]() 
+![Home Page](./assets/images/home.png) 
 
 List of Cuisines
-![Cuisines Page]() 
+![Cuisines Page](./assets/images/menu.png) 
 
 List of Recipes
-![List of Recipes Page]() 
+![List of Recipes Page](./assets/images/pickrecipe.PNG) 
 
 Recipe Page
-![Recipe Page]() 
+![Recipe Page](./assets/images/recipe1.PNG) 
+![Recipe Page](./assets/images/recipe2.PNG)
 
 Cook it Page
-![Cook it Page]() 
+![Cook it Page](./assets/images/cookit.png) 
 
 Saved Recipes
-![Saved Recipes Page]() 
+![Saved Recipes Page](./assets/images/saved.png) 
 
 Cooking history
-![Cooking History Page]() 
+![Cooking History Page](./assets/images/cookinghistory.png) 
 
 
-Link to the Github repository: 
+Link to the Github repository: https://github.com/akwanmtl/project-1  
 
-Link to the website: 
+Link to the website: https://akwanmtl.github.io/project-1
 
 ## Credits
 
 Collaborators:
-* [Keith Crooc](like to github)
-* [Javier ](like to github)
+* [Keith Crooc](https://github.com/keithyyy)
+* [Javier Rincon-Gallardo](https://github.com/jrincongr)
 
+Websites:
+* [TheMealDB](https://www.themealdb.com/api.php) 
+* [Nutritionix](https://www.nutritionix.com/business/api)
+* [FDA - Daily Value](https://www.fda.gov/media/135301/download)
 * [License badge link](https://gist.github.com/lukas-h/2a5d00690736b4c3a7ba)
 
 ## License

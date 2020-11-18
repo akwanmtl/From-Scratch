@@ -60,6 +60,12 @@ input[type="checkbox"]{
   cursor: pointer;
 }
 
+.clickable{
+  cursor: pointer;
+}
 
+/* li {
+  font-size:20px;
+} */
 
 /*****/

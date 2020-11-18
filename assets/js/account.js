@@ -1,4 +1,3 @@
-
 /*********This page has to do with the account*********/
 
 var accoutSettings = document.getElementById("account-settings");
