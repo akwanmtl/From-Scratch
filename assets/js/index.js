@@ -258,7 +258,7 @@ function getSingleRecipe(meal){
             
             var i = 1;
             // get the list of ingredients delineated with \n
-            while(recipe["strIngredient"+i]!=null){
+            while(recipe["strIngredient"+i]!==null){
                 if(recipe["strIngredient"+i].trim()==="") break;
 
                 var ingredientItem = document.createElement("li"); 
@@ -292,6 +292,8 @@ function getNutrition (ingredients){
             // "x-app-key":"442fbbe0551eec1c295ae3a72082b9b2", // AK's API KEY
             // "x-app-id":"2834f0f9", // AK other API key
             // "x-app-key": "0b1e46c03489693eebc7ab6744859adc", //AK other API KEY
+            // "x-app-id": "02b95aca"
+            // "x-app-id" : "bd96db3ef8b0530c07feec4f4a897e7a"
             "x-remote-user-id":0,
             "Content-Type":"application/json"
         },
@@ -550,7 +552,7 @@ function showRecipe(mealName){
             ingredientList.innerHTML = "";
             var i = 1;
             // get the recipe ingrdients
-            while(recipe["strMeasure"+i].trim()!==null){
+            while(recipe["strIngredient"+i]!==null){
                 if(recipe["strIngredient"+i].trim()==="") break;
                 
                 var ingredientItem = document.createElement("li"); 
