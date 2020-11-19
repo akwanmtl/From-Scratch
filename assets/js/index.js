@@ -258,7 +258,9 @@ function getSingleRecipe(meal){
             
             var i = 1;
             // get the list of ingredients delineated with \n
+            console.log("ingredients",recipe["strIngredient"+i]);
             while(recipe["strIngredient"+i]!==null){
+                console.log(recipe["strIngredient"+i], (recipe["strIngredient"+i]!==null));
                 if(recipe["strIngredient"+i].trim()==="") break;
 
                 var ingredientItem = document.createElement("li"); 
@@ -286,14 +288,14 @@ function getNutrition (ingredients){
         method:"POST",
         mode:'cors',
         headers:{
-            "x-app-id":"930ff8d0", // KC's API KEY
-            "x-app-key":"0dd8cb8ed1cc72e3f116ffb344108992", // KC's API KEY
+            // "x-app-id":"930ff8d0", // KC's API KEY
+            // "x-app-key":"0dd8cb8ed1cc72e3f116ffb344108992", // KC's API KEY
             // "x-app-id":"18e9c76c", // AK's API KEY
             // "x-app-key":"442fbbe0551eec1c295ae3a72082b9b2", // AK's API KEY
             // "x-app-id":"2834f0f9", // AK other API key
             // "x-app-key": "0b1e46c03489693eebc7ab6744859adc", //AK other API KEY
-            // "x-app-id": "02b95aca"
-            // "x-app-id" : "bd96db3ef8b0530c07feec4f4a897e7a"
+            "x-app-id": "02b95aca", //JRG's API KEY
+            "x-app-key" : "bd96db3ef8b0530c07feec4f4a897e7a", //JRG's API KEY
             "x-remote-user-id":0,
             "Content-Type":"application/json"
         },
@@ -568,16 +570,16 @@ function showRecipe(mealName){
             recipeIngredients = food.split("\n"); // assign the ingredients
 
             // get the nutrition from the ingredients
-            getNutrition(food).then(function(nutrients){ // for the api
+           getNutrition(food).then(function(nutrients){ // for the api
                 // var nutrients = nutritionSample.foods; //when not using api
                 //nutritional facts section
                 
-                nutritionDetails.innerHTML = "";
-                nutrientsObj = convertNutrition(nutrients); // assign the nutrition object
+               nutritionDetails.innerHTML = "";
+               nutrientsObj = convertNutrition(nutrients); // assign the nutrition object
 
-                updateNutrition();
+               updateNutrition();
                 
-            }); // for the api
+           }); // for the api
 
             //showing instructions
             recipeInstructions = [];
