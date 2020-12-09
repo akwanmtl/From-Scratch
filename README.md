@@ -83,9 +83,9 @@ Cooking history
 ![Cooking History Page](./assets/images/cookinghistory.png) 
 
 
-Link to the Github repository: https://github.com/akwanmtl/project-1  
+Link to the Github repository: https://github.com/akwanmtl/From-Scratch
 
-Link to the website: https://akwanmtl.github.io/project-1
+Link to the website: https://akwanmtl.github.io/From-Scratch/
 
 ## Credits
 
